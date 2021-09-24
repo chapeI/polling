@@ -11,4 +11,14 @@
         <servlet-name>add</servlet-name>
         <url-pattern>/add_numbers</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>count votes</servlet-name>
+        <servlet-class>business.CountServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>count votes</servlet-name>
+        <url-pattern>/count_votes</url-pattern>
+    </servlet-mapping>
+
 </web-app>
