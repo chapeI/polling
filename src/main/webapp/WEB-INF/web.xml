@@ -21,4 +21,16 @@
         <url-pattern>/count_votes</url-pattern>
     </servlet-mapping>
 
+<!--    <servlet>-->
+<!--        <servlet-name>Landing</servlet-name>-->
+<!--        <servlet-class>presentation.LandingServlet</servlet-class>-->
+<!--    </servlet>-->
+<!--    <servlet-mapping>-->
+<!--        <servlet-name>Landing</servlet-name>-->
+<!--        <url-pattern>/</url-pattern>-->
+<!--    </servlet-mapping>-->
+
+
+
+
 </web-app>

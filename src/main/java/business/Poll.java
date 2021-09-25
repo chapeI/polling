@@ -3,13 +3,15 @@ package business;
 public class Poll {
     String name;
     String question;
-    PollStatus status;
+    String status = "RUNNING";
 
-    public int red_count = 0;
+    int red_count = 0;
     int blue_count = 0;
 
-    Poll() {
+    Poll(String n, String q) {
         super();
+        this.name = n;
+        this.question = q;
     }
 
     public void increment(int x) {
@@ -24,4 +26,9 @@ public class Poll {
     public void get_red_count() {
         System.out.println("red count: " + red_count);
     }
+
+    public String get_status() {
+        return this.status;
+    }
+
 }
