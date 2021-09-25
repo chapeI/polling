@@ -9,16 +9,21 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "CountServlet", value = "/CountServlet")
-public class CountServlet extends HttpServlet {
+@WebServlet(name = "VotedServlet", value = "/VotedServlet")
+public class VotedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
         Poll p = PollService.instance().get_poll();
 
         PrintWriter out = response.getWriter();
         String color = request.getParameter("color");
-        out.println("you voted " + color);
+        out.println("<!DOCTYPE HTML>");
+        out.println("<html><body>");
+        out.println("you voted => " + color);
+        out.println("<br>");
+        out.println("<button>change vote</button>");
+        out.println("</html></body>");
+
 
         int n = Integer.parseInt(color);
         p.increment(n);

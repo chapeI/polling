@@ -3,33 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
     <servlet>
-        <servlet-name>add</servlet-name>
-        <servlet-class>presentation.AddServlet</servlet-class>
+        <servlet-name>landing_page</servlet-name>
+        <servlet-class>presentation.LandingServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>add</servlet-name>
-        <url-pattern>/add_numbers</url-pattern>
+        <servlet-name>landing_page</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>count votes</servlet-name>
-        <servlet-class>presentation.CountServlet</servlet-class>
+        <servlet-name>voted</servlet-name>
+        <servlet-class>presentation.VotedServlet</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>count votes</servlet-name>
-        <url-pattern>/count_votes</url-pattern>
+        <servlet-name>voted</servlet-name>
+        <url-pattern>/voted</url-pattern>
     </servlet-mapping>
-
-<!--    <servlet>-->
-<!--        <servlet-name>Landing</servlet-name>-->
-<!--        <servlet-class>presentation.LandingServlet</servlet-class>-->
-<!--    </servlet>-->
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>Landing</servlet-name>-->
-<!--        <url-pattern>/</url-pattern>-->
-<!--    </servlet-mapping>-->
-
 
 
 

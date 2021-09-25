@@ -16,12 +16,7 @@ public class PollService {
     private Poll poll = new Poll("Colors", "Choose Favorite Color");
 
     public Poll get_poll(){
-        if(poll.status == "RUNNING") {
-            return poll;
-        } else {
-            System.out.println("poll is not running, shouldn't show poll");
-            return null;
-        }
+        return poll;
     }
 
 
