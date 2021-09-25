@@ -5,7 +5,7 @@
          version="4.0">
     <servlet>
         <servlet-name>add</servlet-name>
-        <servlet-class>business.AddServlet</servlet-class>
+        <servlet-class>presentation.AddServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>add</servlet-name>
@@ -14,7 +14,7 @@
 
     <servlet>
         <servlet-name>count votes</servlet-name>
-        <servlet-class>business.CountServlet</servlet-class>
+        <servlet-class>presentation.CountServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>count votes</servlet-name>
