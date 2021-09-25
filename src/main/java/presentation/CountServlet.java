@@ -1,4 +1,7 @@
-package business;
+package presentation;
+
+import business.Poll;
+import business.PollService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -12,7 +15,6 @@ public class CountServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Poll p = PollService.instance().get_poll();
-        p.get_red_count();
 
         PrintWriter out = response.getWriter();
         String color = request.getParameter("color");

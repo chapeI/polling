@@ -1,4 +1,4 @@
-package com.example.telusko2;
+package presentation;
 
 import java.io.*;
 import javax.servlet.http.*;
