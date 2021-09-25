@@ -10,15 +10,18 @@ import java.io.PrintWriter;
 public class CountServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        String c = request.getParameter("color");
-//        System.out.println("color" + c);
+
+        Poll p = PollService.instance().get_poll();
+        p.get_red_count();
 
         PrintWriter out = response.getWriter();
         String color = request.getParameter("color");
         out.println("you voted " + color);
+
+        int n = Integer.parseInt(color);
+        p.increment(n);
+        p.get_red_count();
     }
-
-
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
