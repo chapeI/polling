@@ -9,7 +9,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "VotedServlet", value = "/VotedServlet")
+@WebServlet()
 public class VotedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,7 +27,7 @@ public class VotedServlet extends HttpServlet {
 
         int n = Integer.parseInt(color);
         p.increment(n);
-        p.get_red_count();
+        p.show_red_count();
     }
 
     @Override

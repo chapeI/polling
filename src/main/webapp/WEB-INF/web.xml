@@ -22,6 +22,15 @@
         <url-pattern>/voted</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Poll Manager</servlet-name>
+        <servlet-class>presentation.VotedServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Poll Manager</servlet-name>
+        <url-pattern>/poll_manager</url-pattern>
+    </servlet-mapping>
+
 
 
 </web-app>

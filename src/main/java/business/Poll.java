@@ -3,7 +3,7 @@ package business;
 public class Poll {
     String name;
     String question;
-    String status = "RUNNING";
+    String status = "CREATED";
 
     int red_count = 0;
     int blue_count = 0;
@@ -23,7 +23,7 @@ public class Poll {
         }
     }
 
-    public void get_red_count() {
+    public void show_red_count() {
         System.out.println("red count: " + red_count);
     }
 
