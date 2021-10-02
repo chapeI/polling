@@ -23,12 +23,22 @@
     </servlet-mapping>
 
     <servlet>
+        <servlet-name>vote</servlet-name>
+        <servlet-class>presentation.VoteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>vote</servlet-name>
+        <url-pattern>/vote</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
         <servlet-name>Poll Manager</servlet-name>
-        <servlet-class>presentation.VotedServlet</servlet-class>
+        <servlet-class>presentation.ManagerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Poll Manager</servlet-name>
-        <url-pattern>/poll_manager</url-pattern>
+        <url-pattern>/pollManager</url-pattern>
     </servlet-mapping>
 
 

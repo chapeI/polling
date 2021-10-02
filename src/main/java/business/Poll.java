@@ -1,9 +1,12 @@
 package business;
 
+import java.util.ArrayList;
+
 public class Poll {
     String name;
     String question;
-    String status = "CREATED";
+    ArrayList<String> choice = new ArrayList<String>();  // Hashmap<Choice, int>
+    private String status = null;
 
     int red_count = 0;
     int blue_count = 0;
@@ -12,6 +15,14 @@ public class Poll {
         super();
         this.name = n;
         this.question = q;
+    }
+
+    public void setFakePoll() {
+        this.name ="Favorite Color";
+        question = "pick a color";
+        choice.add("blue");
+        choice.add("red");
+        set_status();
     }
 
     public void increment(int x) {
@@ -29,6 +40,11 @@ public class Poll {
 
     public String get_status() {
         return this.status;
+    }
+
+    public void set_status() {
+        this.status = "CREATED";
+        System.out.println("status changed to created");
     }
 
 }

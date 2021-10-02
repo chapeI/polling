@@ -4,20 +4,15 @@
         <title>Manage Poll</title>
     </head>
     <body>
-<%--      code for creating a poll goes here--%>
 
-        <h1>Poll Manager</h1>
+    <h1>Create a Poll</h1>
 
-        <h3>Created</h3>
-        <button>Run Poll</button>
-        <button>Update Poll</button> <br>
-
-        <h3>Running</h3>
-        <button>Update Poll</button>
-        <button>Clear Poll</button>
-        <button>Release Poll</button>
-
-        <h3>Released</h3>
+    <form action="pollManager" method="POST">
+        Name: <input type="text" name="name"> <br>
+        Description: <input type="text" name="description"> <br>
+        Choice: <input type="text" name="choice"> <br>
+        <input type="submit" value="Submit">
+    </form>
 
     </body>
 </html>
