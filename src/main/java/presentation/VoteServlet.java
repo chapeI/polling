@@ -16,18 +16,61 @@ public class VoteServlet extends HttpServlet {
     Poll poll;
 
     public void init() {
-        System.out.println("ManagerServlet init()");
+//        System.out.println("ManagerServlet init()");
         this.poll = PollService.instance().get_poll();
         this.status = this.poll.get_status();
-        System.out.println("status: " + status);
+//        System.out.println("status: " + status);
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
+        this.status = this.poll.get_status();
 
-        out.println("status: " + this.status);
+        out.println("poll status: " + this.status);
+        out.println("<br>");
+
+        if (this.status == "RUNNING" ) {
+            out.println("show poll here");  // TODO: create poll
+
+            out.println("<html><body>");
+            out.println("CREATE POLL HERE");
+            out.println("</body></html>");
+
+
+        } else if (this.status == "CREATED" ) {
+
+            out.println("<html><body>");
+            out.println("keep refreshing page until you see a poll");
+            out.println("</body></html>");
+
+        } else if (this.status == "RELEASED" ) {
+
+            out.println("<html><body><h3>Poll Ended </h3>");
+
+            out.println("<form action='/debug.html' >");
+            out.println("<input type='submit' value='GetPollResults()' />");
+
+            out.println("<form action='vote' >");
+            out.println("<input type='submit' value='DownloadPollResults()' /> ");
+            out.println("</form>");
+
+            out.println("</body></html>");
+
+
+        } else {
+
+            out.println("<html><body>");
+            out.println("no poll to see, go back.");
+            out.println("</body></html>");
+
+//            System.out.println("create poll");
+//            request.getRequestDispatcher("create_poll.jsp").forward(request, response);
+        }
+
+
+
     }
 
     @Override

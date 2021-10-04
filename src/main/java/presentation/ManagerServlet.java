@@ -26,27 +26,46 @@ public class ManagerServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
 
-        System.out.println("ManagerServlet doGet()");
+        out.println("poll status: " + this.status);
+
+//        System.out.println("ManagerServlet doGet()");
 
         if (this.status == "RUNNING" ) {
-            System.out.println("poll is running");
-            request.setAttribute("status", this.status);
 
             // release, clear, update
+
+            request.setAttribute("status", this.status);
+
+            out.println("<html><body><h1>Poll Manager</h1>");
+
+            out.println("<form action='/debug.html' >");
+            out.println("<input type='submit' value='Release' />");
+
+            out.println("<form action='vote' >");
+            out.println("<input type='submit' value='Clear' /> ");
+            out.println("</form>");
+
+            out.println("<form action='vote' >");
+            out.println("<input type='submit' value='Update' /> ");
+            out.println("</form>");
+
+            out.println("</body></html>");
 
         } else if (this.status == "CREATED" ) {
 //            System.out.println("poll is created. show update and run buttons.");
 
             out.println("<html><body><h1>Poll Manager</h1>");
-            out.println("<h2>Poll Status: CREATED</h2>");
+
+            out.println("show poll here");
 
             out.println("<form action='/debug.html' >");
             out.println("<input type='submit' value='Update' />");
-            out.println("</form></body></html>");
 
             out.println("<form action='vote' >");
-            out.println("<input type='submit' value='Run' />");
-            out.println("</form></body></html>");
+            out.println("<input type='submit' value='Run' /> ");
+            out.println("</form>");
+
+            out.println("</body></html>");
 
 
             // update, run
@@ -54,6 +73,31 @@ public class ManagerServlet extends HttpServlet {
         } else if (this.status == "RELEASED" ) {
 
             // clear, unrelease, close, view, download
+
+            out.println("<html><body><h1>Poll Manager</h1>");
+
+            out.println("<form action='/debug.html' >");
+            out.println("<input type='submit' value='Clear' />");
+
+            out.println("<form action='vote' >");
+            out.println("<input type='submit' value='Unrelease' /> ");
+            out.println("</form>");
+
+            out.println("<form action='vote' >");
+            out.println("<input type='submit' value='Close' /> ");
+            out.println("</form>");
+
+            out.println("<form action='vote' >");
+            out.println("<input type='submit' value='View Results' /> ");
+            out.println("</form>");
+
+            out.println("<form action='vote' >");
+            out.println("<input type='submit' value='Download Results' /> ");
+            out.println("</form>");
+
+
+            out.println("</body></html>");
+
 
         } else {
 

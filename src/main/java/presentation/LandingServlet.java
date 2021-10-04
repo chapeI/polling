@@ -11,18 +11,25 @@ import java.io.PrintWriter;
 
 @WebServlet()
 public class LandingServlet extends HttpServlet {
-//    String status;
-//    Poll poll;
+    String status;
+    Poll poll;
 
     public void init() {
-//        this.poll = PollService.instance().get_poll();
+        this.poll = PollService.instance().get_poll();
 //        this.status = this.poll.get_status();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
+
+        out.println("poll status: " + this.status);
+
+        this.status = this.poll.get_status();
+        out.println("<h1>Landing Page</h1>");
 
         out.println("<html><body><h1></h1>");
         out.println("<h2>Select one</h2>");
