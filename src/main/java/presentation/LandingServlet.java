@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 public class LandingServlet extends HttpServlet {
     String status;
     Poll poll;
+    String color;
 
     public void init() {
         this.poll = PollService.instance().get_poll();
@@ -27,10 +28,18 @@ public class LandingServlet extends HttpServlet {
         response.setContentType("text/html");
 
         this.status = this.poll.get_status();
-        out.println("<div style=\"background-color:yellow;\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
-        this.status = this.poll.get_status();
-        out.println("<h1>Landing Page</h1>");
+        if (this.status == "RUNNING" ) {
+            this.color = "lightgreen";
+        } else if (this.status == "CREATED" ) {
+            this.color = "yellow";
+        } else if (this.status == "RELEASED" ) {
+            this.color = "red";
+        } else {
+            this.color = "lightgrey";
+        }
+
+        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
         out.println("<html><body><h1></h1>");
         out.println("<p>Select one</p>");

@@ -14,6 +14,7 @@ public class VoteServlet extends HttpServlet {
 
     String status;
     Poll poll;
+    String color;
 
     public void init() {
 //        System.out.println("ManagerServlet init()");
@@ -28,7 +29,18 @@ public class VoteServlet extends HttpServlet {
         response.setContentType("text/html");
 
         this.status = this.poll.get_status();
-        out.println("<div style=\"background-color:yellow;\"> Poll Status: " + this.poll.get_status() +  "</div>");
+
+        if (this.status == "RUNNING" ) {
+            this.color = "lightgreen";
+        } else if (this.status == "CREATED" ) {
+            this.color = "yellow";
+        } else if (this.status == "RELEASED" ) {
+            this.color = "red";
+        } else {
+            this.color = "lightgrey";
+        }
+
+        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
         if (this.status == "RUNNING" ) {
             out.println("show poll here");  // TODO: create poll
@@ -41,6 +53,7 @@ public class VoteServlet extends HttpServlet {
         } else if (this.status == "CREATED" ) {
 
             out.println("<html><body>");
+            out.println("<h1>Participant</h1>");
             out.println("keep refreshing page until you see a poll");
             out.println("</body></html>");
 
