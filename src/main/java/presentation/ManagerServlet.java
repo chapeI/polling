@@ -26,15 +26,15 @@ public class ManagerServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
 
-        out.println("poll status: " + this.status);
-
-//        System.out.println("ManagerServlet doGet()");
+        this.status = this.poll.get_status();
+        out.println("<div style=\"background-color:yellow;\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
         if (this.status == "RUNNING" ) {
 
             // release, clear, update
+//            request.setAttribute("status", this.status);
 
-            request.setAttribute("status", this.status);
+
 
             out.println("<html><body><h1>Poll Manager</h1>");
 

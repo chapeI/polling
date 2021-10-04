@@ -26,13 +26,14 @@ public class LandingServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
 
-        out.println("poll status: " + this.status);
+        this.status = this.poll.get_status();
+        out.println("<div style=\"background-color:yellow;\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
         this.status = this.poll.get_status();
         out.println("<h1>Landing Page</h1>");
 
         out.println("<html><body><h1></h1>");
-        out.println("<h2>Select one</h2>");
+        out.println("<p>Select one</p>");
 
         out.println("<form action='pollManager' >");
         out.println("<input type='submit' value='Poll Manager' />");

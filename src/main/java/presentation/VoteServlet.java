@@ -26,10 +26,9 @@ public class VoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
-        this.status = this.poll.get_status();
 
-        out.println("poll status: " + this.status);
-        out.println("<br>");
+        this.status = this.poll.get_status();
+        out.println("<div style=\"background-color:yellow;\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
         if (this.status == "RUNNING" ) {
             out.println("show poll here");  // TODO: create poll
