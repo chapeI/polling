@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet()
-public class LandingServlet extends HttpServlet {
+public class StartingServlet extends HttpServlet {
     String status;
     Poll poll;
     String color;
@@ -22,7 +22,6 @@ public class LandingServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
@@ -41,8 +40,7 @@ public class LandingServlet extends HttpServlet {
 
         out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
-        out.println("<html><body><h1></h1>");
-        out.println("<p>Select one</p>");
+        out.println("<html><body><h1>Start Page</h1>");
 
         out.println("<form action='pollManager' >");
         out.println("<input type='submit' value='Poll Manager' />");

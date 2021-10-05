@@ -22,7 +22,10 @@ public class Poll {
         question = "pick a color";
         choice.add("blue");
         choice.add("red");
-        set_status();
+    }
+
+    public void set_status_to_running() {
+        this.status = "RUNNING";
     }
 
     public void increment(int x) {
@@ -34,17 +37,25 @@ public class Poll {
         }
     }
 
-    public void show_red_count() {
+    public int show_red_count() {
         System.out.println("red count: " + red_count);
+        return this.red_count;
     }
 
     public String get_status() {
         return this.status;
     }
 
-    public void set_status() {
+    public void set_status_to_created() {
         this.status = "CREATED";
-        System.out.println("status changed to created");
+//        System.out.println("status changed to created");
     }
+
+    public void set_status_to_released() {
+        this.status = "RELEASED";
+//        System.out.println("status changed to created");
+    }
+
+
 
 }

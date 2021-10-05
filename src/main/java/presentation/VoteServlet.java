@@ -43,10 +43,9 @@ public class VoteServlet extends HttpServlet {
         out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + this.poll.get_status() +  "</div>");
 
         if (this.status == "RUNNING" ) {
-            out.println("show poll here");  // TODO: create poll
 
             out.println("<html><body>");
-            out.println("CREATE POLL HERE");
+            out.println("show poll here");  // TODO: create poll
             out.println("</body></html>");
 
 
@@ -54,18 +53,25 @@ public class VoteServlet extends HttpServlet {
 
             out.println("<html><body>");
             out.println("<h1>Participant</h1>");
-            out.println("keep refreshing page until you see a poll");
+            out.println("keep refreshing this page until you see a poll");
             out.println("</body></html>");
 
         } else if (this.status == "RELEASED" ) {
 
             out.println("<html><body><h3>Poll Ended </h3>");
 
-            out.println("<form action='/debug.html' >");
-            out.println("<input type='submit' value='GetPollResults()' />");
+            out.println("<form action=\"state_manager\" method=\"GET\">");
 
-            out.println("<form action='vote' >");
-            out.println("<input type='submit' value='DownloadPollResults()' /> ");
+            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"VIEW\" />");
+            out.println("<label for=\"blue\">View Results</label>");
+
+            out.println("<br><br>");
+
+            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"DOWNLOAD\" />");
+            out.println("<label for=\"blue\">Download Results</label>");
+
+            out.println("<br><br>");
+            out.println("<input type=\"submit\">");
             out.println("</form>");
 
             out.println("</body></html>");
