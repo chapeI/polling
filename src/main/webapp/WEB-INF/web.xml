@@ -6,7 +6,7 @@
 
     <servlet>
         <servlet-name>landing_page</servlet-name>
-        <servlet-class>presentation.LandingServlet</servlet-class>
+        <servlet-class>presentation.StartingServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>landing_page</servlet-name>
@@ -15,7 +15,7 @@
 
     <servlet>
         <servlet-name>voted</servlet-name>
-        <servlet-class>presentation.VotedServlet</servlet-class>
+        <servlet-class>presentation.toDelete.VotedServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>voted</servlet-name>
@@ -32,14 +32,26 @@
     </servlet-mapping>
 
 
+
     <servlet>
         <servlet-name>Poll Manager</servlet-name>
-        <servlet-class>presentation.ManagerServlet</servlet-class>
+        <servlet-class>presentation.PollManagerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Poll Manager</servlet-name>
         <url-pattern>/pollManager</url-pattern>
     </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>State Manager</servlet-name>
+        <servlet-class>presentation.StateManagerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>State Manager</servlet-name>
+        <url-pattern>/state_manager</url-pattern>
+    </servlet-mapping>
+
 
 
 
