@@ -56,6 +56,10 @@ public class Poll {
 //        System.out.println("status changed to created");
     }
 
+    public void set_status_to_null() {
+        this.status = null;
+    }
+
 
 
 }

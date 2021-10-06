@@ -55,24 +55,24 @@ public class PollManagerServlet extends HttpServlet {
 //            request.setAttribute("status", this.status);
 
             out.println("<html><body><h1>Poll Manager</h1>");
-            out.println("poll is running. START NEW TAB and be a participant.");
+            out.println("The poll is running. Participants may vote among the available choices. Open new tab to be a participant.");
 
             out.println("<br><br>");
 
             out.println("<form action=\"state_manager\" method=\"GET\">");
 
             out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"RELEASE\" />");
-            out.println("<label for=\"red\">Release</label>");
+            out.println("<label for=\"red\">Release (RUNNING->RELEASED)</label>");
 
             out.println("<br><br>");
 
-            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"CLEAR\" />");
+            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"RUNNING_CLEAR\" />");
             out.println("<label for=\"blue\">Clear</label>");
 
             out.println("<br><br>");
 
-            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"UPDATE\" />");
-            out.println("<label for=\"blue\">Update</label>");
+            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"RUNNING_UPDATE\" />");
+            out.println("<label for=\"blue\">Update (RUNNING->CREATED)</label>");
 
             out.println("<br><br>");
             out.println("<input type=\"submit\">");
@@ -91,13 +91,13 @@ public class PollManagerServlet extends HttpServlet {
 
             out.println("<form action=\"state_manager\" method=\"GET\">");
 
-            out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"UPDATE\" />");
-            out.println("<label for=\"red\">Update</label>");
+            out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"CREATED_UPDATE\" />");
+            out.println("<label for=\"red\">Update (clear results)</label>");
 
             out.println("<br><br>");
 
             out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"RUNNING\" />");
-            out.println("<label for=\"blue\">Run</label>");
+            out.println("<label for=\"blue\">Run (CREATED->RUNNING)</label>");
 
             out.println("<br><br>");
             out.println("<input type=\"submit\">");
@@ -116,18 +116,18 @@ public class PollManagerServlet extends HttpServlet {
 
             out.println("<form action=\"state_manager\" method=\"GET\">");
 
-            out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"CLEAR\" />");
-            out.println("<label for=\"red\">Clear</label>");
+            out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"RELEASED_CLEAR\" />");  // note: CREATE, not CLEAR
+            out.println("<label for=\"red\">Clear (RELEASED->CREATED)</label>");
 
             out.println("<br><br>");
 
             out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"UNRELEASE\" />");
-            out.println("<label for=\"blue\">Unrelease</label>");
+            out.println("<label for=\"blue\">Unrelease (RELEASED->RUNNING)</label>");
 
             out.println("<br><br>");
 
             out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"CLOSE\" />");
-            out.println("<label for=\"blue\">Close</label>");
+            out.println("<label for=\"blue\">Close (RELEASED->NULL)</label>");
 
             out.println("<br><br>");
 
