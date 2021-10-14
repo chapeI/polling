@@ -82,28 +82,32 @@ public class PollManagerServlet extends HttpServlet {
             out.println("</body></html>");
 
         } else if (this.status == "CREATED" ) {
-//            System.out.println("poll is created. show update and run buttons.");
+            System.out.println("poll is created. show update and run buttons.");
+            request.setAttribute("name", poll.getName());
+            request.setAttribute("question", poll.getQuestion());
+            request.setAttribute("status", status);
+            request.getRequestDispatcher("test.jsp").forward(request, response);
 
-            out.println("<html><body><h1>Poll Manager</h1>");
-            out.println("poll should show here");
-
-             out.println("<br><br>");
-
-            out.println("<form action=\"state_manager\" method=\"GET\">");
-
-            out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"CREATED_UPDATE\" />");
-            out.println("<label for=\"red\">Update (clear results)</label>");
-
-            out.println("<br><br>");
-
-            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"RUNNING\" />");
-            out.println("<label for=\"blue\">Run (CREATED->RUNNING)</label>");
-
-            out.println("<br><br>");
-            out.println("<input type=\"submit\">");
-            out.println("</form>");
-
-            out.println("</body></html>");
+//            out.println("<html><body><h1>Poll Manager</h1>");
+//            out.println("poll should show here");
+//
+//             out.println("<br><br>");
+//
+//            out.println("<form action=\"state_manager\" method=\"GET\">");
+//
+//            out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"CREATED_UPDATE\" />");
+//            out.println("<label for=\"red\">Update (clear results)</label>");
+//
+//            out.println("<br><br>");
+//
+//            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"RUNNING\" />");
+//            out.println("<label for=\"blue\">Run (CREATED->RUNNING)</label>");
+//
+//            out.println("<br><br>");
+//            out.println("<input type=\"submit\">");
+//            out.println("</form>");
+//
+//            out.println("</body></html>");
 
 
             // update, run
@@ -158,7 +162,7 @@ public class PollManagerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("ManagerServlet doPost()");
-
+        poll = new Poll(request.getParameter("name"), request.getParameter("question"), null);
         // use parameters to set Poll to correct values
 
         // TODO: check for valid submission

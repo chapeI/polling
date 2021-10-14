@@ -1,12 +1,43 @@
 package business;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Poll {
-    String name;
-    String question;
-    ArrayList<String> choice = new ArrayList<String>();  // Hashmap<Choice, int>
-    private String status = null;
+    private String name;
+    private String question;
+    private List<Choice> choices;
+    private String status;
+
+    public Poll(String name, String question, List<Choice> choices) {
+        this.name = name;
+        this.question = question;
+        this.choices = choices;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public List<Choice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
+    }
 
     int red_count = 0;
     int blue_count = 0;
@@ -17,12 +48,12 @@ public class Poll {
         this.question = q;
     }
 
-    public void setFakePoll() {
-        this.name ="Favorite Color";
-        question = "pick a color";
-        choice.add("blue");
-        choice.add("red");
-    }
+//    public void setFakePoll() {
+//        this.name ="Favorite Color";
+//        question = "pick a color";
+//        choice.add("blue");
+//        choice.add("red");
+//    }
 
     public void set_status_to_running() {
         this.status = "RUNNING";

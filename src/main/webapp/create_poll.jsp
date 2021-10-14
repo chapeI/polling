@@ -9,6 +9,7 @@
 
     <form action="pollManager" method="POST">
         Name: <input type="text" name="name"> <br>
+        Question: <input type="text" name="question"> <br>
         Description: <input type="text" name="description"> <br>
         Choice: <input type="text" name="choice"> <br>
         <input type="submit" value="Submit">
