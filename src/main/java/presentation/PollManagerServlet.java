@@ -1,24 +1,27 @@
 package presentation;
 
+import Exceptions.WrongStateException;
 import business.Poll;
+import business.PollManager;
 import business.PollService;
+import business.Status;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 public class PollManagerServlet extends HttpServlet {
 
-    String status;
-    Poll poll;
+    Status status;
+    PollManager pollManager;
     String color;
 
     public void init() {
         System.out.println("PollManagerServlet init()");
-        this.poll = PollService.instance().get_poll();
-        this.status = this.poll.get_status();
+        pollManager = new PollManager();
+//        this.pollManager = PollService.instance().get_poll();
+//        this.status = this.pollManager.get_status();
     }
 
     @Override
@@ -33,22 +36,22 @@ public class PollManagerServlet extends HttpServlet {
         System.out.println("PollManager doGet()");
 
 
-        this.status = this.poll.get_status();
+        this.status = this.pollManager.getPollStatus();
         System.out.println("status doGet() " + this.status);
 
-        if (this.status == "RUNNING" ) {
+        if (this.status == Status.running ) {
             this.color = "lightgreen";
-        } else if (this.status == "CREATED" ) {
+        } else if (this.status == Status.created ) {
             this.color = "yellow";
-        } else if (this.status == "RELEASED" ) {
+        } else if (this.status == Status.released ) {
             this.color = "red";
         } else {
             this.color = "lightgrey";
         }
 
-        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + this.poll.get_status() +  "</div>");
+        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + this.pollManager.getPollStatus() +  "</div>");
 
-        if (this.status == "RUNNING" ) {
+        if (this.status == Status.running ) {
 
 
             // release, clear, update
@@ -81,38 +84,16 @@ public class PollManagerServlet extends HttpServlet {
 
             out.println("</body></html>");
 
-        } else if (this.status == "CREATED" ) {
+        } else if (this.status == Status.created) {
             System.out.println("poll is created. show update and run buttons.");
-            request.setAttribute("name", poll.getName());
-            request.setAttribute("question", poll.getQuestion());
+            request.setAttribute("name", pollManager.getPoll().getName());
+            request.setAttribute("question", pollManager.getPoll().getQuestion());
             request.setAttribute("status", status);
-            request.getRequestDispatcher("test.jsp").forward(request, response);
-
-//            out.println("<html><body><h1>Poll Manager</h1>");
-//            out.println("poll should show here");
-//
-//             out.println("<br><br>");
-//
-//            out.println("<form action=\"state_manager\" method=\"GET\">");
-//
-//            out.println("<input id=\"red\" type=\"radio\" name=\"status_change\" value=\"CREATED_UPDATE\" />");
-//            out.println("<label for=\"red\">Update (clear results)</label>");
-//
-//            out.println("<br><br>");
-//
-//            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"RUNNING\" />");
-//            out.println("<label for=\"blue\">Run (CREATED->RUNNING)</label>");
-//
-//            out.println("<br><br>");
-//            out.println("<input type=\"submit\">");
-//            out.println("</form>");
-//
-//            out.println("</body></html>");
-
+            request.getRequestDispatcher("poll_created.jsp").forward(request, response);
 
             // update, run
 
-        } else if (this.status == "RELEASED" ) {
+        } else if (this.status == Status.released ) {
 
             // clear, unrelease, close, view, download
 
@@ -162,7 +143,12 @@ public class PollManagerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("ManagerServlet doPost()");
-        poll = new Poll(request.getParameter("name"), request.getParameter("question"), null);
+        try {
+            pollManager.createPoll(request.getParameter("name"), request.getParameter("question"), null);
+        } catch (WrongStateException e) {
+            System.out.println(e.getMessage());
+        }
+
         // use parameters to set Poll to correct values
 
         // TODO: check for valid submission
@@ -170,7 +156,7 @@ public class PollManagerServlet extends HttpServlet {
 //        this.init();
 //        System.out.println("managerServlet-doPost() status: " + status);
 //        this.status = this.poll.get_status();
-        this.poll.set_status_to_created();
+//        this.pollManager.set_status_to_created();
         doGet(request, response);
     }
 }
