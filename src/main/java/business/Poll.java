@@ -1,9 +1,43 @@
 package business;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Poll {
-    String name;
-    String question;
-    String status = "RUNNING";
+    private String name;
+    private String question;
+    private List<Choice> choices;
+    private String status;
+
+    public Poll(String name, String question, List<Choice> choices) {
+        this.name = name;
+        this.question = question;
+        this.choices = choices;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public List<Choice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
+    }
 
     int red_count = 0;
     int blue_count = 0;
@@ -12,6 +46,17 @@ public class Poll {
         super();
         this.name = n;
         this.question = q;
+    }
+
+//    public void setFakePoll() {
+//        this.name ="Favorite Color";
+//        question = "pick a color";
+//        choice.add("blue");
+//        choice.add("red");
+//    }
+
+    public void set_status_to_running() {
+        this.status = "RUNNING";
     }
 
     public void increment(int x) {
@@ -23,12 +68,29 @@ public class Poll {
         }
     }
 
-    public void get_red_count() {
+    public int show_red_count() {
         System.out.println("red count: " + red_count);
+        return this.red_count;
     }
 
     public String get_status() {
         return this.status;
     }
+
+    public void set_status_to_created() {
+        this.status = "CREATED";
+//        System.out.println("status changed to created");
+    }
+
+    public void set_status_to_released() {
+        this.status = "RELEASED";
+//        System.out.println("status changed to created");
+    }
+
+    public void set_status_to_null() {
+        this.status = null;
+    }
+
+
 
 }
