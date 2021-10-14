@@ -20,6 +20,7 @@ vote for color
 
 
 <br>
-<button>Poll Manager</button>
+<input type="submit" value="PollManager_DEBUG" formaction="test" onclick="form.action='poll_manager';">
+<button >Poll Manager</button>
 </body>
 </html>

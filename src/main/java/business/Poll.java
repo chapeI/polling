@@ -1,17 +1,17 @@
 package business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Poll {
     private String name;
     private String question;
-    private String status;
     private List<Choice> choices;
+    private String status;
 
-    public Poll(String name, String question, String status, List<Choice> choices) {
+    public Poll(String name, String question, List<Choice> choices) {
         this.name = name;
         this.question = question;
-        this.status = status;
         this.choices = choices;
     }
 
@@ -31,14 +31,6 @@ public class Poll {
         this.question = question;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public List<Choice> getChoices() {
         return choices;
     }
@@ -46,4 +38,59 @@ public class Poll {
     public void setChoices(List<Choice> choices) {
         this.choices = choices;
     }
+
+    int red_count = 0;
+    int blue_count = 0;
+
+    Poll(String n, String q) {
+        super();
+        this.name = n;
+        this.question = q;
+    }
+
+//    public void setFakePoll() {
+//        this.name ="Favorite Color";
+//        question = "pick a color";
+//        choice.add("blue");
+//        choice.add("red");
+//    }
+
+    public void set_status_to_running() {
+        this.status = "RUNNING";
+    }
+
+    public void increment(int x) {
+        if(x == 1) {
+            this.red_count += 1;
+        }
+        else if (x == 2) {
+            this.blue_count += 1;
+        }
+    }
+
+    public int show_red_count() {
+        System.out.println("red count: " + red_count);
+        return this.red_count;
+    }
+
+    public String get_status() {
+        return this.status;
+    }
+
+    public void set_status_to_created() {
+        this.status = "CREATED";
+//        System.out.println("status changed to created");
+    }
+
+    public void set_status_to_released() {
+        this.status = "RELEASED";
+//        System.out.println("status changed to created");
+    }
+
+    public void set_status_to_null() {
+        this.status = null;
+    }
+
+
+
 }
