@@ -1,28 +1,55 @@
 package business;
 
-import java.util.ArrayList;
+
+import java.util.List;
 
 public class Poll {
-    String name;
-    String question;
-    ArrayList<String> choice = new ArrayList<String>();  // Hashmap<Choice, int>
-    private String status = null;
+    private String name;
+    private String question;
+    private String status;
+    private List<Choice> choices;
 
-    int red_count = 0;
-    int blue_count = 0;
-
-    Poll(String n, String q) {
-        super();
-        this.name = n;
-        this.question = q;
+    public Poll(String name, String question, String status, List<Choice> choices) {
+        this.name = name;
+        this.question = question;
+        this.status = status;
+        this.choices = choices;
     }
 
-    public void setFakePoll() {
-        this.name ="Favorite Color";
-        question = "pick a color";
-        choice.add("blue");
-        choice.add("red");
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<Choice> getChoices() {
+        return choices;
+    }
+
+    public void setChoices(List<Choice> choices) {
+        this.choices = choices;
+    }
+  
+  
+      // stuff to delete START
 
     public void set_status_to_running() {
         this.status = "RUNNING";
@@ -40,13 +67,9 @@ public class Poll {
     public int show_red_count() {
         System.out.println("red count: " + red_count);
         return this.red_count;
-    }
-
-    public String get_status() {
-        return this.status;
-    }
-
-    public void set_status_to_created() {
+      
+      
+          public void set_status_to_created() {
         this.status = "CREATED";
 //        System.out.println("status changed to created");
     }
@@ -59,7 +82,6 @@ public class Poll {
     public void set_status_to_null() {
         this.status = null;
     }
-
-
-
+    
+      // stuff to delete END 
 }

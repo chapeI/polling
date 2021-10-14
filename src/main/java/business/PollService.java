@@ -13,11 +13,11 @@ public class PollService {
         return pollService;
     }
 
-    private Poll poll = new Poll("Colors", "Choose Favorite Color");
+//    private Poll poll = new Poll("Colors", "Choose Favorite Color");
 
-    public Poll get_poll(){
-        return poll;
-    }
+//    public Poll get_poll(){
+//        return poll;
+//    }
 
 
 
