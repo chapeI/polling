@@ -7,7 +7,10 @@ public class Poll {
     private String name;
     private String question;
     private List<Choice> choices;
-    private String status;
+    private Status status;
+
+    public Poll() {
+    }
 
     public Poll(String name, String question, List<Choice> choices) {
         this.name = name;
@@ -56,7 +59,7 @@ public class Poll {
 //    }
 
     public void set_status_to_running() {
-        this.status = "RUNNING";
+        this.status = Status.running;
     }
 
     public void increment(int x) {
@@ -73,17 +76,14 @@ public class Poll {
         return this.red_count;
     }
 
-    public String get_status() {
-        return this.status;
-    }
 
     public void set_status_to_created() {
-        this.status = "CREATED";
+        this.status = Status.created;
 //        System.out.println("status changed to created");
     }
 
     public void set_status_to_released() {
-        this.status = "RELEASED";
+        this.status = Status.released;
 //        System.out.println("status changed to created");
     }
 

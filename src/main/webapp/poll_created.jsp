@@ -12,12 +12,13 @@
 </head>
 <body>
 
+<h1> This is the poll</h1>
+<p>Name: ${poll.name}</p>
+<p>Question: ${poll.question}</p>
+
 <h1>Poll Manager</h1>
 <br>
-<h1> This is the poll</h1>
 
-<p>Name: ${name}</p>
-<p>Question: ${question}</p>
 <br><br>
 
 

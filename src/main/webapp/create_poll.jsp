@@ -4,7 +4,6 @@
         <title>Manage Poll</title>
     </head>
     <body>
-
     <h1>Create a Poll</h1>
 
     <form action="pollManager" method="POST">
@@ -12,7 +11,7 @@
         Question: <input type="text" name="question"> <br>
         Description: <input type="text" name="description"> <br>
         Choice: <input type="text" name="choice"> <br>
-        <input type="submit" value="Submit">
+        <input type="submit" name= "submit" value="create">
     </form>
 
     </body>
