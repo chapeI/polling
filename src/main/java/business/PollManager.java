@@ -187,10 +187,14 @@ public class PollManager {
     /**
        Will write the poll results to a file, then download it through the browser
      */
-    public static void downloadPollDetails(PrintWriter printWriter, String filename) throws WrongStateException{
+    public static void downloadPollDetails() throws WrongStateException{
+	System.out.println("Doin a download!!");
+	
         String fileName = poll.getName() + "-" + releasedTime.toString();
         HashMap<String, Integer> results = getPollResults();
-
+        System.out.println(results);
+	
+	/*
         if (results != null){
             try {
                 printWriter = new PrintWriter(fileName);
@@ -202,7 +206,7 @@ public class PollManager {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-        }
+	    }*/
     };
 
     public static Poll getPoll() {

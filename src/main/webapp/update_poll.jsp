@@ -48,5 +48,9 @@
     <input type="submit" name= "submit" value="Update">
 </form>
 
+<form action="state_manager" method="GET" >
+    <button type="submit" value="HOME" name="status_change" >Home</button>
+</form>
+
 </body>
 </html>
