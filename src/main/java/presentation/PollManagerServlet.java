@@ -36,7 +36,6 @@ public class PollManagerServlet extends HttpServlet {
             request.getRequestDispatcher("create_poll.jsp").forward(request, response);
         }
 
-
         System.out.println("status doGet() " + status);
         System.out.println(poll);
         if (status == Status.running ) {
@@ -75,7 +74,7 @@ public class PollManagerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("ManagerServlet doPost()");
+//        System.out.println("ManagerServlet doPost()");
         try {
             if (request.getParameter("submit").equalsIgnoreCase("create")){
                 List<String> choices = Arrays.asList(request.getParameterValues("choice"));
