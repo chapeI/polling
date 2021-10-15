@@ -4,6 +4,7 @@ import Exceptions.WrongStateException;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,15 +53,22 @@ public class PollManager {
      * @param choices
      * @throws WrongStateException
      */
-    public static void updatePoll(String name, String question, List<Choice> choices) throws  WrongStateException{
+    public static void updatePoll(String name, String question, List<String> choices, List<String> descriptions, boolean replaceChoice) throws  WrongStateException{
         if (pollStatus == Status.created || pollStatus == Status.running){
             clearResults();
             if (!name.isBlank())
                 poll.setName(name);
             if (!question.isBlank())
                 poll.setQuestion(question);
-            if (choices != null)
-                poll.setChoices(choices);
+            if (choices != null) {
+                if (replaceChoice){
+                    poll.setChoices(choices, descriptions);
+                }
+                else {
+                    poll.addChoices(choices, descriptions);
+                }
+            }
+
             pollStatus = Status.created;
         }
         else
@@ -110,6 +118,25 @@ public class PollManager {
         if (ballot != null)
             ballot.clearVotes();
     }
+
+    public static HashMap<String, Integer> returnResults() throws WrongStateException{
+        if (ballot == null)
+            return null;
+        else {
+            HashMap<String, Integer> voteCounts=  ballot.getResults();
+            HashMap<String, Integer> results = new HashMap<>();
+            List<Choice> choicesList = poll.getChoices();
+            for (int i = 0; i< choicesList.size(); i++){
+                String choiceText = choicesList.get(i).getText();
+                int count = 0;
+                if (voteCounts.containsKey(Integer.toString(i))){
+                    count = voteCounts.get(Integer.toString(i));
+                }
+                results.put(choiceText, count);
+            }
+            return results;
+        }
+    }
     // Khoa
     // ----------------------
     // Alek
@@ -142,10 +169,10 @@ public class PollManager {
     public static void vote(String participant, String choice){
 	if (ballot == null){
 	    ballot = new Ballot();
-	}else{
-	    Vote vote = new Vote(participant, choice);
-	    ballot.submit(vote);
 	}
+    Vote vote = new Vote(participant, choice);
+    ballot.submit(vote);
+
     };
     /**
        Will request from the ballet the poll results

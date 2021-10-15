@@ -41,8 +41,17 @@ public class Poll {
         return choices;
     }
 
-    public void setChoices(List<Choice> choices) {
-        this.choices = choices;
+    public void setChoices(List<String> choicesList, List<String> descriptionsList) {
+        choices.clear();
+        for (int i =0; i<choicesList.size(); i++){
+            choices.add(new Choice(choicesList.get(i), descriptionsList.get(i)));
+        }
+    }
+
+    public void addChoices(List<String> choicesList, List<String> descriptionsList) {
+        for (int i =0; i<choicesList.size(); i++){
+            choices.add(new Choice(choicesList.get(i), descriptionsList.get(i)));
+        }
     }
 
     int red_count = 0;
