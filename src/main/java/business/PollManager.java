@@ -167,12 +167,11 @@ public class PollManager {
        will submit a vote object into the ballot
      */
     public static void vote(String participant, String choice){
-	if (ballot == null){
+	if (ballot == null)
 	    ballot = new Ballot();
-	}
-    Vote vote = new Vote(participant, choice);
-    ballot.submit(vote);
-
+	Vote vote = new Vote(participant, choice);
+	ballot.submit(vote);
+	
     };
     /**
        Will request from the ballet the poll results

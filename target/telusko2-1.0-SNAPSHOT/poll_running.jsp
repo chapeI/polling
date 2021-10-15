@@ -23,8 +23,12 @@
 <br><br>
     <input id="blue" type="radio" name="status_change" value="RUNNING_UPDATE" />
     <label for="blue">Update (RUNNING->CREATED)</label>
-<br><br>
+    <br><br>
     <input type="submit">
+</form>
+
+<form action="state_manager" method="GET" >
+    <button type="submit" value="HOME" name="status_change" >Home</button>
 </form>
 
 </body>
