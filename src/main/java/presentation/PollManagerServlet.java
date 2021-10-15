@@ -77,13 +77,27 @@ public class PollManagerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("ManagerServlet doPost()");
         try {
+            List<String> choices = Arrays.asList(request.getParameterValues("choice"));
+            List<String> descriptions = Arrays.asList(request.getParameterValues("description"));
+            String name = request.getParameter("name");
+            String question = request.getParameter("question");
+            String updateChoice = request.getParameter("update_choice");
+
             if (request.getParameter("submit").equalsIgnoreCase("create")){
-                List<String> choices = Arrays.asList(request.getParameterValues("choice"));
-                List<String> descriptions = Arrays.asList(request.getParameterValues("description"));
-                PollManager.createPoll(request.getParameter("name"), request.getParameter("question"), choices, descriptions);
+                PollManager.createPoll(name, question, choices, descriptions);
             }
             else if (request.getParameter("submit").equalsIgnoreCase("update")) {
-                PollManager.updatePoll(request.getParameter("name"), request.getParameter("question"), null);
+                if (updateChoice == null){
+                    PollManager.updatePoll(name, question, null, null, false);
+                }
+                else if (request.getParameter("update_choice").equalsIgnoreCase("AddMoreChoices")){
+                    // add more choices here
+                    PollManager.updatePoll(name, question, choices, descriptions, false);
+                }
+                else if (request.getParameter("update_choice").equalsIgnoreCase("ReplaceChoices")) {
+                    // replace choices here
+                    PollManager.updatePoll(name, question, choices, descriptions, true);
+                }
             }
         } catch (WrongStateException e) {
             System.out.println(e.getMessage());
