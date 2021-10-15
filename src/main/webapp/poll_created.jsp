@@ -1,4 +1,6 @@
-<%--
+<%@ page import="business.Poll" %>
+<%@ page import="business.Choice" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: khoatrinh
   Date: 2021-10-13
@@ -12,12 +14,30 @@
 </head>
 <body>
 
+<h1> This is the poll</h1>
+<%
+    Poll poll = (Poll) request.getAttribute("poll");%>
+    <b>Name: </b>
+<%    out.println(poll.getName()); %>
+<br>
+    <b>Question: </b>
+<%    out.println(poll.getQuestion()); %>
+<br><br>
+<%    List<Choice> choices = poll.getChoices(); %>
+<%    for (Choice c : choices) { %>
+    <b>Choice: </b>
+<%        out.println(c.getText()); %>
+<br>
+&emsp; <i><b>  Description: </b></i>
+<%       out.println(c.getDescription()); %>
+<br>
+<%    }
+%>
+
+
 <h1>Poll Manager</h1>
 <br>
-<h1> This is the poll</h1>
 
-<p>Name: ${name}</p>
-<p>Question: ${question}</p>
 <br><br>
 
 

@@ -15,11 +15,11 @@ import java.util.Map;
 //}
 
 public class PollManager {
-    private Poll poll;
-    private String pollCreator;
-    private Ballot ballot = null;
-    private Status pollStatus;
-    private LocalDateTime releasedTime;
+    private static Poll poll;
+    private static String pollCreator;
+    private static Ballot ballot = null;
+    private static Status pollStatus;
+    private static LocalDateTime releasedTime;
 
     public PollManager(){
 	this.poll = null;
@@ -36,9 +36,9 @@ public class PollManager {
      * @throws WrongStateException
      */
 
-    public void createPoll(String name, String question, List<Choice> choices) throws WrongStateException {
+    public static void createPoll(String name, String question, List<String> choices, List<String> descriptions) throws WrongStateException {
         if (pollStatus == null){
-            poll = new Poll(name, question, choices);
+            poll = new Poll(name, question, choices, descriptions);
             pollStatus = Status.created;
         }
         else
@@ -52,12 +52,15 @@ public class PollManager {
      * @param choices
      * @throws WrongStateException
      */
-    public void UpdatePoll(String name, String question, List<Choice> choices) throws  WrongStateException{
+    public static void updatePoll(String name, String question, List<Choice> choices) throws  WrongStateException{
         if (pollStatus == Status.created || pollStatus == Status.running){
-            ballot.clearVotes();
-            poll.setName(name);
-            poll.setQuestion(question);
-            poll.setChoices(choices);
+            clearResults();
+            if (!name.isBlank())
+                poll.setName(name);
+            if (!question.isBlank())
+                poll.setQuestion(question);
+            if (choices != null)
+                poll.setChoices(choices);
             pollStatus = Status.created;
         }
         else
@@ -68,9 +71,9 @@ public class PollManager {
      * Clear results when pollStatus is running or released, otherwise throw WrongStateException
      * @throws WrongStateException
      */
-    public void ClearPoll() throws  WrongStateException{
+    public static void clearPoll() throws  WrongStateException{
         if (pollStatus == Status.running || pollStatus == Status.released){
-            ballot.clearVotes();
+            clearResults();
             if (pollStatus == Status.released)
                 pollStatus = Status.created;
         }
@@ -82,9 +85,12 @@ public class PollManager {
      * close Poll when pollStatus is running, otherwise throw WrongStateException
      * @throws WrongStateException
      */
-    public void ClosePoll() throws  WrongStateException{
-        if (pollStatus == Status.released)
+    public static void closePoll() throws  WrongStateException{
+        if (pollStatus == Status.released) {
             pollStatus = null;
+            clearResults();
+            poll = null;
+        }
         else
             throw new WrongStateException("Poll can't be closed because it's not in released state");
     };
@@ -93,13 +99,17 @@ public class PollManager {
      * run poll when status is created, otherwise throw WrongStateException
      * @throws WrongStateException
      */
-    public void RunPoll() throws  WrongStateException{
+    public static void runPoll() throws  WrongStateException{
         if (pollStatus == Status.created)
             pollStatus = Status.running;
         else
             throw new WrongStateException("Poll can't be run because it's not in created state");
     };
 
+    public static void clearResults() throws WrongStateException{
+        if (ballot != null)
+            ballot.clearVotes();
+    }
     // Khoa
     // ----------------------
     // Alek
@@ -108,9 +118,9 @@ public class PollManager {
        Sets the status of the current poll to being released only if it is
        in the running state. Otherwise it will send an exception
      */
-    public void ReleasePoll() throws  WrongStateException {
-	if (this.pollStatus == Status.running){
-        this.pollStatus = Status.released;
+    public static void releasePoll() throws  WrongStateException {
+	if (pollStatus == Status.running){
+        pollStatus = Status.released;
         releasedTime = LocalDateTime.now();
     }
 	else
@@ -120,29 +130,29 @@ public class PollManager {
        Will set a poll currently in the released state into the created state.
        if not in the released state it will send an exception
      */
-    public void UnreleasePoll() throws  WrongStateException {
-	if (this.pollStatus == Status.released)
-	    this.pollStatus = Status.created;
+    public static void unreleasePoll() throws  WrongStateException {
+	if (pollStatus == Status.released)
+	    pollStatus = Status.created;
 	else
 	    throw new WrongStateException("The state is not in the released state.");
     };
     /**
        will submit a vote object into the ballot
      */
-    public void Vote(String participant, String choice){
-	if (this.ballot == null){
-	    this.ballot = new Ballot();
+    public static void vote(String participant, String choice){
+	if (ballot == null){
+	    ballot = new Ballot();
 	}else{
 	    Vote vote = new Vote(participant, choice);
-	    this.ballot.submit(vote);
+	    ballot.submit(vote);
 	}
     };
     /**
        Will request from the ballet the poll results
      */
-    public HashMap<String, Integer> getPollResults() throws WrongStateException{
+    public static HashMap<String, Integer> getPollResults() throws WrongStateException{
 	if (pollStatus == Status.released){
-	     return this.ballot.getResults();
+	     return ballot.getResults();
 	}else{
 	    throw new WrongStateException("Poll must be released first.");
 	}
@@ -150,7 +160,7 @@ public class PollManager {
     /**
        Will write the poll results to a file, then download it through the browser
      */
-    public void DownloadPollDetails(PrintWriter printWriter, String filename) throws WrongStateException{
+    public static void downloadPollDetails(PrintWriter printWriter, String filename) throws WrongStateException{
         String fileName = poll.getName() + "-" + releasedTime.toString();
         HashMap<String, Integer> results = getPollResults();
 
@@ -168,7 +178,7 @@ public class PollManager {
         }
     };
 
-    public Poll getPoll() {
+    public static Poll getPoll() {
         return poll;
     }
 
@@ -192,12 +202,12 @@ public class PollManager {
         this.ballot = ballot;
     }
 
-    public Status getPollStatus() {
+    public static Status getPollStatus() {
         return pollStatus;
     }
 
-    public void setPollStatus(Status pollStatus) {
-        this.pollStatus = pollStatus;
+    public static void setPollStatus(Status inputPollStatus) {
+        pollStatus = inputPollStatus;
     }
 
     public LocalDateTime getReleasedTime() {

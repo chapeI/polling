@@ -1,7 +1,9 @@
 package presentation;
 
 import business.Poll;
+import business.PollManager;
 import business.PollService;
+import business.Status;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -11,7 +13,7 @@ import java.io.PrintWriter;
 
 @WebServlet()
 public class StartingServlet extends HttpServlet {
-    String status;
+    Status status;
     Poll poll;
     String color;
 
@@ -26,19 +28,19 @@ public class StartingServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
 
-        this.status = this.poll.get_status();
+        this.status = PollManager.getPollStatus();
 
-        if (this.status == "RUNNING" ) {
+        if (this.status == Status.running ) {
             this.color = "lightgreen";
-        } else if (this.status == "CREATED" ) {
+        } else if (this.status == Status.created ) {
             this.color = "yellow";
-        } else if (this.status == "RELEASED" ) {
+        } else if (this.status == Status.released ) {
             this.color = "red";
         } else {
             this.color = "lightgrey";
         }
 
-        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + this.poll.get_status() +  "</div>");
+        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
 
         out.println("<html><body><h1>Start Page</h1>");
 
