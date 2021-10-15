@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class VotedServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Poll p = PollService.instance().get_poll();
+//        Poll p = PollService.instance().get_poll();
 
         PrintWriter out = response.getWriter();
         String color = request.getParameter("color");
@@ -26,8 +26,8 @@ public class VotedServlet extends HttpServlet {
 
 
         int n = Integer.parseInt(color);
-        p.increment(n);
-        p.show_red_count();
+//        p.increment(n);
+//        p.show_red_count();
     }
 
     @Override

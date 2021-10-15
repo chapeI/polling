@@ -18,7 +18,7 @@ public class StartingServlet extends HttpServlet {
     String color;
 
     public void init() {
-        this.poll = PollService.instance().get_poll();
+//        this.poll = PollService.instance().get_poll();
 //        this.status = this.poll.get_status();
     }
 
