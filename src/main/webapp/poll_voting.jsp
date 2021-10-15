@@ -24,6 +24,7 @@
 <%    out.println(poll.getQuestion()); %>
 <br><br>
 <form action="state_manager" method="GET">
+    <input name="participant">
 <%    List<Choice> choices = poll.getChoices();%>
 <%    for (int i = 0 ; i < choices.size() ; i++) { %>
 <input type="radio" name="choice" value="<%= i %>" />

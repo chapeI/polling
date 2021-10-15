@@ -45,8 +45,11 @@ public class StateManagerServlet extends HttpServlet {
 
         try {
 	    if (choice != null){
-		String participant = "applesauce";
-                PollManager.vote(participant,choice);
+		System.out.println("Starting Vote Submission");
+		String participant = request.getParameter("participant");
+		System.out.println(participant);
+		System.out.println(choice);		    
+                PollManager.vote(participant, choice);
 		request.getRequestDispatcher("/").forward(request, response);
 
 	    }
