@@ -52,6 +52,15 @@
         <url-pattern>/state_manager</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Validate</servlet-name>
+        <servlet-class>presentation.ValidateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Validate</servlet-name>
+        <url-pattern>/validate</url-pattern>
+    </servlet-mapping>
+
 
 
 

@@ -25,13 +25,18 @@
                 form.appendChild(textfield );
                 form.appendChild(br);
             }
+
+            function validateForm() {
+                // alert("test");
+                // return true;
+            }
         </script>
     </head>
     <body>
 
     <h1>Create a Poll</h1>
 
-    <form  action="pollManager" method="POST">
+    <form  action="validate" method="POST">
         <div id = "form">
             Name: <input type="text" name="name"> <br>
             Question: <input type="text" name="question"> <br>
