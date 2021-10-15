@@ -11,7 +11,7 @@
     Question: <input type="text" name="question"> <br>
     Description: <input type="text" name="description"> <br>
     Choice: <input type="text" name="choice"> <br>
-    <input type="submit" name="submit" value="update">
+    <input type="submit" name="submit" value="Update">
 </form>
 
 </body>

@@ -24,7 +24,7 @@ public class StateManagerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        String choice = request.getParameter("choice");
         String status_change = request.getParameter("status_change");
         System.out.println("status_change: " + status_change);
         try {

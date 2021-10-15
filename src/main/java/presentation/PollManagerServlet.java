@@ -10,6 +10,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class PollManagerServlet extends HttpServlet {
     Poll poll;
@@ -55,6 +58,7 @@ public class PollManagerServlet extends HttpServlet {
         } else if (status == Status.created) {
             System.out.println(request.getParameter("status_change"));
             request.setAttribute("poll", poll);
+            request.setAttribute("choiceSize", poll.getChoices().size());
             if (request.getParameter("status_change")!= null && (request.getParameter("status_change").equals("CREATED_UPDATE") || request.getParameter("status_change").equals("RUNNING_UPDATE"))) {
                 // go back to create poll
                 System.out.println("poll needs to be updated.");
@@ -73,10 +77,14 @@ public class PollManagerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("ManagerServlet doPost()");
         try {
-            if (request.getParameter("submit").equals("create"))
-                PollManager.createPoll(request.getParameter("name"), request.getParameter("question"), null);
-            else if (request.getParameter("submit").equals("update"))
+            if (request.getParameter("submit").equalsIgnoreCase("create")){
+                List<String> choices = Arrays.asList(request.getParameterValues("choice"));
+                List<String> descriptions = Arrays.asList(request.getParameterValues("description"));
+                PollManager.createPoll(request.getParameter("name"), request.getParameter("question"), choices, descriptions);
+            }
+            else if (request.getParameter("submit").equalsIgnoreCase("update")) {
                 PollManager.updatePoll(request.getParameter("name"), request.getParameter("question"), null);
+            }
         } catch (WrongStateException e) {
             System.out.println(e.getMessage());
         }

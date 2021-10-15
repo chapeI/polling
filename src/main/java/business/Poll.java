@@ -12,10 +12,13 @@ public class Poll {
     public Poll() {
     }
 
-    public Poll(String name, String question, List<Choice> choices) {
+    public Poll(String name, String question, List<String> choicesList, List<String> descriptionsList) {
         this.name = name;
         this.question = question;
-        this.choices = choices;
+        choices = new ArrayList<>();
+        for (int i =0; i<choicesList.size(); i++){
+            choices.add(new Choice(choicesList.get(i), descriptionsList.get(i)));
+        }
     }
 
     public String getName() {

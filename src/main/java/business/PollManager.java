@@ -36,9 +36,9 @@ public class PollManager {
      * @throws WrongStateException
      */
 
-    public static void createPoll(String name, String question, List<Choice> choices) throws WrongStateException {
+    public static void createPoll(String name, String question, List<String> choices, List<String> descriptions) throws WrongStateException {
         if (pollStatus == null){
-            poll = new Poll(name, question, choices);
+            poll = new Poll(name, question, choices, descriptions);
             pollStatus = Status.created;
         }
         else

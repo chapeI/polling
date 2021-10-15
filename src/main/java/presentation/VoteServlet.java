@@ -44,7 +44,6 @@ public class VoteServlet extends HttpServlet {
         out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
 
         if (this.status == Status.running ) {
-//            HttpSession session = request.getSession();
             request.setAttribute("poll", poll);
             request.getRequestDispatcher("poll_voting.jsp").forward(request, response);
 
