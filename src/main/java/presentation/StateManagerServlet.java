@@ -101,7 +101,8 @@ public class StateManagerServlet extends HttpServlet {
 		else if(status_change.equals("DOWNLOAD")) {
 		    System.out.println("Starting Download");
 		    PollManager.downloadPollDetails();
-		    request.getRequestDispatcher("/").forward(request, response);
+		    request.getRequestDispatcher("/download_results").forward(request, response);
+		    request.getRequestDispatcher("/ n ").forward(request, response);
 		    System.out.println("Ending Download");
 		    // redirect to startingPage
 		}else if(status_change.equals("HOME")) {

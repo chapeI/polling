@@ -197,23 +197,23 @@ public class PollManager {
     public static void downloadPollDetails() throws WrongStateException{
 	System.out.println("Doin a download!!");
 	
-        String fileName = poll.getName() + "-" + releasedTime.toString();
+        String fileName = poll.getName() + "-" + releasedTime.toString()+".txt";
         HashMap<String, Integer> results = getPollResults();
         System.out.println(results);
+	System.out.println(fileName);
 	
-	/*
-        if (results != null){
-            try {
-                printWriter = new PrintWriter(fileName);
-                for (Map.Entry<String, Integer> entry : results.entrySet()){
-                    printWriter.println(entry.getKey() + ": " + entry.getValue());
-                }
-                printWriter.flush();
-                printWriter.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-	    }*/
+        /*if (results != null){
+	  try {
+	  PrintWriter printWriter = new PrintWriter(fileName);
+	  for (Map.Entry<String, Integer> entry : results.entrySet()){
+	  printWriter.println(entry.getKey() + ": " + entry.getValue());
+	  }
+	  printWriter.flush();
+	  printWriter.close();
+	  } catch (FileNotFoundException e) {
+	  e.printStackTrace();
+	  }
+	  }*/
     };
 
     public static Poll getPoll() {
