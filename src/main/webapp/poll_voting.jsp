@@ -13,7 +13,7 @@
     <title>Poll voting</title>
 </head>
 <body>
-<h1>Current poll</h1>
+    <h1>Current poll</h1>
 
 <%
     Poll poll = (Poll) request.getAttribute("poll");%>
@@ -24,7 +24,8 @@
 <%    out.println(poll.getQuestion()); %>
 <br><br>
 <form action="state_manager" method="GET">
-    <input name="participant">
+    <label>Participant(Kept private): </label>
+    <input name="participant"><br/>
 <%    List<Choice> choices = poll.getChoices();%>
 <%    for (int i = 0 ; i < choices.size() ; i++) { %>
 <input type="radio" name="choice" value="<%= i %>" />
@@ -37,6 +38,7 @@
 %>
     <input type="submit">
 </form>
+
 <%--extract poll choices here--%>
 <%--<form action="state_manager" method="GET">--%>
 <%--    <input id="red" type="radio" name="status_change" value="RELEASE" />--%>

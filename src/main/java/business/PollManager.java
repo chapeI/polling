@@ -1,5 +1,7 @@
 package business;
 import Exceptions.WrongStateException;
+import Exceptions.RepeatVoterException;
+
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -170,8 +172,14 @@ public class PollManager {
 	if (ballot == null)
 	    ballot = new Ballot();
 	Vote vote = new Vote(participant, choice);
-	ballot.submit(vote);
-	
+	if (ballot.submit(vote)){
+	    System.out.println("Unique user vote submitted.");
+	}else{
+	    System.out.println("This user has voted already.");
+	}
+	//catch (RepeatVoterException e){
+	//    e.getMessage());
+	//}
     };
     /**
        Will request from the ballet the poll results

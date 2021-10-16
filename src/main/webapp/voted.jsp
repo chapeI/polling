@@ -13,5 +13,10 @@
 <body>
 <h2>You have voted</h2>
 Thank you for participating
+
+<form action="state_manager" method="GET" >
+    <button type="submit" value="HOME" name="status_change" >Home</button>
+</form>
+
 </body>
 </html>
