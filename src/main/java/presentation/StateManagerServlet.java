@@ -32,6 +32,13 @@ public class StateManagerServlet extends HttpServlet {
         if (choice != null) {
             // do voting here
             PollManager.vote(null, choice);
+	    System.out.println("Starting Vote Submission");
+	    String participant = request.getParameter("participant");
+	    System.out.println(participant);
+	    System.out.println(choice);		    
+	    PollManager.vote(participant, choice);
+	    //request.getRequestDispatcher("/").forward(request, response);
+
 //            try {
 //                HashMap<String, Integer> results = PollManager.returnResults();
 //                for (Map.Entry<String, Integer> entry : results.entrySet()){
@@ -44,16 +51,7 @@ public class StateManagerServlet extends HttpServlet {
             request.getRequestDispatcher("voted.jsp").forward(request, response);
 
         try {
-	    if (choice != null){
-		System.out.println("Starting Vote Submission");
-		String participant = request.getParameter("participant");
-		System.out.println(participant);
-		System.out.println(choice);		    
-                PollManager.vote(participant, choice);
-		request.getRequestDispatcher("/").forward(request, response);
-
-	    }
-            else if(status_change.equals("RUNNING")) {
+	    if(status_change.equals("RUNNING")) {
                 PollManager.runPoll();
             }
             else if (status_change.equals("UNRELEASE")){

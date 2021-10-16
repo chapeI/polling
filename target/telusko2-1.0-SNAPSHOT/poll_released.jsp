@@ -1,4 +1,5 @@
-<%--
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.HashMap" %><%--
   Created by IntelliJ IDEA.
   User: khoatrinh
   Date: 2021-10-14
@@ -40,6 +41,16 @@
 <br><br>
 <input type="submit">
 </form>
+
+<br><br><br>
+
+<% if (request.getParameter("status_change") != null && request.getParameter("status_change").equalsIgnoreCase("view") ) { %>
+<h1>Here are the results</h1>
+<%    HashMap<String, Integer> results = (HashMap<String, Integer>) request.getAttribute("results");%>
+<% for (Map.Entry<String, Integer> entry : results.entrySet()) { %>
+<p> <%= entry.getKey()%></p>
+&emsp; <i><b>  Count: </b></i> <%= entry.getValue()%><br>
+<%} }%>
 
 <form action="state_manager" method="GET" >
     <button type="submit" value="HOME" name="status_change" >Home</button>
