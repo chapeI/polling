@@ -53,6 +53,15 @@
     </servlet-mapping>
 
 
+    <servlet>
+        <servlet-name>Download Results</servlet-name>
+        <servlet-class>presentation.DownloadResultsServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Download Results</servlet-name>
+        <url-pattern>/download_results</url-pattern>
+    </servlet-mapping>
+
 
 
 </web-app>

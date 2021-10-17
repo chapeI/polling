@@ -232,7 +232,7 @@ public class PollManager {
         this.pollCreator = pollCreator;
     }
 
-    public Ballot getBallot() {
+    public static Ballot getBallot() {
         return ballot;
     }
 
@@ -248,7 +248,7 @@ public class PollManager {
         pollStatus = inputPollStatus;
     }
 
-    public LocalDateTime getReleasedTime() {
+    public static  LocalDateTime getReleasedTime() {
         return releasedTime;
     }
 

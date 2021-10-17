@@ -10,8 +10,13 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.*;
+import business.Poll;
+import business.Choice;
 
-@WebServlet("/download_results")
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class DownloadResultsServlet extends HttpServlet {
 
     private final int MAX_DOWNLOAD_SIZE = 2096;
@@ -19,18 +24,31 @@ public class DownloadResultsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
+	System.out.println("Downloading ... ");
 
-	String fileName = "Apples.txt";
+	Poll poll = PollManager.getPoll();
+	HashMap<String, Integer> results = PollManager.getBallot().getResults();
+	String fileName = poll.getName() + "-" + PollManager.getReleasedTime()+".txt";
 	String fileContents = "";
-	fileContents += "Apples are the best, you would never have guessed";
-	fileContents += "Apples are the best, you would never have guessed";
-	fileContents += "Apples are the best, you would never have guessed";
-	fileContents += "Apples are the best, you would never have guessed";
-	fileContents += "Apples are the best, you would never have guessed";
-	fileContents += "Apples are the best, you would never have guessed";
+	List<Choice> choices = poll.getChoices();
+	int t = 0;
+
 	    
+	fileContents += "Poll: "+poll.getName()+"\n";
+	fileContents += "--------------------------------------\n\n";
+	fileContents += "Question: "+poll.getQuestion()+"\n";
+	for (int i = 0; i < choices.size(); i++){
+	    t += results.get(String.valueOf(i));
+	    fileContents += "Option "+i+": "+choices.get(i).getText()+"\n";
+	    fileContents += "Description: "+choices.get(i).getDescription()+ "\n";
+	    fileContents += "Votes: "+results.get(String.valueOf(i))+"\n\n";
+	}
+	fileContents += "Total Votes: " + t;
+	
+	System.out.println(fileName);
+	
 	response.setContentType("text/plain");
-	response.setHeader("Content-disposition", "attachment; "+fileName);
+	response.setHeader("Content-disposition", "attachment; filename=\""+fileName+"\"");
 
 	try {
 	    InputStream in = new ByteArrayInputStream(fileContents.getBytes());
@@ -46,7 +64,6 @@ public class DownloadResultsServlet extends HttpServlet {
 
 	    try{
 
-		//in.flush();
 		out.flush();
 		in.close();
 		out.close();
