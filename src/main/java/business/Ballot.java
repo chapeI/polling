@@ -12,8 +12,14 @@ public class Ballot {
     /**
        will add a vote object, if the ballot box is full it will double in size
     */
-    public void submit(Vote vote){
-		votes.add(vote);
+    public boolean submit(Vote vote){
+	if (!didVote(vote.getParticipant())){
+	    votes.add(vote);
+	    return true;
+	}
+	return false;
+	
+	
     }
 
     public void clearVotes(){
