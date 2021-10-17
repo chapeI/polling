@@ -65,7 +65,7 @@ public class VoteServlet extends HttpServlet {
 
             out.println("<form action=\"state_manager\" method=\"GET\">");
 
-            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"VIEW\" />");
+            out.println("<input id=\"blue\" type=\"radio\" name=\"status_change\" value=\"VIEW_PARTICIPANT\" />");
             out.println("<label for=\"blue\">View Results</label>");
 
             out.println("<br><br>");

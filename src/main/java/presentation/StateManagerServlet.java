@@ -92,6 +92,13 @@ public class StateManagerServlet extends HttpServlet {
                     request.getRequestDispatcher("poll_released.jsp").forward(request, response);
                     // redirect to startingPage
                 }
+		else if(status_change.equals("VIEW_PARTICIPANT")) {
+			HashMap<String, Integer> results = PollManager.returnResults();
+			request.setAttribute("results", results);
+			request.setAttribute("status_change", "VIEW");
+			request.getRequestDispatcher("poll_result_participant.jsp").forward(request, response);
+			// redirect to startingPage
+		}
 		else if(status_change.equals("CLOSE")) {
 		    PollManager.closePoll();
 		    request.setAttribute("status_change", status_change);
