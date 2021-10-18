@@ -3,25 +3,20 @@ package presentation;
 import Exceptions.WrongStateException;
 import business.Poll;
 import business.PollManager;
-import business.PollService;
 import business.Status;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
 
 //@WebServlet(name = "StateManagerServlet", value = "/StateManagerServlet")
 public class StateManagerServlet extends HttpServlet {
 
-//    String status;
     Poll poll;
 
     public void init() {
         this.poll = PollManager.getPoll();
-//        this.status = this.poll.get_status();
     }
 
     @Override
@@ -36,16 +31,7 @@ public class StateManagerServlet extends HttpServlet {
 	    System.out.println(participant);
 	    System.out.println(choice);
 	    PollManager.vote(participant, choice);
-	    
-//            try {
-//                HashMap<String, Integer> results = PollManager.returnResults();
-//                for (Map.Entry<String, Integer> entry : results.entrySet()){
-//                    System.out.println(entry.getKey());
-//                    System.out.println(entry.getValue());
-//                }
-//            } catch (WrongStateException e) {
-//                e.printStackTrace();
-//            }
+
             request.getRequestDispatcher("voted.jsp").forward(request, response);
 	}
 	if (status_change != null){
@@ -127,8 +113,5 @@ public class StateManagerServlet extends HttpServlet {
 	}
 	request.getRequestDispatcher("pollManager").forward(request, response);
     }
-//    @Override
-//    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//
-//    }
+
 }

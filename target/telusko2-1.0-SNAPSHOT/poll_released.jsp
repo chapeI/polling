@@ -46,11 +46,21 @@
 
 <% if (request.getParameter("status_change") != null && request.getParameter("status_change").equalsIgnoreCase("view") ) { %>
 <h1>Here are the results</h1>
-<%    HashMap<String, Integer> results = (HashMap<String, Integer>) request.getAttribute("results");%>
+<%
+    HashMap<String, Integer> results = (HashMap<String, Integer>) request.getAttribute("results");
+    if (results != null) {
+%>
 <% for (Map.Entry<String, Integer> entry : results.entrySet()) { %>
 <p> <%= entry.getKey()%></p>
 &emsp; <i><b>  Count: </b></i> <%= entry.getValue()%><br>
-<%} }%>
+<%}
+}
+    else {
+        out.println("No one has voted yet");
+    }
+
+
+}%>
 
 <form action="state_manager" method="GET" >
     <button type="submit" value="HOME" name="status_change" >Home</button>

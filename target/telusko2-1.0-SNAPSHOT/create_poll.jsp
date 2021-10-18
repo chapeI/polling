@@ -33,10 +33,10 @@
 
     <form  action="pollManager" method="POST">
         <div id = "form">
-            Name: <input type="text" name="name"> <br>
-            Question: <input type="text" name="question"> <br>
-            Choice: <input type="text" name="choice"> Description: <input type="text" name="description"><br>
-            Choice: <input type="text" name="choice"> Description: <input type="text" name="description"><br>
+            Name: <input type="text" required="required" name="name"> <br>
+            Question: <input type="text" required="required" name="question"> <br>
+            Choice: <input type="text" required="required" name="choice"> Description: <input type="text" name="description"><br>
+            Choice: <input type="text" required="required" name="choice"> Description: <input type="text" name="description"><br>
         </div>
         <button type="button" onclick="addMoreChoices()">Add choice</button>
         <input type="submit" name= "submit" value="Create">

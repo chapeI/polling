@@ -2,7 +2,6 @@ package presentation;
 
 import business.Poll;
 import business.PollManager;
-import business.PollService;
 import business.Status;
 
 import javax.servlet.*;
@@ -19,9 +18,6 @@ public class VoteServlet extends HttpServlet {
     String color;
 
     public void init() {
-//        System.out.println("ManagerServlet init()");
-//        this.poll = PollService.instance().get_poll();
-//        System.out.println("status: " + status);
     }
 
     @Override
@@ -85,9 +81,6 @@ public class VoteServlet extends HttpServlet {
             out.println("<html><body>");
             out.println("no poll to see, go back.");
             out.println("</body></html>");
-
-//            System.out.println("create poll");
-//            request.getRequestDispatcher("create_poll.jsp").forward(request, response);
         }
 
 

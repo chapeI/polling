@@ -2,7 +2,6 @@ package presentation;
 
 import business.Poll;
 import business.PollManager;
-import business.PollService;
 import business.Status;
 
 import javax.servlet.*;
@@ -18,8 +17,7 @@ public class StartingServlet extends HttpServlet {
     String color;
 
     public void init() {
-        this.poll = PollService.instance().get_poll();
-//        this.status = this.poll.get_status();
+        this.poll = PollManager.getPoll();
     }
 
     @Override
@@ -40,17 +38,9 @@ public class StartingServlet extends HttpServlet {
             this.color = "lightgrey";
         }
 
-        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
-
-        out.println("<html><body><h1>Start Page</h1>");
-
-        out.println("<form action='pollManager' >");
-        out.println("<input type='submit' value='Poll Manager' />");
-        out.println("</form></body></html>");
-
-        out.println("<form action='vote' >");
-        out.println("<input type='submit' value='Participant' />");
-        out.println("</form></body></html>");
+        request.setAttribute("color", this.color);
+        request.setAttribute("status", this.status);
+        request.getRequestDispatcher("start.jsp").forward(request,response);
 
     }
 

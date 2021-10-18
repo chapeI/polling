@@ -11,11 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//public enum Status{
-//    created,
-//    running,
-//    released,
-//}
 
 public class PollManager {
     private static Poll poll;
@@ -177,9 +172,6 @@ public class PollManager {
 	}else{
 	    System.out.println("This user has voted already.");
 	}
-	//catch (RepeatVoterException e){
-	//    e.getMessage());
-	//}
     };
     /**
        Will request from the ballet the poll results
@@ -201,19 +193,6 @@ public class PollManager {
         HashMap<String, Integer> results = getPollResults();
         System.out.println(results);
 	System.out.println(fileName);
-	
-        /*if (results != null){
-	  try {
-	  PrintWriter printWriter = new PrintWriter(fileName);
-	  for (Map.Entry<String, Integer> entry : results.entrySet()){
-	  printWriter.println(entry.getKey() + ": " + entry.getValue());
-	  }
-	  printWriter.flush();
-	  printWriter.close();
-	  } catch (FileNotFoundException e) {
-	  e.printStackTrace();
-	  }
-	  }*/
     };
 
     public static Poll getPoll() {
