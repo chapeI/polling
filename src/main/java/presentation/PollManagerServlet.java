@@ -1,15 +1,13 @@
 package presentation;
 
 import Exceptions.WrongStateException;
-import business.Poll;
-import business.PollManager;
-import business.PollService;
-import business.Status;
+import business.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -31,14 +29,23 @@ public class PollManagerServlet extends HttpServlet {
         poll = PollManager.getPoll();
         Status status = PollManager.getPollStatus();
 
-        // at the beginning
+
+        // at the beginning, when no poll is created
         if (poll==null) {
+            if (request.getParameter("password") != null){
+                if (authorize(request.getParameter("password"))) {
+                    Manager manager = (Manager) request.getSession().getAttribute("manager");
+                    manager.setAuthorized(true);
+                }
+                else {
+                    request.setAttribute("loginError", "Incorrect Password");
+                    request.getRequestDispatcher("start.jsp").forward(request,response);
+                }
+            }
             request.getRequestDispatcher("create_poll.jsp").forward(request, response);
         }
 
 
-        System.out.println("status doGet() " + status);
-        System.out.println(poll);
         if (status == Status.running ) {
             this.color = "lightgreen";
         } else if (status == Status.created ) {
@@ -76,6 +83,7 @@ public class PollManagerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("ManagerServlet doPost()");
+
         try {
             List<String> choices = Arrays.asList(request.getParameterValues("choice"));
             List<String> descriptions = Arrays.asList(request.getParameterValues("description"));
@@ -105,5 +113,38 @@ public class PollManagerServlet extends HttpServlet {
         // TODO: check for valid submission
 
         doGet(request, response);
+    }
+
+    private boolean authorize(String userInput) {
+        String hash = "2f5daf52c54ac06a7e86b6d5659828f3";
+        String hashedInput = hash(userInput);
+
+        return hash.equals(hashedInput);
+    }
+    private String hash (String toHash){
+//        String toHash = "SOEN387";
+        String generatedPassword = null;
+        try {
+            // Create MessageDigest instance for MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            //Add password bytes to digest
+            md.update(toHash.getBytes());
+            //Get the hash's bytes
+            byte[] bytes = md.digest();
+            //This bytes[] has bytes in decimal format;
+            //Convert it to hexadecimal format
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            //Get complete hashed password in hex format
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        return (generatedPassword);
     }
 }

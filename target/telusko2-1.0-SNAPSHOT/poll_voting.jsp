@@ -25,7 +25,7 @@
 <br><br>
 <form action="state_manager" method="GET">
     <label>Participant(Kept private): </label>
-    <input name="participant"><br/>
+    <input name="participant" required="required"><br/>
 <%    List<Choice> choices = poll.getChoices();%>
 <%    for (int i = 0 ; i < choices.size() ; i++) { %>
 <input type="radio" name="choice" value="<%= i %>" />

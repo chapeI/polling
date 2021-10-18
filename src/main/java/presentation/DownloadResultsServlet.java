@@ -2,20 +2,16 @@ package presentation;
 
 import business.Poll;
 import business.PollManager;
-import business.PollService;
-import business.Status;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.io.*;
-import business.Poll;
+
 import business.Choice;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DownloadResultsServlet extends HttpServlet {
 
