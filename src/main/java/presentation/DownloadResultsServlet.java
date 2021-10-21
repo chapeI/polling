@@ -74,5 +74,6 @@ public class DownloadResultsServlet extends HttpServlet {
 	catch(IOException e){
 	    
 	}
+	
     }
 }
