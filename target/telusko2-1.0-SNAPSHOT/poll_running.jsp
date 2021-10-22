@@ -9,9 +9,10 @@
 <html>
 <head>
     <title>Poll Running</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<h1>Poll Manager</h1>
+<h1 id="running">Poll Manager</h1>
 <br><br>
 
 <form action="state_manager" method="GET">
@@ -28,7 +29,7 @@
 </form>
 
 <form action="state_manager" method="GET" >
-    <button type="submit" value="HOME" name="status_change" >Home</button>
+    <button id="home" type="submit" value="HOME" name="status_change" >Home</button>
 </form>
 
 </body>

@@ -19,6 +19,13 @@ public class StateManagerServlet extends HttpServlet {
         this.poll = PollManager.getPoll();
     }
 
+	/**
+	 * performs poll operations based on the user's choice
+	 * @param request
+	 * @param response
+	 * @throws ServletException
+	 * @throws IOException
+	 */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String choice = request.getParameter("choice");
@@ -46,12 +53,10 @@ public class StateManagerServlet extends HttpServlet {
 		    PollManager.releasePoll();
 		}
 		else if(status_change.equals("RELEASED_CLEAR")) {
-		    // RELEASED->CREATED. I dont think we need to clear results
 		    System.out.println("clear() from 'RELEASED'");
 		    PollManager.clearPoll();
 		}
 		else if(status_change.equals("CREATED_UPDATE")) {
-		    // CREATED->CREATED. by "update", we're actually "clearing" the results TODO: clear the results..
 		    PollManager.clearResults();
 
 		    System.out.println("Update() from 'CREATED'");
@@ -59,13 +64,11 @@ public class StateManagerServlet extends HttpServlet {
 		    PollManager.setPollStatus(Status.created);
 		}
 		else if(status_change.equals("RUNNING_CLEAR")) {
-		    // RUNNING->RUNNING clear the results, status stays the same   TODO: clear the results..
 		    System.out.println("clear() from 'RUNNING'");
 		    System.out.println("poll results need to be cleared");
 		    PollManager.clearPoll();
 		}
 		else if(status_change.equals("RUNNING_UPDATE")) {
-		    // RUNNING->CREATED clear the results   TODO: clear the results..
 		    System.out.println("update() from 'RUNNING'");
 		    System.out.println("poll results need to be cleared");
 		    PollManager.clearResults();
@@ -76,20 +79,17 @@ public class StateManagerServlet extends HttpServlet {
                     request.setAttribute("results", results);
                     request.setAttribute("status_change", "VIEW");
                     request.getRequestDispatcher("poll_released.jsp").forward(request, response);
-                    // redirect to startingPage
                 }
 		else if(status_change.equals("VIEW_PARTICIPANT")) {
 			HashMap<String, Integer> results = PollManager.returnResults();
 			request.setAttribute("results", results);
 			request.setAttribute("status_change", "VIEW");
 			request.getRequestDispatcher("poll_result_participant.jsp").forward(request, response);
-			// redirect to startingPage
 		}
 		else if(status_change.equals("CLOSE")) {
 		    PollManager.closePoll();
 		    request.setAttribute("status_change", status_change);
 		    request.getRequestDispatcher("/").forward(request, response);
-		    // redirect to startingPage
 		}
 		else if(status_change.equals("DOWNLOAD")) {
 		    System.out.println("Starting Download");
@@ -97,12 +97,9 @@ public class StateManagerServlet extends HttpServlet {
 		    request.setAttribute("poll",this.poll);
 		    
 		    request.getRequestDispatcher("/download_results").forward(request, response);
-		    //request.getRequestDispatcher("/ n ").forward(request, response);
 		    System.out.println("Ending Download");
-		    // redirect to startingPage
 		}else if(status_change.equals("HOME")) {
 		    request.getRequestDispatcher("/").forward(request, response);
-		    // redirect to startingPage
 		}
 	    } catch (WrongStateException e) {
 		System.out.println(e.getMessage());

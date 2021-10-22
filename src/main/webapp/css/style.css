@@ -1,0 +1,23 @@
+#start {
+    background-color: aquamarine;
+}
+
+#created {
+    background-color: yellow;
+}
+
+#running {
+    background-color: green;
+}
+
+#released {
+    background-color: orange;
+}
+
+#home {
+    background-color: cornflowerblue;
+}
+
+i {
+    color: darkgreen;
+}

@@ -111,11 +111,20 @@ public class PollManager {
             throw new WrongStateException("Poll can't be run because it's not in created state");
     };
 
+    /**
+     * clear the Poll results
+     * @throws WrongStateException
+     */
     public static void clearResults() throws WrongStateException{
         if (ballot != null)
             ballot.clearVotes();
     }
 
+    /**
+     * return the Poll results
+     * @return
+     * @throws WrongStateException
+     */
     public static HashMap<String, Integer> returnResults() throws WrongStateException{
         if (ballot == null)
             return null;

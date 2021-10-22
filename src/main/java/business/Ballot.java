@@ -10,7 +10,7 @@ public class Ballot {
 		this.votes= new ArrayList<>();
     }
     /**
-       will add a vote object, if the ballot box is full it will double in size
+       will add a vote object
     */
     public boolean submit(Vote vote){
 	if (!didVote(vote.getParticipant())){
@@ -18,15 +18,20 @@ public class Ballot {
 	    return true;
 	}
 	return false;
-	
-	
     }
 
+    /**
+        will clear vote list
+     */
     public void clearVotes(){
 		votes.clear();
     };
 
-
+    /**
+     * check if a participant has already voted
+     * @param participant
+     * @return true if participant has already voted, false otherwise
+     */
     public boolean didVote(String participant){
 		for (Vote v : votes) {
 			if (v.getParticipant().equalsIgnoreCase(participant))
@@ -35,6 +40,10 @@ public class Ballot {
 		return false;
     };
 
+    /**
+     *
+     * @return the results in a hashmap with the choice as key, and vote count as value
+     */
     public HashMap<String, Integer> getResults(){
         HashMap<String, Integer> results = new HashMap<>();
         for (Vote vote : votes){

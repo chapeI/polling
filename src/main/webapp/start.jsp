@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Start Page</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
     <script>
         function logIn() {
             var form = document.getElementById("form");
@@ -37,7 +38,7 @@
 
 
 
-<h1> Start Page</h1>
+<h1 id="start"> Start Page</h1>
 <form id='form' action='pollManager' >
     <%
         if (manager.isAuthorized()) {

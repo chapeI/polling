@@ -11,6 +11,7 @@
 <html>
 <head>
     <title>Poll voting</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
     <h1>Current poll</h1>
@@ -41,7 +42,7 @@
 
 
 <form action="state_manager" method="GET" >
-    <button type="submit" value="HOME" name="status_change" >Home</button>
+    <button id="home" type="submit" value="HOME" name="status_change" >Home</button>
 </form>
 
 </body>

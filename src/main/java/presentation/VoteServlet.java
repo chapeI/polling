@@ -20,6 +20,13 @@ public class VoteServlet extends HttpServlet {
     public void init() {
     }
 
+    /**
+     * handles participant's voting process
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
@@ -44,7 +51,7 @@ public class VoteServlet extends HttpServlet {
             request.getRequestDispatcher("poll_voting.jsp").forward(request, response);
 
             out.println("<html><body>");
-            out.println("show poll here");  // TODO: create poll
+            out.println("show poll here");
             out.println("</body></html>");
 
 
@@ -74,17 +81,11 @@ public class VoteServlet extends HttpServlet {
             out.println("</form>");
 
             out.println("</body></html>");
-
-
         } else {
-
             out.println("<html><body>");
             out.println("no poll to see, go back.");
             out.println("</body></html>");
         }
-
-
-
     }
 
     @Override

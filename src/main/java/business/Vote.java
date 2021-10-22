@@ -8,9 +8,7 @@ public class Vote{
 	this.participant = participant;
 	this.choice = choice;
     }
-    /**       
-       returns Srting particpant
-     */
+
     public String getParticipant(){
 	return this.participant;
     }

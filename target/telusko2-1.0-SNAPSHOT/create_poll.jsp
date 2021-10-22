@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Manage Poll</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"/>
         <script>
             function addMoreChoices() {
                 var text = document.createElement("span");
@@ -44,7 +45,7 @@
 
     
     <form action="state_manager" method="GET" >
-    	<button type="submit" value="HOME" name="status_change" >Home</button>
+    	<button id="home" type="submit" value="HOME" name="status_change" >Home</button>
     </form>  	  
 
     </body>
