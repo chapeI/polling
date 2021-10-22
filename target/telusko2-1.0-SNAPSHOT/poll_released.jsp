@@ -10,9 +10,10 @@
 <html>
 <head>
     <title>Poll Released</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<h1>Poll Manager</h1>
+<h1 id="released">Poll Manager</h1>
 
 <form action="state_manager" method="GET">
 
@@ -45,7 +46,7 @@
 <br><br><br>
 
 <% if (request.getParameter("status_change") != null && request.getParameter("status_change").equalsIgnoreCase("view") ) { %>
-<h1>Here are the results</h1>
+<h1 id="released">Here are the results</h1>
 <%
     HashMap<String, Integer> results = (HashMap<String, Integer>) request.getAttribute("results");
     if (results != null) {
@@ -63,7 +64,7 @@
 }%>
 
 <form action="state_manager" method="GET" >
-    <button type="submit" value="HOME" name="status_change" >Home</button>
+    <button id="home" type="submit" value="HOME" name="status_change" >Home</button>
 </form>
 </body>
 </html>

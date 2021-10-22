@@ -11,35 +11,13 @@
 <html>
 <head>
     <title>Test</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 
-<h1> This is the poll</h1>
-<%
-    Poll poll = (Poll) request.getAttribute("poll");%>
-    <b>Name: </b>
-<%    out.println(poll.getName()); %>
-<br>
-    <b>Question: </b>
-<%    out.println(poll.getQuestion()); %>
-<br><br>
-<%    List<Choice> choices = poll.getChoices(); %>
-<%    for (Choice c : choices) { %>
-    <b>Choice: </b>
-<%        out.println(c.getText()); %>
-<br>
-&emsp; <i><b>  Description: </b></i>
-<%       out.println(c.getDescription()); %>
-<br>
-<%    }
-%>
 
-
-<h1>Poll Manager</h1>
+<h1 id="created">Poll Manager</h1>
 <br>
-
-<br><br>
-
 
 <form action="state_manager" method="GET">
 <input id="red" type="radio" name="status_change" value="CREATED_UPDATE" />
@@ -51,8 +29,32 @@
 <input type="submit">
 </form>
 
+
+
+<h2> This is the poll</h2>
+<%
+    Poll poll = (Poll) request.getAttribute("poll");%>
+<b>Name: </b>
+<%    out.println(poll.getName()); %>
+<br>
+<b>Question: </b>
+<%    out.println(poll.getQuestion()); %>
+<br><br>
+<%    List<Choice> choices = poll.getChoices(); %>
+<%    for (Choice c : choices) { %>
+<b>Choice: </b>
+<%        out.println(c.getText()); %>
+<br>
+&emsp; <i><b>  Description: </b></i>
+<%       out.println(c.getDescription()); %>
+<br>
+<%    }
+%>
+
+<br><br>
+
 <form action="state_manager" method="GET" >
-    <button type="submit" value="HOME" name="status_change" >Home</button>
+    <button id="home" type="submit" value="HOME" name="status_change" >Home</button>
 </form>
 
 

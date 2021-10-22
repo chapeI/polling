@@ -40,6 +40,11 @@ public class Poll {
         return choices;
     }
 
+    /**
+     * replace the current choice list by the provided choice list
+     * @param choicesList
+     * @param descriptionsList
+     */
     public void setChoices(List<String> choicesList, List<String> descriptionsList) {
         choices.clear();
         for (int i =0; i<choicesList.size(); i++){
@@ -47,6 +52,11 @@ public class Poll {
         }
     }
 
+    /**
+     * add the provided choice list to the current choice list
+     * @param choicesList
+     * @param descriptionsList
+     */
     public void addChoices(List<String> choicesList, List<String> descriptionsList) {
         for (int i =0; i<choicesList.size(); i++){
             choices.add(new Choice(choicesList.get(i), descriptionsList.get(i)));

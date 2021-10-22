@@ -20,6 +20,13 @@ public class PollManagerServlet extends HttpServlet {
         System.out.println("PollManagerServlet init()");
     }
 
+    /**
+     * handles all request redirections to jsp depending on poll Status
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
@@ -80,6 +87,14 @@ public class PollManagerServlet extends HttpServlet {
         }
     }
 
+    /**
+     * handles all operations relating to poll creation and update
+     * @param request
+     * @param response
+     * @throws ServletException
+     * @throws IOException
+     */
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("ManagerServlet doPost()");
@@ -115,12 +130,23 @@ public class PollManagerServlet extends HttpServlet {
         doGet(request, response);
     }
 
+    /**
+     * authorize manager
+     * @param userInput
+     * @return
+     */
     private boolean authorize(String userInput) {
         String hash = "2f5daf52c54ac06a7e86b6d5659828f3";
         String hashedInput = hash(userInput);
 
         return hash.equals(hashedInput);
     }
+
+    /**
+     * hash function to hash password
+     * @param toHash
+     * @return
+     */
     private String hash (String toHash){
 //        String toHash = "SOEN387";
         String generatedPassword = null;

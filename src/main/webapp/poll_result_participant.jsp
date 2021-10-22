@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>Result View for Participant</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
 <h1>Here are the results</h1>
@@ -27,7 +28,7 @@ else {
     }%>
 
 <form action="state_manager" method="GET" >
-    <button type="submit" value="HOME" name="status_change" >Home</button>
+    <button id="home" type="submit" value="HOME" name="status_change" >Home</button>
 </form>
 </body>
 </html>
