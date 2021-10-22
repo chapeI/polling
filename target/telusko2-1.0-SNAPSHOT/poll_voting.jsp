@@ -39,19 +39,6 @@
     <input type="submit">
 </form>
 
-<%--extract poll choices here--%>
-<%--<form action="state_manager" method="GET">--%>
-<%--    <input id="red" type="radio" name="status_change" value="RELEASE" />--%>
-<%--    <label for="red">Release (RUNNING->RELEASED)</label>--%>
-<%--    <br><br>--%>
-<%--    <input id="blue" type="radio" name="status_change" value="RUNNING_CLEAR" />--%>
-<%--    <label for="blue">Clear</label>--%>
-<%--    <br><br>--%>
-<%--    <input id="blue" type="radio" name="status_change" value="RUNNING_UPDATE" />--%>
-<%--    <label for="blue">Update (RUNNING->CREATED)</label>--%>
-<%--    <br><br>--%>
-<%--    <input type="submit">--%>
-<%--</form>--%>
 
 <form action="state_manager" method="GET" >
     <button type="submit" value="HOME" name="status_change" >Home</button>

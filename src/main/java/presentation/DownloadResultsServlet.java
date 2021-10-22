@@ -34,10 +34,17 @@ public class DownloadResultsServlet extends HttpServlet {
 	fileContents += "--------------------------------------\n\n";
 	fileContents += "Question: "+poll.getQuestion()+"\n";
 	for (int i = 0; i < choices.size(); i++){
-	    t += results.get(String.valueOf(i));
+	    int voteCount = 0;
+	    if ( results.get(String.valueOf(i)) == null ) {
+		t += 0;
+		voteCount = 0;
+	    } else {
+		t += results.get(String.valueOf(i));
+		voteCount = results.get(String.valueOf(i));
+	    }
 	    fileContents += "Option "+i+": "+choices.get(i).getText()+"\n";
 	    fileContents += "Description: "+choices.get(i).getDescription()+ "\n";
-	    fileContents += "Votes: "+results.get(String.valueOf(i))+"\n\n";
+	    fileContents += "Votes: "+ voteCount +"\n\n";
 	}
 	fileContents += "Total Votes: " + t;
 	
