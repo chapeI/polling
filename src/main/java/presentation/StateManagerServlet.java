@@ -10,7 +10,6 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.HashMap;
 
-//@WebServlet(name = "StateManagerServlet", value = "/StateManagerServlet")
 public class StateManagerServlet extends HttpServlet {
 
     Poll poll;
@@ -32,14 +31,10 @@ public class StateManagerServlet extends HttpServlet {
         String status_change = request.getParameter("status_change");
         System.out.println("status_change: " + status_change);
         if (choice != null) {
-            // do voting here
-	    System.out.println("Starting Vote Submission");
+			// do voting here
 	    String participant = request.getParameter("participant");
-	    System.out.println(participant);
-	    System.out.println(choice);
 	    PollManager.vote(participant, choice);
-
-            request.getRequestDispatcher("voted.jsp").forward(request, response);
+		request.getRequestDispatcher("voted.jsp").forward(request, response);
 	}
 	if (status_change != null){
 	    try {
@@ -53,24 +48,16 @@ public class StateManagerServlet extends HttpServlet {
 		    PollManager.releasePoll();
 		}
 		else if(status_change.equals("RELEASED_CLEAR")) {
-		    System.out.println("clear() from 'RELEASED'");
 		    PollManager.clearPoll();
 		}
 		else if(status_change.equals("CREATED_UPDATE")) {
 		    PollManager.clearResults();
-
-		    System.out.println("Update() from 'CREATED'");
-		    System.out.println("poll results need to be cleared");
 		    PollManager.setPollStatus(Status.created);
 		}
 		else if(status_change.equals("RUNNING_CLEAR")) {
-		    System.out.println("clear() from 'RUNNING'");
-		    System.out.println("poll results need to be cleared");
 		    PollManager.clearPoll();
 		}
 		else if(status_change.equals("RUNNING_UPDATE")) {
-		    System.out.println("update() from 'RUNNING'");
-		    System.out.println("poll results need to be cleared");
 		    PollManager.clearResults();
 		    PollManager.setPollStatus(Status.created);
 		}
@@ -92,12 +79,9 @@ public class StateManagerServlet extends HttpServlet {
 		    request.getRequestDispatcher("/").forward(request, response);
 		}
 		else if(status_change.equals("DOWNLOAD")) {
-		    System.out.println("Starting Download");
 		    PollManager.downloadPollDetails();
 		    request.setAttribute("poll",this.poll);
-		    
 		    request.getRequestDispatcher("/download_results").forward(request, response);
-		    System.out.println("Ending Download");
 		}else if(status_change.equals("HOME")) {
 		    request.getRequestDispatcher("/").forward(request, response);
 		}
