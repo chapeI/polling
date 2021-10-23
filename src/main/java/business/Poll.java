@@ -11,6 +11,9 @@ public class Poll {
     public Poll() {
     }
 
+    /**
+     * Default Parameterized Constructor
+     */
     public Poll(String name, String question, List<String> choicesList, List<String> descriptionsList) {
         this.name = name;
         this.question = question;
@@ -19,23 +22,33 @@ public class Poll {
             choices.add(new Choice(choicesList.get(i), descriptionsList.get(i)));
         }
     }
-
+    /**
+     * @return name
+     */
     public String getName() {
         return name;
     }
-
+    /**
+     * @param name
+     */
     public void setName(String name) {
         this.name = name;
     }
-
+    /**
+     * @return question
+     */
     public String getQuestion() {
         return question;
     }
-
+    /**
+     * @param question
+     */
     public void setQuestion(String question) {
         this.question = question;
     }
-
+    /**
+     * @return choices
+     */
     public List<Choice> getChoices() {
         return choices;
     }
