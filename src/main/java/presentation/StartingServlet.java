@@ -29,12 +29,8 @@ public class StartingServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        PrintWriter out = response.getWriter();
         response.setContentType("text/html");
-
         this.status = PollManager.getPollStatus();
-
         if (this.status == Status.running ) {
             this.color = "lightgreen";
         } else if (this.status == Status.created ) {
@@ -44,11 +40,9 @@ public class StartingServlet extends HttpServlet {
         } else {
             this.color = "lightgrey";
         }
-
         request.setAttribute("color", this.color);
         request.setAttribute("status", this.status);
         request.getRequestDispatcher("start.jsp").forward(request,response);
-
     }
 
     @Override
