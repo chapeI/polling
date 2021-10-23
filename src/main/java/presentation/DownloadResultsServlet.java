@@ -15,13 +15,19 @@ import java.util.List;
 
 public class DownloadResultsServlet extends HttpServlet {
 
-    private final int MAX_DOWNLOAD_SIZE = 2096;
 
+    private final int MAX_DOWNLOAD_SIZE = 2096;
+    
+    /**
+     * Will first 
+     *
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 	System.out.println("Downloading ... ");
 
+	//Initializes needed variables
 	Poll poll = PollManager.getPoll();
 	HashMap<String, Integer> results = PollManager.getBallot().getResults();
 	String fileName = poll.getName() + "-" + PollManager.getReleasedTime()+".txt";
@@ -29,10 +35,15 @@ public class DownloadResultsServlet extends HttpServlet {
 	List<Choice> choices = poll.getChoices();
 	int t = 0;
 
-	    
+	//Sets up header of the file to be downloaded
 	fileContents += "Poll: "+poll.getName()+"\n";
 	fileContents += "--------------------------------------\n\n";
 	fileContents += "Question: "+poll.getQuestion()+"\n";
+
+	/*
+	 * For each question in the poll, it will add it to the file string to be
+	 * outputted
+	 */
 	for (int i = 0; i < choices.size(); i++){
 	    int voteCount = 0;
 	    if ( results.get(String.valueOf(i)) == null ) {
@@ -49,10 +60,16 @@ public class DownloadResultsServlet extends HttpServlet {
 	fileContents += "Total Votes: " + t;
 	
 	System.out.println(fileName);
-	
+
+	// adds to the response type the file attatchment with its content
 	response.setContentType("text/plain");
 	response.setHeader("Content-disposition", "attachment; filename=\""+fileName+"\"");
 
+	/*
+	 * Will set up an input and output stream, then take the String of prepared text
+	 * and convert it to a byte stream and feed it throug hthe buffer. the output stream
+	 * will then be fed through the response object to then be downloaded
+	 */
 	try {
 	    InputStream in = new ByteArrayInputStream(fileContents.getBytes());
 	    OutputStream out = response.getOutputStream();
@@ -64,7 +81,7 @@ public class DownloadResultsServlet extends HttpServlet {
 	    while ((bytesRead = in.read(buffer)) > 0){
 		out.write(buffer, 0, bytesRead);
 	    }
-
+	    // flushes the streams
 	    try{
 
 		out.flush();

@@ -52,7 +52,7 @@ public class PollManagerServlet extends HttpServlet {
             request.getRequestDispatcher("create_poll.jsp").forward(request, response);
         }
 
-
+	// Will change the bar's colour at the top based on status
         if (status == Status.running ) {
             this.color = "lightgreen";
         } else if (status == Status.created ) {
@@ -67,7 +67,6 @@ public class PollManagerServlet extends HttpServlet {
 
         if (status == Status.running ) {
             request.getRequestDispatcher("poll_running.jsp").forward(request, response);
-
 
         } else if (status == Status.created) {
             System.out.println(request.getParameter("status_change"));
