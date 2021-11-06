@@ -37,15 +37,16 @@
             <jsp:setProperty name='manager' property='password' />
         </jsp:useBean>
 
-        <h1 id="start" class="display-1" style="text-align: center">Welcome</h1>
 
-        <div style="border: 1px solid lightgray; border-radius: 30px; width: 30%; padding: 30px; margin-left: auto; margin-right: auto; margin-top: 100px;">
+        <div style="border: 1px solid white; width: 17%; border-radius: 30px; padding: 30px; text-align: center; margin-left: auto; margin-right: auto; margin-top: 15%">
+            <h1 class="display-2" style="text-align: center; margin-bottom: 30px">Welcome</h1>
+
             <form id='form' action='pollManager' class="input-group mb-3">
                 <% if (manager.isAuthorized()) { %>
-                <input type="submit" value="Poll Manager" />
+                <input class="btn btn-primary" type="submit" value="Poll Manager Already Logged In. Go to Poll Manager" />
                 <% } else { %>
-                <button class="btn btn-primary" type="submit">Poll Manager</button>
                 <input class="form-control"type="text" name="password" required placeholder="Password">
+                <button class="btn btn-primary" type="submit">Poll Manager</button>
                 <%--                <button type="button" class="btn btn-primary" onclick="logIn()">Poll Manager</button>--%>
                 <% } %>
             </form>
