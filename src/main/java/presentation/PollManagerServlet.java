@@ -135,7 +135,7 @@ public class PollManagerServlet extends HttpServlet {
      * @return
      */
     private boolean authorize(String userInput) {
-        String hash = "2f5daf52c54ac06a7e86b6d5659828f3";  // SOEN387 hashes to this
+        String hash = "2f5daf52c54ac06a7e86b6d5659828f3";
         String hashedInput = hash(userInput);
 
         return hash.equals(hashedInput);
