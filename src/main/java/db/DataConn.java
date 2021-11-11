@@ -11,20 +11,25 @@ import java.util.Map;
 
 
 public class DataConn{
-    Connection connection = null;
-    private static final String POLLS_TABLE = "Polls";
-    private static final String POLL_OPTIONS_TABLE = "PollOptions";
-    private static final String USER_VOTES_TABLE = "UserVotes";
+	Conn conn = null;
+	Connection connection = null;
+
+	private static final String POLLS_TABLE = "Polls";
+	private static final String POLL_OPTIONS_TABLE = "PollOptions";
+	private static final String USER_VOTES_TABLE = "UserVotes";
+
 
 
     ////////////// Connectivity ////////////////
     public DataConn(){
-	connection = Conn.getConnection();
+		conn = new Conn();
+		connection = Conn.getConnection();
     }
-    
-    public void closeConnection() throws SQLException {
-	connection.close();
-    }
+
+	public void closeConnection() throws SQLException {
+		conn.closeConnection();
+	}
+
 
 
     ////////////// Polls Table Operations ////////////////
