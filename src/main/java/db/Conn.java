@@ -23,7 +23,8 @@ public class Conn{
         //Close connection
         if(conn!=null) conn.close();
     }
-    public static getConnection() {
+
+    public static Connection getConnection() {
 	try{
             //Register JDBC driver
             Class.forName(JDBC_DRIVER);
