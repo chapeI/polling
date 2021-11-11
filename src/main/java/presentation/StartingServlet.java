@@ -13,11 +13,11 @@ import java.io.PrintWriter;
 @WebServlet()
 public class StartingServlet extends HttpServlet {
     Status status;
-    Poll poll;
+    PollManager PM;
     String color;
 
     public void init() {
-        this.poll = PollManager.getPoll();
+	PM = new PollManager();
     }
 
     /**
@@ -30,7 +30,7 @@ public class StartingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
-        this.status = PollManager.getPollStatus();
+        this.status = PM.getPollStatus();
         if (this.status == Status.running ) {
             this.color = "lightgreen";
         } else if (this.status == Status.created ) {
