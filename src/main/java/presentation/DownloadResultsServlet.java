@@ -28,22 +28,27 @@ public class DownloadResultsServlet extends HttpServlet {
 	System.out.println("Downloading ... ");
 
 	//Initializes needed variables
-	Poll poll = PollManager.getPoll();
-	HashMap<String, Integer> results = PollManager.getBallot().getResults();
-	String fileName = poll.getName() + "-" + PollManager.getReleasedTime()+".txt";
+	PollManager PM = new PollManager();
+	String pollID = request.getParameter("pollID");
+	HashMap<String, HashMap<String, String>> pollInfo = PM.getPoll(pollID);
+	HashMap<String, Integer> results = PM.pollResults(pollID);
+	String fileName = pollInfo.get(pollID).get("PollName")
+	    + "-" + PM.getReleasedTime(pollID)+".txt";
 	String fileContents = "";
-	List<Choice> choices = poll.getChoices();
+	HashMap<String, HashMap<String, String>> choices = PM.getChoices(pollID);
 	int t = 0;
 
 	//Sets up header of the file to be downloaded
-	fileContents += "Poll: "+poll.getName()+"\n";
+	fileContents += "Poll: "+pollInfo.get(pollID).get("PollName")+"\n";
 	fileContents += "--------------------------------------\n\n";
-	fileContents += "Question: "+poll.getQuestion()+"\n";
+	fileContents += "Question: "+pollInfo.get(pollID).get("Question")+"\n";
 
 	/*
 	 * For each question in the poll, it will add it to the file string to be
 	 * outputted
 	 */
+	// Need to fix after
+	/*
 	for (int i = 0; i < choices.size(); i++){
 	    int voteCount = 0;
 	    if ( results.get(String.valueOf(i)) == null ) {
@@ -57,6 +62,7 @@ public class DownloadResultsServlet extends HttpServlet {
 	    fileContents += "Description: "+choices.get(i).getDescription()+ "\n";
 	    fileContents += "Votes: "+ voteCount +"\n\n";
 	}
+	*/
 	fileContents += "Total Votes: " + t;
 	
 	System.out.println(fileName);

@@ -69,7 +69,18 @@ public class DataConn{
 	ResultSet resultSet = ps.executeQuery();
 	HashMap<String, HashMap<String, String>> result = resultSetToHashMap(resultSet);
 
-	String status = result.get(pollID).get("PollStatus");
+	
+	String statusStr = result.get(pollID).get("PollStatus");
+	Status status = null;
+	switch(statusStr){
+	case "created":{status = status.created;}break;
+	case "running":{status = status.running;}break;
+	case "released":{status = status.released;}break;
+	case "closed":{status = status.closed;}break;
+	default:
+	    status = null;
+	}
+	
 	// Close all the connections
 	ps.close();
 	return status;
@@ -314,6 +325,7 @@ public class DataConn{
 	stO.executeUpdate();
 	stO.close();
     }
+    ////////////// Joint info getters //////////////
 
     public HashMap<String, Integer> getResults (String pollId) throws SQLException {
 	ArrayList<String> options = getOptions(pollId);
@@ -337,7 +349,6 @@ public class DataConn{
 	return result;
     }
 
-    ////////////// Joint info getters //////////////
 
     public String getPollInfo() throws SQLException{
 	String createdQ = "SELECT count(status) " + POLLS_TABLE + " WHERE Status='CREATED'";
@@ -362,7 +373,62 @@ public class DataConn{
 	return response;
 	
     }
+
     
+    public String getReleasedTime(String pollID) throws SQLException{
+	String timeQuery = "SELECT ReleaseTime FROM " + POLLS_TABLE + " WHERE PollID='?'";
+	PreparedStatement timePS = connection.prepareStatement(timeQuery);
+
+	timePS.setString(1, pollID);
+	
+	String time = timePS.executeQuery().getString(1);
+
+	return time;
+	
+    }
+    
+    public String getPollName(String pollID) throws SQLException{
+	String query = "SELECT PollName FROM " + POLLS_TABLE + " WHERE PollID='?'";
+	PreparedStatement stmt = connection.prepareStatement(query);
+
+	stmt.setString(1, pollID);
+	
+	String name = stmt.executeQuery().getString(1);
+
+	return name;
+	
+    }
+
+        
+    public HashMap<String, HashMap<String, String>> getChoices(String pollID) throws SQLException{
+	String query = "SELECT O.PollOption, O.Description, COUNT(U.PinID) FROM "
+	    + POLL_OPTIONS_TABLE+ " O "+
+	    "JOIN "+USER_VOTES_TABLE+" U "+
+	    "ON O.PollID=U.PollID AND O.PollOption=U.PollOption "+
+	    "WHERE PollID='?' "+
+	    "GROUP BY O.PollOption";
+	PreparedStatement stmt = connection.prepareStatement(query);
+
+	stmt.setString(1, pollID);
+	
+	ResultSet cs = stmt.executeQuery();
+
+	HashMap<String, HashMap<String, String>> choices = new HashMap<>();
+	
+	while (cs.next()){
+	    HashMap<String, String> option  = new HashMap<>();
+	    option.put("Option",cs.getString(1));
+	    option.put("Description",cs.getString(2));
+	    option.put("Votes",cs.getString(3));
+		       
+	    choices.put(cs.getString(1),option);
+
+	}
+	
+	return choices;
+	
+    }
+
     
     ////////////// Helper methods ////////////////
     /**

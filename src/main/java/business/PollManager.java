@@ -266,6 +266,42 @@ public class PollManager{
 
     }
 
+    public String getReleasedTime(String pollId){
+	String time = "";
+	try {
+	    DataConn dataConn = new DataConn();
+	    time = dataConn.getReleasedTime(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return time;
+
+    }
+    
+    public String getPollName(String pollId){
+	String name = "";
+	try {
+	    DataConn dataConn = new DataConn();
+	    name = dataConn.getPollName(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return name;
+
+    }
+
+    public HashMap<String, HashMap<String, String>> getChoices(String pollId){
+	HashMap<String, HashMap<String, String>> choices  = null;
+	try {
+	    DataConn dataConn = new DataConn();
+	    choices = dataConn.getChoices(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return choices;
+
+    }
+
     
     
     // =========Methods to Insert Data poll data======== //
@@ -288,7 +324,7 @@ public class PollManager{
         }
     }
 
-    // =========Methods to Insert Data poll data======== //
+    // =========Methods to get Data poll data======== //
     public HashMap<String, HashMap<String, String>> getPoll(String pollId){
 	HashMap<String, HashMap<String, String>> poll = null;
 	try {
