@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import business.Status;
 
 public class DataConn{
 	Conn conn = null;
@@ -60,7 +61,7 @@ public class DataConn{
      * @return
      * @throws SQLException
      */
-    public String getPollStatusByID(String pollID) throws SQLException {
+    public Status getPollStatusByID(String pollID) throws SQLException {
 
 	String query = "SELECT PollStatus FROM "+ POLLS_TABLE +" WHERE PollID=?";
 	PreparedStatement ps = connection.prepareStatement(query);
@@ -336,6 +337,33 @@ public class DataConn{
 	return result;
     }
 
+    ////////////// Joint info getters //////////////
+
+    public String getPollInfo() throws SQLException{
+	String createdQ = "SELECT count(status) " + POLLS_TABLE + " WHERE Status='CREATED'";
+	String runningQ = "SELECT count(status) " + POLLS_TABLE + " WHERE Status='RUNNING'";
+	String releasedQ = "SELECT count(status) " + POLLS_TABLE + " WHERE Status='RELEASED'";
+	String closedQ = "SELECT count(status) " + POLLS_TABLE + " WHERE Status='CLOSED'";
+	
+	PreparedStatement createdPS = connection.prepareStatement(createdQ);
+	PreparedStatement runningPS = connection.prepareStatement(runningQ);
+	PreparedStatement releasedPS = connection.prepareStatement(releasedQ);
+	PreparedStatement closedPS = connection.prepareStatement(closedQ);
+	
+	ResultSet created = createdPS.executeQuery();
+	ResultSet running = runningPS.executeQuery();
+	ResultSet released = releasedPS.executeQuery();
+	ResultSet closed = closedPS.executeQuery();
+
+	String response = "There are "+created+" polls currently in created state.\n"+
+	    "There are "+running+" polls currently running.\n"+
+	    "There are "+released+" polls currently released.\n"+
+	    "There are "+closed+" polls currently closed.";
+	return response;
+	
+    }
+    
+    
     ////////////// Helper methods ////////////////
     /**
      * convert a ResultSet into a HashMap of polls

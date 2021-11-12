@@ -37,8 +37,8 @@
 
 
 
-
 <h1 id="start"> Start Page</h1>
+<div id="poll_status"><% request.getAttribute('PollInfo') %>request.</div>
 <form id='form' action='pollManager' >
     <%
         if (manager.isAuthorized()) {
