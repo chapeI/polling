@@ -32,7 +32,7 @@ public class StartingServlet extends HttpServlet {
         response.setContentType("text/html");
         //this.status = PM.getPollStatus();
 
-	request.setAttribute("POllInfo",PM.getPollInfo());
+	request.setAttribute("PollInfo",PM.getPollInfo());
         request.setAttribute("color", this.color);
         request.setAttribute("status", this.status);
         request.getRequestDispatcher("start.jsp").forward(request,response);
