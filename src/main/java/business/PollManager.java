@@ -12,21 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class PollManager extends VotingUser{
-    private String managerId;
-
-    public PollManager(String managerId){
-        this.managerId = managerId;
-    }
-
-    public String getManagerId() {
-        return managerId;
-    }
-
-    public void setManagerId(String pollCreator) {
-        this.managerId = pollCreator;
-    }
-
+public class PollManager{
+    String managerId = "";
     /**
      * Create a new poll when pollStatus is null, otherwise throw WrongStateException
      * @param name
@@ -168,10 +155,6 @@ public class PollManager extends VotingUser{
         }
     }
 
-    // Khoa
-    // ----------------------
-    // Alek
-
     /**
      Sets the status of the current poll to being released only if it is
      in the running state. Otherwise it will send an exception
@@ -242,6 +225,117 @@ public class PollManager extends VotingUser{
         }
         return options;
     }
+    
+
+    // =========Methods to queryback formatted poll data======== //
+    
+    public String getPollInfo() {
+	String info = "";
+	try {
+	    DataConn dataConn = new DataConn();
+	    info = dataConn.getPollInfo();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+	    info = "Error Connecting to DB.";
+        }
+	return info;
+
+    }
+
+    public Status getPollStatus(String pollId){
+	Status status = null;
+	try {
+	    DataConn dataConn = new DataConn();
+	    status = dataConn.getPollStatusByID(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return status;
+
+    }
+    
+    public HashMap<String, Integer> pollResults(String pollId){
+	HashMap<String, Integer> results  = null;
+	try {
+	    DataConn dataConn = new DataConn();
+	    results = dataConn.getResults(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return results;
+
+    }
+
+    public String getReleasedTime(String pollId){
+	String time = "";
+	try {
+	    DataConn dataConn = new DataConn();
+	    time = dataConn.getReleasedTime(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return time;
+
+    }
+    
+    public String getPollName(String pollId){
+	String name = "";
+	try {
+	    DataConn dataConn = new DataConn();
+	    name = dataConn.getPollName(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return name;
+
+    }
+
+    public HashMap<String, HashMap<String, String>> getChoices(String pollId){
+	HashMap<String, HashMap<String, String>> choices  = null;
+	try {
+	    DataConn dataConn = new DataConn();
+	    choices = dataConn.getChoices(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return choices;
+
+    }
+
+    
+    
+    // =========Methods to Insert Data poll data======== //
+    public void vote(String pollId,  String option, String userId){
+	try {
+	    DataConn dataConn = new DataConn();
+	    dataConn.insertVote(pollId, option, userId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+    
+    // =========Methods to Update poll data======== //
+    public void setPollStatus(String pollId, Status pollStatus){
+	try {
+	    DataConn dataConn = new DataConn();
+	    dataConn.updatePollStatus(pollId, pollStatus.name());
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    // =========Methods to get Data poll data======== //
+    public HashMap<String, HashMap<String, String>> getPoll(String pollId){
+	HashMap<String, HashMap<String, String>> poll = null;
+	try {
+	    DataConn dataConn = new DataConn();
+	    poll = dataConn.getPollByID(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return poll;
+    }
 
 
+    
 }

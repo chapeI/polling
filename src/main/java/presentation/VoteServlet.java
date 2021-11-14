@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 public class VoteServlet extends HttpServlet {
 
     Status status;
-    Poll poll;
+    PollManager PM;
     String color;
 
     public void init() {
@@ -31,9 +31,10 @@ public class VoteServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
+	String pollID = request.getParameter("pollID");
+	
+        this.status = PM.getPollStatus(pollID);
 
-        this.status = PollManager.getPollStatus();
-        this.poll = PollManager.getPoll();
         if (this.status == Status.running ) {
             this.color = "lightgreen";
         } else if (this.status == Status.created ) {
@@ -47,7 +48,8 @@ public class VoteServlet extends HttpServlet {
         out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
 
         if (this.status == Status.running ) {
-            request.setAttribute("poll", poll);
+	    
+            request.setAttribute("poll", pollID);
             request.getRequestDispatcher("poll_voting.jsp").forward(request, response);
 
             out.println("<html><body>");

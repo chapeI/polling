@@ -111,7 +111,7 @@ public class VotingUser {
         String statusString = "";
         try {
             DataConn dataConn = new DataConn();
-            statusString = dataConn.getPollStatusByID(pollId);
+            statusString = dataConn.getPollStatusByID(pollId).name();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

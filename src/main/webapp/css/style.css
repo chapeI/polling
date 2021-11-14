@@ -21,3 +21,8 @@
 i {
     color: darkgreen;
 }
+
+#pollstatus {
+    float: right;
+
+}

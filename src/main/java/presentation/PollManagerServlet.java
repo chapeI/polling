@@ -13,11 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class PollManagerServlet extends HttpServlet {
-    Poll poll;
+    PollManager PM;
     String color;
 
     public void init() {
         System.out.println("PollManagerServlet init()");
+	this.PM = new PollManager();
     }
 
     /**
@@ -33,38 +34,27 @@ public class PollManagerServlet extends HttpServlet {
         response.setContentType("text/html");
 
         System.out.println("PollManager doGet()");
-        poll = PollManager.getPoll();
-        Status status = PollManager.getPollStatus();
+	//poll = PM.getPoll();
+        //Status status = PM.getPollStatus();
 
 
         // at the beginning, when no poll is created
-        if (poll==null) {
-            if (request.getParameter("password") != null){
-                if (authorize(request.getParameter("password"))) {
-                    Manager manager = (Manager) request.getSession().getAttribute("manager");
-                    manager.setAuthorized(true);
-                }
-                else {
-                    request.setAttribute("loginError", "Incorrect Password");
-                    request.getRequestDispatcher("start.jsp").forward(request,response);
-                }
-            }
-            request.getRequestDispatcher("create_poll.jsp").forward(request, response);
-        }
+        /*if (poll==null) {
+	  if (request.getParameter("password") != null){
+	  if (authorize(request.getParameter("password"))) {
+	  Manager manager = (Manager) request.getSession().getAttribute("manager");
+	  manager.setAuthorized(true);
+	  }
+	  else {
+	  request.setAttribute("loginError", "Incorrect Password");
+	  request.getRequestDispatcher("start.jsp").forward(request,response);
+	  }
+	  }
+	  request.getRequestDispatcher("create_poll.jsp").forward(request, response);
+	  }*/
 
-	// Will change the bar's colour at the top based on status
-        if (status == Status.running ) {
-            this.color = "lightgreen";
-        } else if (status == Status.created ) {
-            this.color = "yellow";
-        } else if (status == Status.released ) {
-            this.color = "red";
-        } else {
-            this.color = "lightgrey";
-        }
-
-        out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
-
+        //out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
+	/*
         if (status == Status.running ) {
             request.getRequestDispatcher("poll_running.jsp").forward(request, response);
 
@@ -84,6 +74,7 @@ public class PollManagerServlet extends HttpServlet {
         } else if (status == Status.released ) {
             request.getRequestDispatcher("poll_released.jsp").forward(request, response);
         }
+	*/
     }
 
     /**
@@ -104,21 +95,22 @@ public class PollManagerServlet extends HttpServlet {
             String name = request.getParameter("name");
             String question = request.getParameter("question");
             String updateChoice = request.getParameter("update_choice");
-
+	    String pollID = request.getParameter("pollID");
+	    
             if (request.getParameter("submit").equalsIgnoreCase("create")){
-                PollManager.createPoll(name, question, choices, descriptions);
+                PM.createPoll(name, question, choices, descriptions);
             }
             else if (request.getParameter("submit").equalsIgnoreCase("update")) {
                 if (updateChoice == null){
-                    PollManager.updatePoll(name, question, null, null, false);
+                    PM.updatePoll(pollID, name, question, null, null, false);
                 }
                 else if (request.getParameter("update_choice").equalsIgnoreCase("AddMoreChoices")){
                     // add more choices here
-                    PollManager.updatePoll(name, question, choices, descriptions, false);
+                    PM.updatePoll(pollID, name, question, choices, descriptions, false);
                 }
                 else if (request.getParameter("update_choice").equalsIgnoreCase("ReplaceChoices")) {
                     // replace choices here
-                    PollManager.updatePoll(name, question, choices, descriptions, true);
+                    PM.updatePoll(pollID, name, question, choices, descriptions, true);
                 }
             }
         } catch (WrongStateException e) {

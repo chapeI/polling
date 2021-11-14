@@ -17,14 +17,16 @@ public class Conn{
     static final String DB_PASSWORD = "";
 
     static Connection conn = null;    
-
     
+
     public static void closeConnection() throws SQLException{
         //Close connection
         if(conn!=null) conn.close();
     }
 
     public static Connection getConnection() {
+	if (conn != null)
+	    return conn;
 	try{
             //Register JDBC driver
             Class.forName(JDBC_DRIVER);
