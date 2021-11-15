@@ -376,24 +376,29 @@ public class DataConn{
 
     
     public String getReleasedTime(String pollID) throws SQLException{
-	String timeQuery = "SELECT ReleaseTime FROM " + POLLS_TABLE + " WHERE PollID='?'";
+	String timeQuery = "SELECT ReleaseTime FROM " + POLLS_TABLE + " WHERE PollID=?";
 	PreparedStatement timePS = connection.prepareStatement(timeQuery);
 
 	timePS.setString(1, pollID);
-	
-	String time = timePS.executeQuery().getString(1);
+
+	ResultSet rs = timePS.executeQuery();
+	rs.next();
+	String time = rs.getString(1);
 
 	return time;
 	
     }
     
     public String getPollName(String pollID) throws SQLException{
-	String query = "SELECT PollName FROM " + POLLS_TABLE + " WHERE PollID='?'";
+	String query = "SELECT PollName FROM " + POLLS_TABLE + " WHERE PollID=?";
 	PreparedStatement stmt = connection.prepareStatement(query);
 
 	stmt.setString(1, pollID);
-	
-	String name = stmt.executeQuery().getString(1);
+
+	ResultSet rs = stmt.executeQuery();
+	rs.next();
+
+	String name = rs.getString(1);
 
 	return name;
 	
@@ -405,7 +410,7 @@ public class DataConn{
 	    + POLL_OPTIONS_TABLE+ " O "+
 	    "JOIN "+USER_VOTES_TABLE+" U "+
 	    "ON O.PollID=U.PollID AND O.PollOption=U.PollOption "+
-	    "WHERE PollID='?' "+
+	    "WHERE O.PollID=? "+
 	    "GROUP BY O.PollOption";
 	PreparedStatement stmt = connection.prepareStatement(query);
 
