@@ -1,13 +1,7 @@
 package db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.sql.*;
+import java.util.*;
 
 import business.Status;
 
@@ -105,6 +99,18 @@ public class DataConn{
 	ps.close();
 	return result;
     }
+
+//	public HashMap<String, HashMap<String, String>> getActivePollNameAndID() throws SQLException {
+//
+//		String query = "SELECT PollID, PollName FROM "+ POLLS_TABLE +" WHERE PollID=?";
+//		PreparedStatement ps = connection.prepareStatement(query);
+//		ps.setString(1, pollID);
+//		ResultSet resultSet = ps.executeQuery();
+//		HashMap<String, HashMap<String, String>> result = resultSetToHashMap(resultSet);
+//		// Close all the connections
+//		ps.close();
+//		return result;
+//	}
 
     /**
      * insert into Poll Table a new row
@@ -213,6 +219,7 @@ public class DataConn{
 	// Close all the connections
 	ps.close();
     }
+
 
 
     ////////////// PollOptions Table Operations ////////////////
@@ -448,21 +455,15 @@ public class DataConn{
 	// each value is a HashMap that contains (PollName, Question, ManagerPinID, PollStatus, ReleaseTime)
 
 	HashMap<String, HashMap<String, String>> result = new HashMap<>();
+	ResultSetMetaData rsmd = resultSet.getMetaData();
+	int columnCount = rsmd.getColumnCount();
 
 	while (resultSet.next()) {
-	    int i = 2;
 	    HashMap<String, String> pollMap = new HashMap<>();
-	    pollMap.put("PollName","");
-	    pollMap.put("Question","");
-	    pollMap.put("ManagerPinID","");
-	    pollMap.put("PollStatus","");
-	    pollMap.put("ReleaseTime","");
 
-	    for (Map.Entry<String, String> e : pollMap.entrySet()) {
-		String temp = resultSet.getString(i);
-		e.setValue(temp);
-		i++;
-	    }
+		for (int j = 2; j <= columnCount; j++ ) {
+			pollMap.put(rsmd.getColumnName(j), resultSet.getString(j));
+		}
 
 	    result.put(resultSet.getString(1), pollMap);
 	}
