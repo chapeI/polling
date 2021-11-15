@@ -23,11 +23,23 @@ public class VotingUser {
         this.poll = poll;
     }
 
-    public HashMap<String, HashMap<String, String>> retrievePollById(String pollId) {
+    public HashMap<String, HashMap<String, String>> getPoll(String pollId) {
         HashMap<String, HashMap<String, String>> poll = new HashMap<>();
         try {
             DataConn dataConn = new DataConn();
             poll = dataConn.getPollByID(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return poll;
+    }
+
+    public HashMap<String, HashMap<String, String>> getActivePolls() {
+        HashMap<String, HashMap<String, String>> poll = new HashMap<>();
+        try {
+            DataConn dataConn = new DataConn();
+            poll = dataConn.getActivePollNameAndID();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

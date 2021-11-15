@@ -12,8 +12,16 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class PollManager{
+public class PollManager extends VotingUser{
     String managerId = "";
+
+    public PollManager() {
+    }
+
+    public PollManager(String managerId) {
+        this.managerId = managerId;
+    }
+
     /**
      * Create a new poll when pollStatus is null, otherwise throw WrongStateException
      * @param name
@@ -200,7 +208,7 @@ public class PollManager{
         }
     }
 
-    public HashMap<String, HashMap<String, String>> getListOfPolls(){
+    public HashMap<String, HashMap<String, String>> getListOfPollsCreatedBySelf(){
         HashMap<String, HashMap<String, String>> polls = new HashMap<>();
         try {
             DataConn dataConn = new DataConn();
@@ -210,6 +218,7 @@ public class PollManager{
         }
         return polls;
     }
+
 
     private String generatePollId() {
         Generex generex = new Generex("[A-HJ-KM-NO-TV-Z0-9]{10}");
@@ -231,13 +240,13 @@ public class PollManager{
     
     public String getPollInfo() {
 	String info = "";
-	try {
-	    DataConn dataConn = new DataConn();
-	    info = dataConn.getPollInfo();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-	    info = "Error Connecting to DB.";
-        }
+//	try {
+//	    DataConn dataConn = new DataConn();
+//	    info = dataConn.getPollInfo();
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//	    info = "Error Connecting to DB.";
+//        }
 	return info;
 
     }
@@ -301,18 +310,6 @@ public class PollManager{
 	return choices;
 
     }
-
-    
-    
-    // =========Methods to Insert Data poll data======== //
-    public void vote(String pollId,  String option, String userId){
-	try {
-	    DataConn dataConn = new DataConn();
-	    dataConn.insertVote(pollId, option, userId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-    }
     
     // =========Methods to Update poll data======== //
     public void setPollStatus(String pollId, Status pollStatus){
@@ -324,18 +321,4 @@ public class PollManager{
         }
     }
 
-    // =========Methods to get Data poll data======== //
-    public HashMap<String, HashMap<String, String>> getPoll(String pollId){
-	HashMap<String, HashMap<String, String>> poll = null;
-	try {
-	    DataConn dataConn = new DataConn();
-	    poll = dataConn.getPollByID(pollId);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-	return poll;
-    }
-
-
-    
 }

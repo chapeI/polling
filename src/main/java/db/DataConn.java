@@ -100,17 +100,16 @@ public class DataConn{
 	return result;
     }
 
-//	public HashMap<String, HashMap<String, String>> getActivePollNameAndID() throws SQLException {
-//
-//		String query = "SELECT PollID, PollName FROM "+ POLLS_TABLE +" WHERE PollID=?";
-//		PreparedStatement ps = connection.prepareStatement(query);
-//		ps.setString(1, pollID);
-//		ResultSet resultSet = ps.executeQuery();
-//		HashMap<String, HashMap<String, String>> result = resultSetToHashMap(resultSet);
-//		// Close all the connections
-//		ps.close();
-//		return result;
-//	}
+	public HashMap<String, HashMap<String, String>> getActivePollNameAndID() throws SQLException {
+
+		String query = "SELECT PollID, PollName FROM "+ POLLS_TABLE +" WHERE PollStatus='RUNNING'";
+		PreparedStatement ps = connection.prepareStatement(query);
+		ResultSet resultSet = ps.executeQuery();
+		HashMap<String, HashMap<String, String>> result = resultSetToHashMap(resultSet);
+		// Close all the connections
+		ps.close();
+		return result;
+	}
 
     /**
      * insert into Poll Table a new row
