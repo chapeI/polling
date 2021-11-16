@@ -57,7 +57,7 @@ public class DataConn{
      */
     public Status getPollStatusByID(String pollID) throws SQLException {
 
-	String query = "SELECT PollStatus FROM "+ POLLS_TABLE +" WHERE PollID=?";
+	String query = "SELECT * FROM "+ POLLS_TABLE +" WHERE PollID=?";
 	PreparedStatement ps = connection.prepareStatement(query);
 	ps.setString(1, pollID);
 	ResultSet resultSet = ps.executeQuery();
@@ -67,10 +67,10 @@ public class DataConn{
 	String statusStr = result.get(pollID).get("PollStatus");
 	Status status = null;
 	switch(statusStr){
-	case "created":{status = status.created;}break;
-	case "running":{status = status.running;}break;
-	case "released":{status = status.released;}break;
-	case "closed":{status = status.closed;}break;
+	case "CREATED":{status = status.created;}break;
+	case "RUNNING":{status = status.running;}break;
+	case "RELEASED":{status = status.released;}break;
+	case "CLOSED":{status = status.closed;}break;
 	default:
 	    status = null;
 	}
