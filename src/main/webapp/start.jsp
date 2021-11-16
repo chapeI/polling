@@ -38,19 +38,19 @@
 
 
 <h1 id="start"> Start Page</h1>
-<div id="poll_status"><% request.getParameter("PollInfo"); %>request.</div>
-<form id='form' action='pollManager' >
-    <%
-        if (manager.isAuthorized()) {
-    %>
-    <input type="submit" value="Poll Manager" />
-    <%
-    } else {
-    %>
-    <button type="button" onclick="logIn()">Poll Manager</button>
-    <%
-        }
-    %>
+<div id="poll_status"><% request.getParameter("PollInfo"); %></div>
+<form id='form' action='login' >
+<%--    <%--%>
+<%--        if (manager.isAuthorized()) {--%>
+<%--    %>--%>
+    <input type="submit" name="submit" value="Poll Manager" />
+<%--    <%--%>
+<%--    } else {--%>
+<%--    %>--%>
+<%--    <button type="button" onclick="logIn()">Poll Manager</button>--%>
+<%--    <%--%>
+<%--        }--%>
+<%--    %>--%>
 </form>
 <%
     if (request.getAttribute("loginError") != null) {

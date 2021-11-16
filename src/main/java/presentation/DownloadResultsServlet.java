@@ -10,6 +10,7 @@ import java.io.*;
 
 import business.Choice;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class DownloadResultsServlet extends HttpServlet {
 	String fileName = pollInfo.get(pollID).get("PollName")
 	    + "-" + PM.getReleasedTime(pollID)+".txt";
 	String fileContents = "";
-	HashMap<String, HashMap<String, String>> choices = PM.getChoices(pollID);
+	ArrayList<HashMap<String, String>> choices = PM.getChoices(pollID);
 	int t = 0;
 
 	//Sets up header of the file to be downloaded

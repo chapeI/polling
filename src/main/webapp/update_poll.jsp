@@ -47,6 +47,16 @@
     </div>
     <button type="button" onclick="addMoreChoices()">Add choice</button>
     <input type="submit" name= "submit" value="Update">
+    <%
+        Cookie[] cookies = request.getCookies();
+        String pollID = "";
+        if(cookies != null){
+            for(Cookie cookie : cookies){
+                if(cookie.getName().equals("pollID")) pollID = cookie.getValue();
+            }
+        }
+    %>
+    <input type="hidden" name="pollID" value="<%=pollID%>">
 </form>
 
 <form action="state_manager" method="GET" >

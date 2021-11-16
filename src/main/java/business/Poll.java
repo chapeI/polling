@@ -1,7 +1,10 @@
 package business;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Poll {
@@ -11,8 +14,8 @@ public class Poll {
     private String id;
     private Status status;
     private Ballot ballot = null;
-    private LocalDateTime createTime;
-    private LocalDateTime releasedTime;
+    private LocalDate createTime;
+    private LocalDate releasedTime;
 
     public Poll() {
     }
@@ -24,12 +27,40 @@ public class Poll {
         this.name = name;
         this.question = question;
         this.status = status;
-        this.createTime = LocalDateTime.now();
+        this.createTime = LocalDate.now();
         choices = new ArrayList<>();
         for (int i =0; i<choicesList.size(); i++){
             choices.add(new Choice(choicesList.get(i), descriptionsList.get(i)));
         }
     }
+
+    public Poll(String pollID, HashMap<String, HashMap<String,String>> pollMap, ArrayList<HashMap<String, String>> choices) {
+        id = pollID;
+        HashMap<String, String> pollData = pollMap.get(pollID);
+
+        name = pollData.get("PollName");
+        question = pollData.get("Question");
+        switch(pollData.get("PollStatus")){
+            case "CREATED":{status = status.created;}break;
+            case "RUNNING":{status = status.running;}break;
+            case "RELEASED":{status = status.released;}break;
+            case "CLOSED":{status = status.closed;}break;
+            default:
+                status = null;
+        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        if (pollData.get("ReleaseTime")!= null)
+            releasedTime = LocalDate.parse(pollData.get("ReleaseTime"), formatter);
+        if (pollData.get("CreateTime")!= null && !pollData.get("CreateTime").equalsIgnoreCase("0000-00-00"))
+            createTime = LocalDate.parse(pollData.get("CreateTime"), formatter);
+        this.choices = new ArrayList<>();
+        for (HashMap<String, String> choice : choices) {
+            Choice c = new Choice(choice.get("Option"), choice.get("Description"));
+            this.choices.add(c);
+        }
+    }
+
     /**
      * @return name
      */
@@ -77,11 +108,11 @@ public class Poll {
         this.ballot = ballot;
     }
 
-    public LocalDateTime getReleasedTime() {
+    public LocalDate getReleasedTime() {
         return releasedTime;
     }
 
-    public void setReleasedTime(LocalDateTime releasedTime) {
+    public void setReleasedTime(LocalDate releasedTime) {
         this.releasedTime = releasedTime;
     }
 

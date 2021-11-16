@@ -37,9 +37,17 @@ public class StateManagerServlet extends HttpServlet {
 	    PM.vote(pollID, choice, participant);
 		request.getRequestDispatcher("voted.jsp").forward(request, response);
 	}
+		String pollID = "";
+		// retrieve pollID from cookie
+		Cookie[] cookies = request.getCookies();
+		if(cookies != null){
+			for(Cookie cookie : cookies){
+				if(cookie.getName().equals("pollID")) pollID = cookie.getValue();
+			}
+		}
+
 	if (status_change != null){
 	    try {
-		String pollID = request.getParameter("pollID");
 		if(status_change.equals("RUNNING")) {
 		    PM.runPoll(pollID);
 		}
@@ -89,8 +97,8 @@ public class StateManagerServlet extends HttpServlet {
 	    } catch (WrongStateException e) {
 		System.out.println(e.getMessage());
 	      
-	    } 
-	    
+	    }
+		request.setAttribute("pollID",pollID);
 	    request.setAttribute("status_change", status_change);
 	}
 	request.getRequestDispatcher("pollManager").forward(request, response);
