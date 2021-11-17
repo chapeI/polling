@@ -28,7 +28,7 @@
 <br><br>
 
 <input id="blue" type="radio" name="status_change" value="CLOSE" />
-<label for="blue">Close (RELEASED->NULL)</label>
+<label for="blue">Close (Archive poll info)</label>
 
 <br><br>
 

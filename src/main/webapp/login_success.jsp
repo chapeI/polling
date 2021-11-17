@@ -9,17 +9,13 @@
 <html>
 <head>
     <title>LogIn Success</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-<h1>LOGIN SUCCESS</h1>
+<h1>Poll System 2.0</h1>
 <%
-    Cookie[] cookies = request.getCookies();
-    String userID = "";
-    if(cookies != null){
-        for(Cookie cookie : cookies){
-            if(cookie.getName().equals("username")) userID = cookie.getValue();
-        }
-    }
+    String userID = (String) session.getAttribute("username");
 %>
 <p>User ID: <%=userID%></p>
 

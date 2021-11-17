@@ -37,14 +37,8 @@ public class StateManagerServlet extends HttpServlet {
 	    PM.vote(pollID, choice, participant);
 		request.getRequestDispatcher("voted.jsp").forward(request, response);
 	}
-		String pollID = "";
-		// retrieve pollID from cookie
-		Cookie[] cookies = request.getCookies();
-		if(cookies != null){
-			for(Cookie cookie : cookies){
-				if(cookie.getName().equals("pollID")) pollID = cookie.getValue();
-			}
-		}
+		// get pollID from session
+		String pollID = (String)request.getSession().getAttribute("pollID");
 
 	if (status_change != null){
 	    try {
@@ -85,14 +79,19 @@ public class StateManagerServlet extends HttpServlet {
 		}
 		else if(status_change.equals("CLOSE")) {
 		    PM.closePoll(pollID);
-		    request.setAttribute("status_change", status_change);
-		    request.getRequestDispatcher("/").forward(request, response);
+			String userID = (String) request.getSession().getAttribute("username");
+
+			HashMap<String, HashMap<String, String>> listOfPolls = PM.getListOfPollsCreatedBySelf(userID);
+			request.setAttribute("listOfPolls", listOfPolls);
+			request.getRequestDispatcher("manager_view_polls.jsp").forward(request,response);
+			return;
 		}
 		else if(status_change.equals("DOWNLOAD")) {
 		    request.setAttribute("pollID",pollID);
 		    request.getRequestDispatcher("/download_results").forward(request, response);
 		}else if(status_change.equals("HOME")) {
-		    request.getRequestDispatcher("/").forward(request, response);
+		    request.getRequestDispatcher("login_success.jsp").forward(request, response);
+			return;
 		}
 	    } catch (WrongStateException e) {
 		System.out.println(e.getMessage());

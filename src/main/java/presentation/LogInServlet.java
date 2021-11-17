@@ -35,16 +35,18 @@ public class LogInServlet extends HttpServlet {
                 request.getRequestDispatcher("login.jsp").forward(request,response);
                 break;
             case "View Polls":
-                Cookie[] cookies = request.getCookies();
-                String userID = "";
-                if(cookies != null){
-                    for(Cookie cookie : cookies){
-                        if(cookie.getName().equals("username")) userID = cookie.getValue();
-                    }
-                }
+                String userID = (String) request.getSession().getAttribute("username");
+
                 HashMap<String, HashMap<String, String>> listOfPolls = PM.getListOfPollsCreatedBySelf(userID);
                 request.setAttribute("listOfPolls", listOfPolls);
                 request.getRequestDispatcher("manager_view_polls.jsp").forward(request,response);
+                break;
+            case "Vote":
+                // link to vote flow from Anthony
+                break;
+            case "Log out":
+                request.getSession().invalidate();
+                request.getRequestDispatcher("/").forward(request,response);
                 break;
         }
     }
@@ -65,15 +67,13 @@ public class LogInServlet extends HttpServlet {
             //generate a new session
             HttpSession newSession = request.getSession(true);
 
-            Cookie message = new Cookie("username", username);
-            response.addCookie(message);
+            // save userID in session
+            newSession.setAttribute("username", username);
             response.sendRedirect("login_success.jsp");
         } else {
             // TODO: handle if wrong pw
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/loginPage.html");
-            PrintWriter out = response.getWriter();
-            out.println("<font color=red>Either username or password is wrong.</font>");
-            rd.include(request, response);
+            request.setAttribute("loginError", "Incorrect password");
+            request.getRequestDispatcher("login.jsp").forward(request,response);
         }
     }
 

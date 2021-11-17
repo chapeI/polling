@@ -38,22 +38,35 @@ public class PollManagerServlet extends HttpServlet {
                 // create new poll here
                 request.getRequestDispatcher("create_poll.jsp").forward(request, response);
             }
+            else if (submitType.equalsIgnoreCase("Confirm Deletion")){
+                // delete poll
+                String pollID = request.getParameter("pollID");
+                PM.deletePoll(pollID);
+                HashMap<String, HashMap<String, String>> listOfPolls = PM.getListOfPollsCreatedBySelf((String)request.getSession().getAttribute("username"));
+                request.setAttribute("listOfPolls", listOfPolls);
+                request.getRequestDispatcher("manager_view_polls.jsp").forward(request, response);
+            }
+            else if (submitType.equalsIgnoreCase("View")){
+                // view closed poll
+                String pollID = request.getParameter("pollID");
+                HashMap<String, Integer> results = PM.pollResults(pollID);
+                request.setAttribute("results", results);
+                request.getRequestDispatcher("view_closed_poll.jsp").forward(request, response);
+            }
         }
 
 
         // manage poll here
-        String pollID = "";
+        String pollID = (String)request.getSession().getAttribute("pollID");
+
+        // do this because when coming from manager_view_polls.jsp
+        // we know which pollID the user selects
+        // (inside manager_view_polls.jsp, I set a hidden parameter called "pollID" that holds the pollID that the user selected)
         if (request.getParameter("pollID") != null) {
             pollID = request.getParameter("pollID");
-        } else {
-            pollID = "";
-            // retrieve pollID from cookie
-            Cookie[] cookies = request.getCookies();
-            if(cookies != null){
-                for(Cookie cookie : cookies){
-                    if(cookie.getName().equals("pollID")) pollID = cookie.getValue();
-                }
-            }
+
+            // replace the current pollID in session
+            request.getSession().setAttribute("pollID", pollID);
         }
 
         HashMap<String, HashMap<String,String>> pollMap = PM.getPoll(pollID);
@@ -62,12 +75,6 @@ public class PollManagerServlet extends HttpServlet {
         Status status = poll.getPollStatus();
         request.setAttribute("poll", poll);
         request.setAttribute("choiceSize", poll.getChoices().size());
-
-        // attach pollID as cookie to request
-        // not sure how to keep the pollID saved in the request when coming back - this is the only way
-        // i can think of for now
-        Cookie message = new Cookie("pollID", pollID);
-        response.addCookie(message);
 
         if (status == Status.running) {
             request.getRequestDispatcher("poll_running.jsp").forward(request, response);
@@ -94,27 +101,6 @@ public class PollManagerServlet extends HttpServlet {
         response.setContentType("text/html");
 
         System.out.println("PollManager doGet()");
-        //poll = PM.getPoll();
-        //Status status = PM.getPollStatus();
-
-
-        // at the beginning, when no poll is created
-//        if (poll == null) {
-//            if (request.getParameter("password") != null) {
-//                if (authorize(request.getParameter("password"))) {
-//                    Manager manager = (Manager) request.getSession().getAttribute("manager");
-//                    manager.setAuthorized(true);
-//                } else {
-//                    request.setAttribute("loginError", "Incorrect Password");
-//                    request.getRequestDispatcher("start.jsp").forward(request, response);
-//                }
-//            }
-//            request.getRequestDispatcher("create_poll.jsp").forward(request, response);
-//        }
-
-        //out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
-
-
 
     }
 
@@ -138,22 +124,14 @@ public class PollManagerServlet extends HttpServlet {
             String updateChoice = request.getParameter("update_choice");
 	        String pollID = request.getParameter("pollID");
 
-            // retrieve userID (managerID)
-            Cookie[] cookies = request.getCookies();
-            String userID = "";
-            if(cookies != null){
-                for(Cookie cookie : cookies){
-                    if(cookie.getName().equals("username")) userID = cookie.getValue();
-                }
-            }
+            // get userID from session
+            String userID = (String) request.getSession().getAttribute("username");
 
 
             if (request.getParameter("submit").equalsIgnoreCase("create")){
                 String newPollID = PM.createPoll(userID, name, question, choices, descriptions);
 
-                // replace the pollID in cookie
-                Cookie message = new Cookie("pollID", newPollID);
-                response.addCookie(message);
+                request.getSession().setAttribute("pollID", newPollID);
             }
             else if (request.getParameter("submit").equalsIgnoreCase("update")) {
                 if (updateChoice == null){

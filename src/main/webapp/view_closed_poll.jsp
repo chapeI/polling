@@ -16,36 +16,15 @@
 <h1 id="released">Poll Manager</h1>
 
 <form action="state_manager" method="GET">
-
-<input id="red" type="radio" name="status_change" value="RELEASED_CLEAR" />
-<label for="red">Clear (RELEASED->CREATED)</label>
-
-<br><br>
-
-<input id="blue" type="radio" name="status_change" value="UNRELEASE" />
-<label for="blue">Unrelease (RELEASED->RUNNING)</label>
-
-<br><br>
-
-<input id="blue" type="radio" name="status_change" value="CLOSE" />
-<label for="blue">Close (Archive poll info)</label>
-
-<br><br>
-
-<input id="blue" type="radio" name="status_change" value="VIEW" />
-<label for="blue">View Results</label>
-
-<br><br>
-
-<input id="blue" type="radio" name="status_change" value="DOWNLOAD" />
-<label for="blue">Download Results</label>
-<br><br>
-<input type="submit">
+    <input id="blue" type="radio" name="status_change" value="DOWNLOAD" />
+    <label for="blue">Download Results</label>
+    <br><br>
+    <input type="submit">
 </form>
 
 <br><br><br>
 
-<% if (request.getParameter("status_change") != null && request.getParameter("status_change").equalsIgnoreCase("view") ) { %>
+<% if (true) { %>
 <h1 id="released">Here are the results</h1>
 <%
     HashMap<String, Integer> results = (HashMap<String, Integer>) request.getAttribute("results");
@@ -56,9 +35,9 @@
 &emsp; <i><b>  Count: </b></i> <%= entry.getValue()%><br>
 <%}
 }
-    else {
-        out.println("No one has voted yet");
-    }
+else {
+    out.println("No one has voted yet");
+}
 
 
 }%>
