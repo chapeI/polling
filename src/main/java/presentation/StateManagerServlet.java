@@ -92,6 +92,9 @@ public class StateManagerServlet extends HttpServlet {
 		}else if(status_change.equals("HOME")) {
 		    request.getRequestDispatcher("login_success.jsp").forward(request, response);
 			return;
+		}else if(status_change.equals("HOME_PARTICIPANT")) {
+			request.getRequestDispatcher("/").forward(request, response);
+			return;
 		}
 	    } catch (WrongStateException e) {
 		System.out.println(e.getMessage());

@@ -1,17 +1,19 @@
 package presentation;
 
 import business.PollManager;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,7 +44,7 @@ public class LogInServlet extends HttpServlet {
                 request.getRequestDispatcher("manager_view_polls.jsp").forward(request,response);
                 break;
             case "Vote":
-                // link to vote flow from Anthony
+                response.sendRedirect(request.getContextPath() + "/polls");
                 break;
             case "Log out":
                 request.getSession().invalidate();
@@ -58,7 +60,7 @@ public class LogInServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (authorize(password)) {
+        if (authorize(username,password)) {
             //get the old session and invalidate
             HttpSession oldSession = request.getSession(false);
             if (oldSession != null) {
@@ -79,18 +81,38 @@ public class LogInServlet extends HttpServlet {
 
     /**
      * authorize manager
-     * @param userInput
+     * @param inputUsername
+     * @param inputPassword
      * @return
      */
-    private boolean authorize(String userInput) {
-        String hash = "2f5daf52c54ac06a7e86b6d5659828f3";
-        String hashedInput = hash(userInput);
+    private boolean authorize(String inputUsername, String inputPassword) {
+        JSONParser parser = new JSONParser();
+        String path = this.getServletContext().getRealPath("/WEB-INF/users.json");
+        try {
+            JSONArray a = (JSONArray) parser.parse(new FileReader(path));
 
-        return hash.equals(hashedInput);
+            for (Object o : a)
+            {
+                JSONObject person = (JSONObject) o;
+
+                String name = (String) person.get("userid");
+                String password = (String) person.get("password");
+
+                if (inputUsername.equals(name) && hash(inputPassword).equals(password))
+                    return true;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
-     * hash function to hash password
+     * hash function to hash password MD5
      * @param toHash
      * @return
      */

@@ -72,6 +72,10 @@ public class Poll {
 
     }
 
+    public String getId() {
+        return id;
+    }
+
     /**
      * @return name
      */

@@ -100,9 +100,9 @@ public class DataConn{
 	return result;
     }
 
-	public HashMap<String, HashMap<String, String>> getActivePollNameAndID() throws SQLException {
+	public HashMap<String, HashMap<String, String>> getActivePolls() throws SQLException {
 
-		String query = "SELECT PollID, PollName FROM "+ POLLS_TABLE +" WHERE PollStatus='RUNNING'";
+		String query = "SELECT * FROM "+ POLLS_TABLE +" WHERE PollStatus='RUNNING' OR PollStatus='RELEASED' ";
 		PreparedStatement ps = connection.prepareStatement(query);
 		ResultSet resultSet = ps.executeQuery();
 		HashMap<String, HashMap<String, String>> result = resultSetToHashMap(resultSet);

@@ -42,7 +42,7 @@
 <form id='form' action='login' >
     <input type="submit" name="submit" value="Poll Manager" />
 </form>
-<form action='vote' >
+<form action='polls' >
     <input type='submit' value='Participant' />
 </form>
 
