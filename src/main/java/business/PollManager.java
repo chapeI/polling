@@ -252,6 +252,18 @@ public class PollManager extends VotingUser{
 
     }
 
+        
+    public HashMap<String, HashMap<String, String>> getPoll(String pollId){
+	HashMap<String, HashMap<String, String>> results  = null;
+	try {
+	    DataConn dataConn = new DataConn();
+	    results = dataConn.getPollByID(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return results;
+    }
+    
     public Status getPollStatus(String pollId){
 	Status status = null;
 	try {
@@ -275,7 +287,7 @@ public class PollManager extends VotingUser{
 	return results;
 
     }
-
+    
     public String getReleasedTime(String pollId){
 	String time = "";
 	try {

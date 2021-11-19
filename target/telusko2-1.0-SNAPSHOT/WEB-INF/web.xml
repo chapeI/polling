@@ -71,4 +71,13 @@
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Polls</servlet-name>
+        <servlet-class>presentation.PollServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Polls</servlet-name>
+        <url-pattern>/polls</url-pattern>
+    </servlet-mapping>
+
 </web-app>

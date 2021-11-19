@@ -87,7 +87,8 @@ public class StateManagerServlet extends HttpServlet {
 			return;
 		}
 		else if(status_change.equals("DOWNLOAD")) {
-		    request.setAttribute("pollID",pollID);
+		    request.setAttribute("pollID", pollID);
+
 		    request.getRequestDispatcher("/download_results").forward(request, response);
 		}else if(status_change.equals("HOME")) {
 		    request.getRequestDispatcher("login_success.jsp").forward(request, response);

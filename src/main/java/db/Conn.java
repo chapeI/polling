@@ -23,8 +23,8 @@ public class Conn {
     static Connection conn = null;
 
     public Conn() {
+	System.out.println(jdbcDriver);
         getConnectionInfo();
-        System.out.println(jdbcDriver);
     }
 
     public static void closeConnection() throws SQLException {
@@ -50,8 +50,8 @@ public class Conn {
     }
 
     private void getConnectionInfo() {
-        try (InputStream input = Conn.class.getResourceAsStream("config.properties")) {
-
+        try (InputStream input = Conn.class.getResourceAsStream("/WEB-INF/config.properties")){
+	    
             Properties prop = new Properties();
 
             // load a properties file
