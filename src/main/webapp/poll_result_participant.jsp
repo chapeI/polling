@@ -28,6 +28,11 @@ else {
     }%>
 
 <form action="state_manager" method="GET" >
+    <select name="file_format">
+        <option value="txt">txt</option>
+        <option value="xml">xml</option>
+        <option value="json">json</option>
+    </select>
     <button type="submit" value="DOWNLOAD" name="status_change" >Download</button>
     <button id="home" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
 </form>
