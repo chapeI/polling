@@ -100,9 +100,9 @@ public class DataConn{
 	return result;
     }
 
-	public HashMap<String, HashMap<String, String>> getActivePollNameAndID() throws SQLException {
+	public HashMap<String, HashMap<String, String>> getActivePolls() throws SQLException {
 
-		String query = "SELECT PollID, PollName FROM "+ POLLS_TABLE +" WHERE PollStatus='RUNNING'";
+		String query = "SELECT * FROM "+ POLLS_TABLE +" WHERE PollStatus='RUNNING' OR PollStatus='RELEASED' ";
 		PreparedStatement ps = connection.prepareStatement(query);
 		ResultSet resultSet = ps.executeQuery();
 		HashMap<String, HashMap<String, String>> result = resultSetToHashMap(resultSet);
@@ -411,10 +411,10 @@ public class DataConn{
     }
 
         
-    public HashMap<String, HashMap<String, String>> getChoices(String pollID) throws SQLException{
+    public ArrayList<HashMap<String, String>> getChoices(String pollID) throws SQLException{
 	String query = "SELECT O.PollOption, O.Description, COUNT(U.PinID) FROM "
 	    + POLL_OPTIONS_TABLE+ " O "+
-	    "JOIN "+USER_VOTES_TABLE+" U "+
+	    "LEFT JOIN "+USER_VOTES_TABLE+" U "+
 	    "ON O.PollID=U.PollID AND O.PollOption=U.PollOption "+
 	    "WHERE O.PollID=? "+
 	    "GROUP BY O.PollOption";
@@ -424,16 +424,13 @@ public class DataConn{
 	
 	ResultSet cs = stmt.executeQuery();
 
-	HashMap<String, HashMap<String, String>> choices = new HashMap<>();
-	
-	while (cs.next()){
-	    HashMap<String, String> option  = new HashMap<>();
-	    option.put("Option",cs.getString(1));
-	    option.put("Description",cs.getString(2));
-	    option.put("Votes",cs.getString(3));
-		       
-	    choices.put(cs.getString(1),option);
-
+	ArrayList<HashMap<String, String>> choices = new ArrayList<>();
+	while(cs.next()){
+		HashMap<String, String> option = new HashMap<>();
+		option.put("Option",cs.getString(1));
+		option.put("Description",cs.getString(2));
+		option.put("Votes",cs.getString(3));
+		choices.add(option);
 	}
 	
 	return choices;

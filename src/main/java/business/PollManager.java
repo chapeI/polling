@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class PollManager extends VotingUser{
      * @return pollID
      * @throws WrongStateException
      */
-    public String createPoll(String name, String question, List<String> choices, List<String> descriptions) {
+    public String createPoll(String managerId, String name, String question, List<String> choices, List<String> descriptions) {
         HashMap<String, String> options = choiceListToHashMap(choices, descriptions);
         String now = LocalDate.now().toString();
         String pollId = "";
@@ -208,11 +209,11 @@ public class PollManager extends VotingUser{
         }
     }
 
-    public HashMap<String, HashMap<String, String>> getListOfPollsCreatedBySelf(){
+    public HashMap<String, HashMap<String, String>> getListOfPollsCreatedBySelf(String managerID){
         HashMap<String, HashMap<String, String>> polls = new HashMap<>();
         try {
             DataConn dataConn = new DataConn();
-            polls = dataConn.getListOfPollsByManagerID(managerId);
+            polls = dataConn.getListOfPollsByManagerID(managerID);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -251,6 +252,18 @@ public class PollManager extends VotingUser{
 
     }
 
+        
+    public HashMap<String, HashMap<String, String>> getPoll(String pollId){
+	HashMap<String, HashMap<String, String>> results  = null;
+	try {
+	    DataConn dataConn = new DataConn();
+	    results = dataConn.getPollByID(pollId);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+	return results;
+    }
+    
     public Status getPollStatus(String pollId){
 	Status status = null;
 	try {
@@ -274,7 +287,7 @@ public class PollManager extends VotingUser{
 	return results;
 
     }
-
+    
     public String getReleasedTime(String pollId){
 	String time = "";
 	try {
@@ -299,8 +312,8 @@ public class PollManager extends VotingUser{
 
     }
 
-    public HashMap<String, HashMap<String, String>> getChoices(String pollId){
-	HashMap<String, HashMap<String, String>> choices  = null;
+    public ArrayList<HashMap<String, String>> getChoices(String pollId){
+        ArrayList<HashMap<String, String>> choices  = null;
 	try {
 	    DataConn dataConn = new DataConn();
 	    choices = dataConn.getChoices(pollId);

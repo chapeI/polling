@@ -28,7 +28,8 @@ else {
     }%>
 
 <form action="state_manager" method="GET" >
-    <button id="home" type="submit" value="HOME" name="status_change" >Home</button>
+    <button type="submit" value="DOWNLOAD" name="status_change" >Download</button>
+    <button id="home" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
 </form>
 </body>
 </html>

@@ -39,7 +39,7 @@ public class VotingUser {
         HashMap<String, HashMap<String, String>> poll = new HashMap<>();
         try {
             DataConn dataConn = new DataConn();
-            poll = dataConn.getActivePollNameAndID();
+            poll = dataConn.getActivePolls();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -76,7 +76,9 @@ public class VotingUser {
                 DataConn dataConn = new DataConn();
                 int updateSuccess = dataConn.updateVote(pollId, choice, PIN);
                 if (updateSuccess<1) {
-                    result = "Cannot find the User ID";
+                    result = "not found";
+                } else {
+                    result = "replaced";
                 }
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

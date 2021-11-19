@@ -62,6 +62,22 @@
         <url-pattern>/download_results</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Log In</servlet-name>
+        <servlet-class>presentation.LogInServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Log In</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Polls</servlet-name>
+        <servlet-class>presentation.PollServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Polls</servlet-name>
+        <url-pattern>/polls</url-pattern>
+    </servlet-mapping>
 
 </web-app>

@@ -8,6 +8,7 @@ import javax.servlet.http.*;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -30,51 +31,77 @@ public class PollManagerServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        response.setContentType("text/html");
+        String submitType = request.getParameter("submit");
+        System.out.println("SubmitType: " + submitType);
+        if (submitType!=null){
+            if (submitType.equalsIgnoreCase("Create New Poll")){
+                // create new poll here
+                request.getRequestDispatcher("create_poll.jsp").forward(request, response);
+            }
+            else if (submitType.equalsIgnoreCase("Confirm Deletion")){
+                // delete poll
+                String pollID = request.getParameter("pollID");
+                PM.deletePoll(pollID);
+                HashMap<String, HashMap<String, String>> listOfPolls = PM.getListOfPollsCreatedBySelf((String)request.getSession().getAttribute("username"));
+                request.setAttribute("listOfPolls", listOfPolls);
+                request.getRequestDispatcher("manager_view_polls.jsp").forward(request, response);
+            }
+            else if (submitType.equalsIgnoreCase("View")){
+                // view closed poll
+                String pollID = request.getParameter("pollID");
+                HashMap<String, Integer> results = PM.pollResults(pollID);
+                request.setAttribute("results", results);
+                request.getRequestDispatcher("view_closed_poll.jsp").forward(request, response);
+            }
+        }
 
-        System.out.println("PollManager doGet()");
-	//poll = PM.getPoll();
-        //Status status = PM.getPollStatus();
 
+        // manage poll here
+        String pollID = (String)request.getSession().getAttribute("pollID");
 
-        // at the beginning, when no poll is created
-        /*if (poll==null) {
-	  if (request.getParameter("password") != null){
-	  if (authorize(request.getParameter("password"))) {
-	  Manager manager = (Manager) request.getSession().getAttribute("manager");
-	  manager.setAuthorized(true);
-	  }
-	  else {
-	  request.setAttribute("loginError", "Incorrect Password");
-	  request.getRequestDispatcher("start.jsp").forward(request,response);
-	  }
-	  }
-	  request.getRequestDispatcher("create_poll.jsp").forward(request, response);
-	  }*/
+        // do this because when coming from manager_view_polls.jsp
+        // we know which pollID the user selects
+        // (inside manager_view_polls.jsp, I set a hidden parameter called "pollID" that holds the pollID that the user selected)
+        if (request.getParameter("pollID") != null) {
+            pollID = request.getParameter("pollID");
 
-        //out.println("<div style=\"background-color:" + this.color + ";\"> Poll Status: " + status +  "</div>");
-	/*
-        if (status == Status.running ) {
+            // replace the current pollID in session
+            request.getSession().setAttribute("pollID", pollID);
+        }
+
+        HashMap<String, HashMap<String,String>> pollMap = PM.getPoll(pollID);
+        ArrayList<HashMap<String,String>> choicesList = PM.getChoices(pollID);
+        Poll poll = new Poll(pollID, pollMap, choicesList);
+        Status status = poll.getPollStatus();
+        request.setAttribute("poll", poll);
+        request.setAttribute("choiceSize", poll.getChoices().size());
+
+        if (status == Status.running) {
             request.getRequestDispatcher("poll_running.jsp").forward(request, response);
 
         } else if (status == Status.created) {
             System.out.println(request.getParameter("status_change"));
-            request.setAttribute("poll", poll);
-            request.setAttribute("choiceSize", poll.getChoices().size());
-            if (request.getParameter("status_change")!= null && (request.getParameter("status_change").equals("CREATED_UPDATE") || request.getParameter("status_change").equals("RUNNING_UPDATE"))) {
+
+            if (request.getParameter("status_change") != null && (request.getParameter("status_change").equals("CREATED_UPDATE") || request.getParameter("status_change").equals("RUNNING_UPDATE"))) {
                 // go back to create poll
                 System.out.println("poll needs to be updated.");
                 request.getRequestDispatcher("update_poll.jsp").forward(request, response);
-            }
-            else {
+            } else {
                 System.out.println("poll is created. show update and run buttons.");
                 request.getRequestDispatcher("poll_created.jsp").forward(request, response);
             }
-        } else if (status == Status.released ) {
+        } else if (status == Status.released) {
+            request.getRequestDispatcher("poll_released.jsp").forward(request, response);
+        } else if (status == Status.closed) {
+            // TODO: show archived poll data
             request.getRequestDispatcher("poll_released.jsp").forward(request, response);
         }
-	*/
+
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
+
+        System.out.println("PollManager doGet()");
+
     }
 
     /**
@@ -95,10 +122,16 @@ public class PollManagerServlet extends HttpServlet {
             String name = request.getParameter("name");
             String question = request.getParameter("question");
             String updateChoice = request.getParameter("update_choice");
-	    String pollID = request.getParameter("pollID");
-	    
+	        String pollID = request.getParameter("pollID");
+
+            // get userID from session
+            String userID = (String) request.getSession().getAttribute("username");
+
+
             if (request.getParameter("submit").equalsIgnoreCase("create")){
-                PM.createPoll(name, question, choices, descriptions);
+                String newPollID = PM.createPoll(userID, name, question, choices, descriptions);
+
+                request.getSession().setAttribute("pollID", newPollID);
             }
             else if (request.getParameter("submit").equalsIgnoreCase("update")) {
                 if (updateChoice == null){
@@ -121,47 +154,5 @@ public class PollManagerServlet extends HttpServlet {
         doGet(request, response);
     }
 
-    /**
-     * authorize manager
-     * @param userInput
-     * @return
-     */
-    private boolean authorize(String userInput) {
-        String hash = "2f5daf52c54ac06a7e86b6d5659828f3";
-        String hashedInput = hash(userInput);
 
-        return hash.equals(hashedInput);
-    }
-
-    /**
-     * hash function to hash password
-     * @param toHash
-     * @return
-     */
-    private String hash (String toHash){
-//        String toHash = "SOEN387";
-        String generatedPassword = null;
-        try {
-            // Create MessageDigest instance for MD5
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            //Add password bytes to digest
-            md.update(toHash.getBytes());
-            //Get the hash's bytes
-            byte[] bytes = md.digest();
-            //This bytes[] has bytes in decimal format;
-            //Convert it to hexadecimal format
-            StringBuilder sb = new StringBuilder();
-            for(int i=0; i< bytes.length ;i++)
-            {
-                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            //Get complete hashed password in hex format
-            generatedPassword = sb.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            e.printStackTrace();
-        }
-        return (generatedPassword);
-    }
 }

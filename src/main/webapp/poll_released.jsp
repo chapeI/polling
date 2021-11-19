@@ -28,7 +28,7 @@
 <br><br>
 
 <input id="blue" type="radio" name="status_change" value="CLOSE" />
-<label for="blue">Close (RELEASED->NULL)</label>
+<label for="blue">Close (Archive poll info)</label>
 
 <br><br>
 
@@ -36,7 +36,11 @@
 <label for="blue">View Results</label>
 
 <br><br>
-
+<select name="file_format">
+    <option value="txt">txt</option>
+    <option value="xml">xml</option>
+    <option value="json">json</option>
+</select>
 <input id="blue" type="radio" name="status_change" value="DOWNLOAD" />
 <label for="blue">Download Results</label>
 <br><br>
