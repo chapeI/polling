@@ -16,8 +16,12 @@
 <h1 id="released">Poll Manager</h1>
 
 <form action="state_manager" method="GET">
-    <input id="blue" type="radio" name="status_change" value="DOWNLOAD" />
-    <label for="blue">Download Results</label>
+    <select name="file_format">
+        <option value="txt">txt</option>
+        <option value="xml">xml</option>
+        <option value="json">json</option>
+    </select>
+    <button type="submit" value="DOWNLOAD" name="status_change" >Download Results</button>
     <br><br>
     <input type="submit">
 </form>

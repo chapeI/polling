@@ -35,6 +35,9 @@ public class PollServlet extends HttpServlet {
         if (submitType!= null){
             // if user chose to vote on a poll
             String pollID = request.getParameter("pollID");
+            // replace the current pollID in session
+            request.getSession().setAttribute("pollID", pollID);
+
             if (submitType.equalsIgnoreCase("vote")) {
                 HashMap<String, HashMap<String, String>> selectedPoll = PM.getPoll(pollID);
                 ArrayList<HashMap<String, String>> choices = PM.getChoices(pollID);

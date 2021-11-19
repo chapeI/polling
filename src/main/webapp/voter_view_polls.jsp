@@ -79,6 +79,10 @@
     </tbody>
   </table>
 
+  <form action="state_manager" method="GET" >
+    <button id="home" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
+  </form>
+
 </div>
 
 </body>
