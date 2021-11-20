@@ -38,23 +38,25 @@
 
         <%    List<Choice> choices = poll.getChoices();     %>
 
-        <%    for (int i = 0 ; i < choices.size() ; i++) {  %>
-            <input type="radio" name="choice" value="<%= choices.get(i).getText() %>" required/>
-            <label><%= choices.get(i).getText() %></label>
-            <br>
-            &emsp; <i><b>  Description: </b></i>
-            <%= choices.get(i).getDescription() %>
+        <% for (int i = 0 ; i < choices.size() ; i++) {  %>
+            <input class="form-check-input" type="radio" name="choice" value="<%= choices.get(i).getText() %>" required/>
+            <label class="form-check-label"><%= choices.get(i).getText() %></label>
+
+            <span style="float: right">
+                <i><b>  Description: </b></i>
+                <%= choices.get(i).getDescription() %>
+            </span>
             <br>
             <input type="hidden" name="pollID" value="<%= poll.getId() %>"/>
         <% } %>
         <br>
 
-        <input type="submit">
+        <input class="btn btn-primary" type="submit">
     </form>
 
 
     <form action="state_manager" method="GET" >
-        <button id="home" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
+        <button id="home" class="btn btn-primary" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
     </form>
 
     </div>
