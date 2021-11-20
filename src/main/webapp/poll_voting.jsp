@@ -37,17 +37,18 @@
         <input class="form-control" name="pin"><br/>
 
         <%    List<Choice> choices = poll.getChoices();     %>
-        <%    for (int i = 0 ; i < choices.size() ; i++) {  %>
 
-        <input type="radio" name="choice" value="<%= choices.get(i).getText() %>" required/>
-        <label><%= choices.get(i).getText() %></label>
+        <%    for (int i = 0 ; i < choices.size() ; i++) {  %>
+            <input type="radio" name="choice" value="<%= choices.get(i).getText() %>" required/>
+            <label><%= choices.get(i).getText() %></label>
+            <br>
+            &emsp; <i><b>  Description: </b></i>
+            <%= choices.get(i).getDescription() %>
+            <br>
+            <input type="hidden" name="pollID" value="<%= poll.getId() %>"/>
+        <% } %>
         <br>
-        &emsp; <i><b>  Description: </b></i>
-        <%= choices.get(i).getDescription() %>
-        <br>
-        <input type="hidden" name="pollID" value="<%= poll.getId() %>"/>
-        <%    }
-        %>
+
         <input type="submit">
     </form>
 
