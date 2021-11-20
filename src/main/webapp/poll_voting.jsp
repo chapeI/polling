@@ -12,42 +12,51 @@
 <head>
     <title>Poll voting</title>
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Poll</h1>
+    <div style="border: 1px solid lightgray; border-radius: 30px; padding: 20px 50px 50px 50px;  width: 25%; margin: 10% auto 0px auto; ">
+    <h1>Poll Test</h1>
 
-<%
-    Poll poll = (Poll) request.getAttribute("poll");%>
+    <% Poll poll = (Poll) request.getAttribute("poll");%>
     <b>Poll ID: </b>
     <%    out.println(poll.getId()); %>
     <br>
-<b>Name: </b>
-<%    out.println(poll.getName()); %>
-<br>
-<b>Question: </b>
-<%    out.println(poll.getQuestion()); %>
-<br><br>
-<form action="vote" method="GET">
-    <label>PIN #: </label>
-    <input name="pin"><br/>
-<%    List<Choice> choices = poll.getChoices();%>
-<%    for (int i = 0 ; i < choices.size() ; i++) { %>
-<input type="radio" name="choice" value="<%= choices.get(i).getText() %>" required/>
-    <label><%= choices.get(i).getText() %></label>
-<br>
-&emsp; <i><b>  Description: </b></i>
-    <%= choices.get(i).getDescription() %>
-<br>
-    <input type="hidden" name="pollID" value="<%= poll.getId() %>"/>
-<%    }
-%>
-    <input type="submit">
-</form>
+
+    <b>Name: </b>
+    <%    out.println(poll.getName()); %>
+    <br>
+
+    <b>Question: </b>
+    <%    out.println(poll.getQuestion()); %>
+    <br><br>
+
+    <form action="vote" method="GET">
+
+        <label>PIN #: </label>
+        <input class="form-control" name="pin"><br/>
+
+        <%    List<Choice> choices = poll.getChoices();     %>
+        <%    for (int i = 0 ; i < choices.size() ; i++) {  %>
+
+        <input type="radio" name="choice" value="<%= choices.get(i).getText() %>" required/>
+        <label><%= choices.get(i).getText() %></label>
+        <br>
+        &emsp; <i><b>  Description: </b></i>
+        <%= choices.get(i).getDescription() %>
+        <br>
+        <input type="hidden" name="pollID" value="<%= poll.getId() %>"/>
+        <%    }
+        %>
+        <input type="submit">
+    </form>
 
 
-<form action="state_manager" method="GET" >
-    <button id="home" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
-</form>
+    <form action="state_manager" method="GET" >
+        <button id="home" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
+    </form>
+
+    </div>
 
 </body>
 </html>
