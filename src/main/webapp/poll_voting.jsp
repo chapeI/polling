@@ -16,7 +16,7 @@
 </head>
 <body>
     <div style="border: 1px solid lightgray; border-radius: 30px; padding: 20px 50px 50px 50px;  width: 25%; margin: 10% auto 0px auto; ">
-    <h1>Poll Test</h1>
+    <h1>Poll</h1>
 
     <% Poll poll = (Poll) request.getAttribute("poll");%>
     <b>Poll ID: </b>
