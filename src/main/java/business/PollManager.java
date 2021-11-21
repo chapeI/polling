@@ -268,7 +268,16 @@ public class PollManager extends VotingUser{
 	Status status = null;
 	try {
 	    DataConn dataConn = new DataConn();
-	    status = dataConn.getPollStatusByID(pollId);
+	    String statusStr = dataConn.getPollStatusByID(pollId);
+        switch(statusStr){
+            case "CREATED":{status = status.created;}break;
+            case "RUNNING":{status = status.running;}break;
+            case "RELEASED":{status = status.released;}break;
+            case "CLOSED":{status = status.closed;}break;
+            default:
+                status = null;
+        }
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

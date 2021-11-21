@@ -3,8 +3,6 @@ package db;
 import java.sql.*;
 import java.util.*;
 
-import business.Status;
-
 public class DataConn{
 	Conn conn = null;
 	Connection connection = null;
@@ -55,7 +53,7 @@ public class DataConn{
      * @return
      * @throws SQLException
      */
-    public Status getPollStatusByID(String pollID) throws SQLException {
+    public String getPollStatusByID(String pollID) throws SQLException {
 
 	String query = "SELECT * FROM "+ POLLS_TABLE +" WHERE PollID=?";
 	PreparedStatement ps = connection.prepareStatement(query);
@@ -65,19 +63,10 @@ public class DataConn{
 
 	
 	String statusStr = result.get(pollID).get("PollStatus");
-	Status status = null;
-	switch(statusStr){
-	case "CREATED":{status = status.created;}break;
-	case "RUNNING":{status = status.running;}break;
-	case "RELEASED":{status = status.released;}break;
-	case "CLOSED":{status = status.closed;}break;
-	default:
-	    status = null;
-	}
 	
 	// Close all the connections
 	ps.close();
-	return status;
+	return statusStr;
     }
 
     /**
