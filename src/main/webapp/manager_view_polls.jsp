@@ -21,7 +21,7 @@
         </script>
     </head>
     <body>
-        <div style="border: 1px solid lightgray; border-radius: 30px; padding: 20px 50px 50px 50px;  width: 25%; margin: 10% auto 0px auto; ">
+        <div style="border: 1px solid lightgray; border-radius: 30px; padding: 20px 50px 50px 50px; width: fit-content; margin: 10% auto 0px auto; ">
 
             <h1> Manager view poll </h1>
             <%
