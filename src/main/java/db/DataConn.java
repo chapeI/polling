@@ -454,7 +454,7 @@ public class DataConn{
 		stO.close();
 	}
 
-	public boolean updatePassword (String userID, String oldPassword, String newPassword) throws SQLException {
+	public String getPassword (String userID) throws SQLException {
 		String query = "SELECT HashedPassword FROM " + USERS_TABLE +" WHERE UserID=?";
 		PreparedStatement stmt = connection.prepareStatement(query);
 		stmt.setString(1, userID);
@@ -464,18 +464,19 @@ public class DataConn{
 
 		String hashedPW = rs.getString(1);
 
-		if (oldPassword.equals(hashedPW)){
-			// replace password
-			String inOps = "UPDATE " + USERS_TABLE + " SET HashedPassword=? WHERE UserID=?";
-			PreparedStatement stmt1 = connection.prepareStatement(inOps);
-			stmt1.setString(1, newPassword);
-			stmt1.setString(2, userID);
-			stmt1.executeUpdate();
-			stmt.close();
-			stmt1.close();
+		return hashedPW;
+	}
+	public boolean updatePassword (String userID, String newPassword) throws SQLException {
+		String inOps = "UPDATE " + USERS_TABLE + " SET HashedPassword=? WHERE UserID=?";
+		PreparedStatement stmt = connection.prepareStatement(inOps);
+		stmt.setString(1, newPassword);
+		stmt.setString(2, userID);
+		int result = stmt.executeUpdate();
+		stmt.close();
+
+		if(result==1){
 			return true;
 		}
-		stmt.close();
 		return false;
 	}
 
