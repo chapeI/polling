@@ -12,11 +12,32 @@
     <link href="css/style.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<h2>You have voted</h2>
-Thank you for participating
-
+<%
+    String error = (String) request.getAttribute("error");
+    String replace = (String) request.getAttribute("replace");
+    String newPIN = (String) request.getAttribute("newPIN");
+    String pollID = (String) request.getAttribute("pollID");
+    if (error != null){
+        %>
+        <p> PIN # cannot be found </p>
+<%
+    } else if (replace != null) {
+        %>
+<p><%=replace%></p>
+        <%
+    } else if (newPIN != null) {
+        %>
+<P>Thanks for voting. Here is the PIN associated to your vote: <%=newPIN%></P>
+<%
+    }
+%>
 <form action="state_manager" method="GET" >
-    <button id="home" type="submit" value="HOME" name="status_change" >Home</button>
+    <button id="home" type="submit" value="HOME_PARTICIPANT" name="status_change" >Home</button>
+</form>
+
+<form action="polls" method="GET" >
+    <button type="submit" value="vote" name="submit" >Back to poll</button>
+    <input type="hidden" name="pollID" value="<%=pollID%>">
 </form>
 
 </body>

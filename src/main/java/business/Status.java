@@ -4,5 +4,6 @@ public enum Status{
     created,
     running,
     released,
+    closed,
 }
 

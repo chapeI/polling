@@ -30,7 +30,7 @@
     </head>
     <body>
 
-    <h1>Create a Poll</h1>
+    <h1 id="created">Create a Poll</h1>
 
     <form  action="pollManager" method="POST">
         <div id = "form">
