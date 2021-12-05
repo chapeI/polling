@@ -554,6 +554,20 @@ public class DataConn{
 			return accStatus;
 		}
 	}
+
+	public String getAccountStatusByUserID (String userID) throws SQLException {
+		String query = "SELECT AccStatus FROM " + USERS_TABLE +" WHERE UserID=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, userID);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String accStatus = rs.getString(1);
+			return accStatus;
+		}
+	}
     
     ////////////// Helper methods ////////////////
     /**

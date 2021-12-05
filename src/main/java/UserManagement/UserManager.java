@@ -133,10 +133,15 @@ public class UserManager implements UserManagerInterface {
         DataConn dc = new DataConn();
 
         try{
-            String passwordFromDB = dc.getPassword(userID);
+            String accountStatus = dc.getAccountStatusByUserID(userID);
 
-            if (passwordFromDB!= null && passwordFromDB.equals(password)){
-                return true;
+            // only allow sign in if account has been validated
+            if (accountStatus != null && accountStatus.equalsIgnoreCase("VALIDATED")){
+                String passwordFromDB = dc.getPassword(userID);
+
+                if (passwordFromDB!= null && passwordFromDB.equals(password)){
+                    return true;
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
