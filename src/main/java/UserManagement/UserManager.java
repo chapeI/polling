@@ -17,8 +17,14 @@ public class UserManager implements UserManagerInterface {
             // generate token
             token = generateToken();
             try {
+                DataConn dc = new DataConn();
+                // see if email already exists
+                String user = dc.getUserIDByEmail(email);
+                if (user!=null){
+                    return "Error: email already exists";
+                }
                 // save info to DB -> set status to NON-VALIDATED
-                new DataConn().insertUser(userID, FName, LName, email, password, token);
+                dc.insertUser(userID, FName, LName, email, password, token);
             } catch (SQLException throwables) {
                 // if token is already given to someone else
                 if (throwables instanceof SQLIntegrityConstraintViolationException) {
@@ -35,30 +41,62 @@ public class UserManager implements UserManagerInterface {
 
     @Override
     public String forgotPassword(String email) {
-        // generate token
-
+        String token = "";
+        boolean duplicateToken = false;
         // save token to DB
+        do {
+            // generate token
+            token = generateToken();
+            try {
+                // save token to DB
+                new DataConn().updateToken(email, token);
+            } catch (SQLException throwables) {
+                // if token is already given to someone else
+                if (throwables instanceof SQLIntegrityConstraintViolationException) {
+                    duplicateToken = true;
+                }
+                throwables.printStackTrace();
+            }
+        } while (duplicateToken);
 
         // return token to Servlet
-        return null;
-    }
-
-    @Override
-    public boolean emailVerification(String email, String link) {
-        // send email
-        return false;
+        return token;
     }
 
     @Override
     public boolean changePassword(String password, String userID, String newPassword) {
         // save info to DB
+        String oldpw = "";
+        try {
+            DataConn dc = new DataConn();
+            oldpw = dc.getPassword(userID);
+            if (oldpw.equals(password)){
+                dc.updatePassword(userID, newPassword);
+                return true;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
         return false;
     }
 
     @Override
     public boolean verifyEmail(String token) {
+        DataConn dc = new DataConn();
+        boolean success = false;
         // set Validated in DB
-        return false;
+        try {
+            String status = dc.getAccountStatusByToken(token);
+
+            // if account status is already validated or if can't find token -> return false
+            if (status==null || status.equalsIgnoreCase("VALIDATED")){
+                return false;
+            }
+            success = dc.updateValidate(true, token);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return success;
     }
 
     @Override

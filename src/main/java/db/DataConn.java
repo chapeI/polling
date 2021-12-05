@@ -498,6 +498,47 @@ public class DataConn{
 		return false;
 	}
 
+	public String getUserIDByEmail (String email) throws SQLException {
+		String query = "SELECT UserID FROM " + USERS_TABLE +" WHERE Email=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, email);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String userID = rs.getString(1);
+			return userID;
+		}
+	}
+
+	public String getUserIDByToken (String token) throws SQLException {
+		String query = "SELECT UserID FROM " + USERS_TABLE +" WHERE Token=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, token);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String userID = rs.getString(1);
+			return userID;
+		}
+	}
+
+	public String getAccountStatusByToken (String token) throws SQLException {
+		String query = "SELECT AccStatus FROM " + USERS_TABLE +" WHERE Token=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, token);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String accStatus = rs.getString(1);
+			return accStatus;
+		}
+	}
     
     ////////////// Helper methods ////////////////
     /**
