@@ -80,4 +80,13 @@
         <url-pattern>/polls</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UManager</servlet-name>
+        <servlet-class>presentation.UserManagerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UManager</servlet-name>
+        <url-pattern>/umanager</url-pattern>
+    </servlet-mapping>
+
 </web-app>

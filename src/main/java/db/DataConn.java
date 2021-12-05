@@ -10,6 +10,7 @@ public class DataConn{
 	private static final String POLLS_TABLE = "Polls";
 	private static final String POLL_OPTIONS_TABLE = "PollOptions";
 	private static final String USER_VOTES_TABLE = "UserVotes";
+	private static final String USERS_TABLE = "Users";
 
 
 
@@ -425,7 +426,148 @@ public class DataConn{
 	return choices;
 	
     }
+	////////////// Users Table Operations ////////////////
+	public void insertUser (String userID, String firstName, String lastName, String email, String password, String token) throws SQLException {
+		String inOps = "INSERT INTO " + USERS_TABLE + " (UserID, FName, LName, Email, HashedPassword, Token, AccStatus) VALUES (?, ?, ?, ?, ? ,?, ?)";
+		PreparedStatement stO = connection.prepareStatement(inOps);
+		stO.setString(1, userID);
+		stO.setString(2, firstName);
+		stO.setString(3, lastName);
+		stO.setString(4, email);
+		stO.setString(5, password);
+		stO.setString(6, token);
+		stO.setString(7, "NONVALIDATED");
 
+		stO.executeUpdate();
+
+		stO.close();
+	}
+
+	public void updateToken (String email, String token) throws SQLException {
+		String inOps = "UPDATE " + USERS_TABLE + " SET Token=? WHERE Email=?";
+		PreparedStatement stO = connection.prepareStatement(inOps);
+		stO.setString(1, token);
+		stO.setString(2, email);
+
+		stO.executeUpdate();
+
+		stO.close();
+	}
+
+	public String getPassword (String userID) throws SQLException {
+		String query = "SELECT HashedPassword FROM " + USERS_TABLE +" WHERE UserID=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, userID);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String hashedPW = rs.getString(1);
+			return hashedPW;
+		}
+	}
+	public boolean updatePassword (String userID, String newPassword) throws SQLException {
+		String inOps = "UPDATE " + USERS_TABLE + " SET HashedPassword=? WHERE UserID=?";
+		PreparedStatement stmt = connection.prepareStatement(inOps);
+		stmt.setString(1, newPassword);
+		stmt.setString(2, userID);
+		int result = stmt.executeUpdate();
+		stmt.close();
+
+		if(result==1){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean updateValidate (boolean validated, String token) throws SQLException {
+		String inOps = "UPDATE " + USERS_TABLE + " SET AccStatus=? WHERE Token=?";
+		PreparedStatement stmt = connection.prepareStatement(inOps);
+		if (validated) {
+			stmt.setString(1, "VALIDATED");
+		} else {
+			stmt.setString(1, "NONVALIDATED");
+		}
+		stmt.setString(2, token);
+		int result = stmt.executeUpdate();
+
+		stmt.close();
+		if(result==1){
+			return true;
+		}
+		return false;
+	}
+
+	public String getUserIDByEmail (String email) throws SQLException {
+		String query = "SELECT UserID FROM " + USERS_TABLE +" WHERE Email=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, email);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String userID = rs.getString(1);
+			return userID;
+		}
+	}
+
+	public String getUserIDByToken (String token) throws SQLException {
+		String query = "SELECT UserID FROM " + USERS_TABLE +" WHERE Token=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, token);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String userID = rs.getString(1);
+			return userID;
+		}
+	}
+
+	public String getEmailByToken (String token) throws SQLException {
+		String query = "SELECT Email FROM " + USERS_TABLE +" WHERE Token=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, token);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String email = rs.getString(1);
+			return email;
+		}
+	}
+
+	public String getAccountStatusByToken (String token) throws SQLException {
+		String query = "SELECT AccStatus FROM " + USERS_TABLE +" WHERE Token=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, token);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String accStatus = rs.getString(1);
+			return accStatus;
+		}
+	}
+
+	public String getAccountStatusByUserID (String userID) throws SQLException {
+		String query = "SELECT AccStatus FROM " + USERS_TABLE +" WHERE UserID=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, userID);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String accStatus = rs.getString(1);
+			return accStatus;
+		}
+	}
     
     ////////////// Helper methods ////////////////
     /**
