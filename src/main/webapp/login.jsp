@@ -26,7 +26,6 @@
                 <input type="password" class="form-control" id="formGroupExampleInput2" name="password" required="required">
             </div>
             <input type="submit" class="btn btn-primary" value="Login" ><br>
-            <a href="#" onclick="showText('registerBlock');" >Register</a>
             <%
                 if (request.getAttribute("loginError") != null) {
             %>
@@ -38,6 +37,8 @@
 
         <form action="umanager">
             <button type="submit" name="submit" class="btn btn-link" value = "Sign Up">Sign Up</button>
+            <button type="submit" name="submit" class="btn btn-link" value = "Forgot Password">Forgot Password</button>
+            <button type="submit" name="submit" class="btn btn-link" value = "Change Password">Change Password</button>
         </form>
     </div>
 </div>

@@ -460,11 +460,12 @@ public class DataConn{
 		stmt.setString(1, userID);
 
 		ResultSet rs = stmt.executeQuery();
-		rs.next();
-
-		String hashedPW = rs.getString(1);
-
-		return hashedPW;
+		if (rs.next()==false){
+			return null;
+		} else {
+			String hashedPW = rs.getString(1);
+			return hashedPW;
+		}
 	}
 	public boolean updatePassword (String userID, String newPassword) throws SQLException {
 		String inOps = "UPDATE " + USERS_TABLE + " SET HashedPassword=? WHERE UserID=?";
@@ -523,6 +524,20 @@ public class DataConn{
 		} else {
 			String userID = rs.getString(1);
 			return userID;
+		}
+	}
+
+	public String getEmailByToken (String token) throws SQLException {
+		String query = "SELECT Email FROM " + USERS_TABLE +" WHERE Token=?";
+		PreparedStatement stmt = connection.prepareStatement(query);
+		stmt.setString(1, token);
+
+		ResultSet rs = stmt.executeQuery();
+		if (rs.next()==false){
+			return null;
+		} else {
+			String email = rs.getString(1);
+			return email;
 		}
 	}
 

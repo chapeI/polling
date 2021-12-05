@@ -1,6 +1,8 @@
 package presentation;
 
+import business.Factory;
 import business.PollManager;
+import business.UserManagerInterface;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -86,29 +88,10 @@ public class LogInServlet extends HttpServlet {
      * @return
      */
     private boolean authorize(String inputUsername, String inputPassword) {
-        JSONParser parser = new JSONParser();
-        String path = this.getServletContext().getRealPath("/WEB-INF/users.json");
-        try {
-            JSONArray a = (JSONArray) parser.parse(new FileReader(path));
+        UserManagerInterface UM = Factory.getUMObj();
+        String hashedpw = hash(inputPassword);
+        return UM.signIn(inputUsername, hashedpw);
 
-            for (Object o : a)
-            {
-                JSONObject person = (JSONObject) o;
-
-                String name = (String) person.get("userid");
-                String password = (String) person.get("password");
-
-                if (inputUsername.equals(name) && hash(inputPassword).equals(password))
-                    return true;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     /**

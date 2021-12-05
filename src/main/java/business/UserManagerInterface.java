@@ -5,5 +5,7 @@ public interface UserManagerInterface {
     String forgotPassword(String email);
     boolean sendEmail(String email, String link);
     boolean changePassword(String password, String userID, String newPassword);
+    boolean resetPassword(String email, String token, String newPassword);
     boolean verifyEmail(String token);
+    boolean signIn(String userID, String password);
 }
