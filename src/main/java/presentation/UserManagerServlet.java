@@ -88,8 +88,13 @@ public class UserManagerServlet extends HttpServlet {
             String token = UM.signUp(uid, fname, lname, email, hashedPW);
 
             if (token.contains("Error")) {
-                request.setAttribute("error", "Email provided already exists.");
+                if (token.contains("userID")){
+                    request.setAttribute("error", "User ID provided already exists.");
+                } else if (token.contains("email")){
+                    request.setAttribute("error", "Email provided already exists.");
+                }
                 request.getRequestDispatcher("sign_up.jsp").forward(request, response);
+                return;
             }
 
             // generate link with token
@@ -97,7 +102,8 @@ public class UserManagerServlet extends HttpServlet {
             System.out.println(link);
 
             // send link to user's email
-            UM.sendEmail(email, link);
+            String templatePath = this.getServletContext().getRealPath("/WEB-INF/sign_up_template");
+            UM.sendEmailSignUp(email, link, templatePath);
             request.setAttribute("email", email);
             request.getRequestDispatcher("email_sent.jsp").forward(request, response);
         }
@@ -108,10 +114,14 @@ public class UserManagerServlet extends HttpServlet {
 
             // obtain token
             String token = UM.forgotPassword(email);
-            System.out.println(token);
 
-            // send token to user's email
-            UM.sendEmail(email, token);
+            // if found user -> send email
+            if (!token.isBlank()) {
+                // send token to user's email
+                String templatePath = this.getServletContext().getRealPath("/WEB-INF/forgot_password_template");
+                UM.sendEmailForgotPassword(email, token, templatePath);
+            }
+
             request.setAttribute("email", email);
             request.getRequestDispatcher("reset_password.jsp").forward(request, response);
         }

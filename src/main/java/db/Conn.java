@@ -23,7 +23,6 @@ public class Conn {
     static Connection conn = null;
 
     public Conn() {
-	System.out.println(jdbcDriver);
         getConnectionInfo();
     }
 

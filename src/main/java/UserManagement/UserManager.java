@@ -1,10 +1,11 @@
 package UserManagement;
 
+import Transform.Message;
+import Transform.Transformer;
 import business.UserManagerInterface;
 import com.mifmif.common.regex.Generex;
 import db.DataConn;
 
-import javax.xml.crypto.Data;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
@@ -21,6 +22,10 @@ public class UserManager implements UserManagerInterface {
                 DataConn dc = new DataConn();
                 // see if email already exists
                 String user = dc.getUserIDByEmail(email);
+                String account = dc.getAccountStatusByUserID(userID);
+                if (account!=null){
+                    return "Error: userID already exists";
+                }
                 if (user!=null){
                     return "Error: email already exists";
                 }
@@ -50,6 +55,11 @@ public class UserManager implements UserManagerInterface {
             // generate token
             token = generateToken();
             try {
+                // look for user
+                String user = dc.getUserIDByEmail(email);
+                if (user ==null) {
+                    return token;
+                }
                 // save token to DB
                 dc.updateToken(email, token);
 
@@ -150,10 +160,45 @@ public class UserManager implements UserManagerInterface {
     }
 
     @Override
-    public boolean sendEmail(String email, String link) {
-        // transform message in here
+    public boolean sendEmailSignUp(String email, String link, String templatePath) {
+        String message = "";
+        DataConn dc = new DataConn();
 
-        // gateway email
+        // transform message
+        try {
+            String userid = dc.getUserIDByEmail(email);
+            Message m = new Message(userid, email);
+            m.setLink(link);
+
+            message = Transformer.transform(m, templatePath);
+            System.out.println(message);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        // TODO: ALEK - gateway email - send email here, the body to send is the variable "message". it already has the link inside
+
+        return false;
+    }
+
+    @Override
+    public boolean sendEmailForgotPassword(String email, String token, String templatePath) {
+        String message = "";
+        DataConn dc = new DataConn();
+
+        // transform message
+        try {
+            String userid = dc.getUserIDByEmail(email);
+            Message m = new Message(userid, email);
+            m.setToken(token);
+
+            message = Transformer.transform(m, templatePath);
+            System.out.println(message);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        // TODO: ALEK - gateway email - send email here, the body to send is the variable "message". it already has the token inside
 
         return false;
     }
