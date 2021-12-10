@@ -1,5 +1,6 @@
 package UserManagement;
 
+import Mailer.MailSender;
 import Transform.Message;
 import Transform.Transformer;
 import business.UserManagerInterface;
@@ -176,7 +177,8 @@ public class UserManager implements UserManagerInterface {
             throwables.printStackTrace();
         }
 
-        // TODO: ALEK - gateway email - send email here, the body to send is the variable "message". it already has the link inside
+        MailSender mailSender = new MailSender("localhost");
+        mailSender.sendMail(email, "PollSystem2@mail.com", "Poll System 2.0 Sign Up", message);
 
         return false;
     }
@@ -198,7 +200,8 @@ public class UserManager implements UserManagerInterface {
             throwables.printStackTrace();
         }
 
-        // TODO: ALEK - gateway email - send email here, the body to send is the variable "message". it already has the token inside
+        MailSender mailSender = new MailSender("localhost");
+        mailSender.sendMail(email, "PollSystem2@mail.com", "Poll System 2.0 Forgot Password", message);
 
         return false;
     }
