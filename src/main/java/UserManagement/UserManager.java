@@ -177,8 +177,8 @@ public class UserManager implements UserManagerInterface {
             throwables.printStackTrace();
         }
 
-        MailSender mailSender = new MailSender("localhost");
-        mailSender.sendMail(email, "PollSystem2@mail.com", "Poll System 2.0 Sign Up", message);
+        MailSender mailSender = new MailSender();
+        mailSender.sendMail(email, "Poll System 2.0 Sign Up", message);
 
         return false;
     }
@@ -200,8 +200,8 @@ public class UserManager implements UserManagerInterface {
             throwables.printStackTrace();
         }
 
-        MailSender mailSender = new MailSender("localhost");
-        mailSender.sendMail(email, "PollSystem2@mail.com", "Poll System 2.0 Forgot Password", message);
+        MailSender mailSender = new MailSender();
+        mailSender.sendMail(email, "Poll System 2.0 Forgot Password", message);
 
         return false;
     }

@@ -1,80 +1,82 @@
 package Mailer;
 
-import javax.activation.*;
+import java.util.*;
 import javax.mail.*;
+import javax.mail.PasswordAuthentication;
 import javax.mail.internet.*;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.*;
+import java.net.*;
 import java.util.Properties;
+//import java.smpt.*;
 
+public class MailSender implements Mailer{
 
-public class MailSender implements Mailer {
+	// the IP/hostname of the host
+	private String host;
+	private Properties prop;
+	private String sender = "soen387g15@gmail.com";;
+	private String password = "Sog15en783";
 
-    // the IP/hostname of the host
-    private String host;
+	public MailSender(){
+		this.prop = new Properties();
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.starttls.enable", "true");
+		prop.put("mail.smtp.host", "smtp.gmail.com");
+		prop.put("mail.smtp.port", "587");
+		prop.put("mail.smtp.ssl.protocols", "TLSv1.2");
 
-    public MailSender(){
-	this.host = "127.0.0.1";
-    }
-
-    public MailSender(String hostname){
-	this.host = hostname;
-    }
-    
-    public void connectServive(){
-	
-
-    }
-
-    public boolean checkConnection(){
-	
-	try{
-	    InetAddress hostAddress = InetAddress.getByName(this.host);
-	    return hostAddress.isReachable(5000);
-	}catch(UnknownHostException e){
-	    return false;
-	}catch(IOException e){
-	    return false;
 	}
 
-	
-    }
+	public void connectServive(){
 
-    /**
-     * Returns the response code of sending.
-     */
-    public int sendMail(String recipient, String sender, String subject, String body){
 
-	// recieves system properties
-	Properties properties = System.getProperties();
-
-	properties.setProperty("mail.smtp.host", this.host);
-	
-	Session session = Session.getDefaultInstance(properties);
-	System.out.println("Attempting to set parts of the message.");	
-	try{
-	    MimeMessage message = new MimeMessage(session);
-
-	    message.setFrom(new InternetAddress(sender));
-
-	    message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
-	    System.out.println("Done setting the To and From.");
-	    
-	    message.setSubject(subject);
-
-	    message.setText(body);
-	    System.out.println("Message parts set.");
-	    
-	    Transport.send(message);
-	    System.out.println("Message sent to "+recipient+" with the Subject being "+subject+".");
-	    
-	}catch(MessagingException e){
-	    System.out.println("Message Failed to Send");
 	}
-	return 1;
-    }
 
-    
+	public boolean checkConnection(){
 
+		try{
+			InetAddress hostAddress = InetAddress.getByName(this.host);
+			return hostAddress.isReachable(5000);
+		}catch(UnknownHostException e){
+			return false;
+		}catch(IOException e){
+			return false;
+		}
+
+
+	}
+
+	/**
+	 * Returns the response code of sending.
+	 */
+	public int sendMail (String recipient, String subject, String body){
+		try {
+			Session mailSession = Session.getDefaultInstance(this.prop,
+					new javax.mail.Authenticator(){
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(
+									sender, password);// Specify the Username and the PassWord
+						}
+					});
+			Transport transport = mailSession.getTransport("smtp");
+
+			MimeMessage message = new MimeMessage(mailSession);
+			message.setSubject(subject);
+			message.setContent(body, "text/plain");
+			message.addRecipient(Message.RecipientType.TO,
+					new InternetAddress(recipient));
+
+			transport.connect();
+			transport.sendMessage(message,
+					message.getRecipients(Message.RecipientType.TO));
+			transport.close();
+		} catch (AddressException e) {
+			e.printStackTrace();
+		} catch (NoSuchProviderException e) {
+			e.printStackTrace();
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		}
+		return 1;
+	}
 }

@@ -9,7 +9,7 @@ public interface Mailer{
     /**
      * Returns the response code of sending.
      */
-    public int sendMail(String recipient, String sender, String topic, String body);
+    public int sendMail(String recipient, String topic, String body);
 
-    
+
 }
